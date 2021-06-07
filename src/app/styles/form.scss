@@ -1,0 +1,38 @@
+@import "./var.scss";
+
+.form-field {
+  border-radius: 5px;
+  border: 1px solid rgba($color-primary, 0.5);
+  padding: 9px 16px;
+  color: #707070;
+  min-height: 41px;
+  width: 100%;
+  &-disabled {
+    pointer-events: none;
+    background-color: rgba($color-disabled, 0.2);
+  }
+  &:focus {
+    box-shadow: 0 0 0 2px rgba($color-secondary, 0.35) !important;
+  }
+  &::placeholder {
+    color: #999;
+  }
+}
+
+.error {
+  .form-field {
+    border: 1px solid rgba($color-error, 0.5);
+  }
+  label {
+    color: $color-error;
+  }
+  .hdr {
+    color: $color-error;
+  }
+  .shdr {
+    color: $color-error;
+  }
+  .hl {
+    color: $color-error;
+  }
+}

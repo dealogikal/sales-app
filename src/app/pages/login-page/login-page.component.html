@@ -1,0 +1,30 @@
+<div class="wrapper">
+    <form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+        <div class="fx-layout-row fx-align-center-start">
+            <img class="m-l--30px m-t-30px" height="64px" src="assets/images/logo.png" alt="">
+        </div>
+
+        <div class="m-t-30px">Sign-in to your Dealogikal account</div>
+
+        <div class="p-12px"></div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input formControlName="email" type="text" id="email" class="form-control" placeholder="Email">
+        </div>
+
+        <div class="p-4px"></div>
+
+        <div class="form-group">
+            <label>Password</label>
+            <input formControlName="password"  type="password" id="password" class="form-control" placeholder="Password">
+        </div>
+
+        <div class="p-12px"></div>
+
+        <div class="fx-layout-row">
+            <button type="submit" class="__button __button-primary">SIGN IN</button>
+        </div>
+
+    </form>
+</div>

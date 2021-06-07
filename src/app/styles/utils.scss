@@ -1,0 +1,287 @@
+@import "../styles/var.scss";
+$m-unit: 2px;
+@for $i from -20 through 20 {
+    .m {
+        &-t-#{$i*$m-unit} {
+            margin-top: $m-unit * $i !important;
+        }
+        &-b-#{$i*$m-unit} {
+            margin-bottom: $m-unit * $i !important;
+        }
+        &-l-#{$i*$m-unit} {
+            margin-left: $m-unit * $i !important;
+        }
+        &-r-#{$i*$m-unit} {
+            margin-right: $m-unit * $i !important;
+        }
+        &-#{$i*$m-unit} {
+            margin: $m-unit * $i !important;
+        }
+        &-h-#{$i*$m-unit} {
+            margin: 0 $m-unit * $i !important;
+        }
+        &-v-#{$i*$m-unit} {
+            margin: $m-unit * $i 0 !important;
+        }
+    }
+}
+
+
+/* padding 10++ */
+
+$p-unit: 2px;
+@for $i from 1 through 20 {
+    .p {
+        &-t-#{$i*$p-unit} {
+            padding-top: $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-b-#{$i*$p-unit} {
+            padding-bottom: $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-l-#{$i*$p-unit} {
+            padding-left: $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-r-#{$i*$p-unit} {
+            padding-right: $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-#{$i*$p-unit} {
+            padding: $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-h-#{$i*$p-unit} {
+            padding: 0 $p-unit * $i !important;
+            box-sizing: content-box;
+        }
+        &-v-#{$i*$p-unit} {
+            padding: $p-unit * $i 0 !important;
+            box-sizing: content-box;
+        }
+    }
+}
+
+.ta-c {
+    text-align: center;
+}
+
+.b-1px {
+    border: 1px solid $color-secondary;
+}
+
+.br-12 {
+    border-radius: 12px;
+}
+
+.br-8 {
+    border-radius: 8px;
+}
+
+.o-0 {
+    opacity: 0;
+}
+
+.hdr {
+    font-size: $header;
+    color: $font-primary;
+    @extend .ls-125;
+    @extend .lh-n;
+    @extend .fw-ts;
+}
+
+.shdr {
+    font-size: $subheader;
+    color: $font-primary;
+    @extend .ls-125;
+    @extend .lh-n;
+    @extend .fw-ts;
+}
+
+.bdy {
+    font-size: $body;
+    color: $font-secondary;
+    @extend .ls-1;
+    @extend .lh-n;
+    @extend .fw-ts;
+}
+
+.hl {
+    font-size: $highlight;
+    color: $font-secondary;
+    @extend .ls-05;
+    @extend .lh-n;
+    @extend .fw-ts;
+}
+
+.fw-600 {
+    font-weight: 600;
+}
+
+.sm {
+    font-size: $small;
+    color: $font-secondary;
+    // @extend .ls-05;
+    @extend .lh-n;
+    @extend .fw-ts;
+}
+
+.h-300 {
+    height: 300px;
+}
+
+
+.xs {
+    font-size: 9px;
+    color: $font-secondary;
+    @extend .lh-n;
+    @extend .fw-ts;
+    letter-spacing: 2px;
+}
+
+.ls-05 {
+    letter-spacing: 0.5px !important;
+}
+
+.c-pointer {
+    cursor: pointer;
+}
+.ls-075 {
+    letter-spacing: 0.75px !important;
+}
+
+.ls-1 {
+    letter-spacing: 1px !important;
+}
+
+.ls-125 {
+    letter-spacing: 1.25px !important;
+}
+
+.fw-ts {
+    text-shadow: 0px 0px 0px;
+}
+
+.lh-n {
+    line-height: normal;
+}
+
+.bg-grey {
+    background-color: #f2f3f5;
+}
+
+.bg-p {
+    background-color: $color-primary;
+}
+
+.fc-p {
+    color: $color-primary;
+}
+
+
+.fc-gray {
+    color: $color-disabled;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
+.fc-white {
+    color: #ffffff;
+}
+
+.fc-warn {
+    color: $color-warn;
+}
+
+.fc-2 {
+    color: $font-secondary;
+}
+
+.b-l-3 {
+    border-left: 3px solid $color-primary;
+}
+
+.b-r-3 {
+    border-right: 3px solid $color-primary;
+}
+
+.br-3px {
+    border-right: 3px solid;
+}
+
+.b-b-1 {
+    border-bottom: 1px solid #f2f3f5;
+}
+
+.b-t-1 {
+    border-top: 1px solid #f2f3f5;
+}
+
+.bg-t {
+    background-color: transparent !important;
+}
+
+.s-16px {
+    width: 16px !important;
+    height: 16px !important;
+}
+
+.bc-red {
+    border-color: $color-error !important;
+}
+
+.fc-error {
+    color: $color-error;
+}
+
+.ttf-up {
+    text-transform: uppercase;
+}
+
+// START:  CUSTOM CSS LOADER
+.custom-card-loader {
+    height: 4px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    opacity: 0.2;
+    background-color: rgb(245, 245, 245);
+}
+
+.custom-card-loader:before {
+    display: block;
+    position: absolute;
+    content: "";
+    left: -200px;
+    width: 200px;
+    height: 4px;
+    background-color: #37a6ef;
+    animation: customCardLoading 2s linear infinite;
+}
+
+@keyframes customCardLoading {
+    from {
+        left: -150px;
+        width: 30%;
+    }
+    50% {
+        width: 30%;
+    }
+    70% {
+        width: 70%;
+    }
+    80% {
+        left: 50%;
+    }
+    95% {
+        left: 120%;
+    }
+    to {
+        left: 100%;
+    }
+}
+
+// END: CUSTOM CSS LOADER
