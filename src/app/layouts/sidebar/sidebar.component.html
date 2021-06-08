@@ -1,0 +1,21 @@
+<div class="fx-layout-column place-contents" *ngIf="routes$ | async as routes">
+    <ul class="p-t-20px">
+        <li *ngFor="let route of routes">
+            <a class="fx-layout-row fx-align-spacebetween-center p-h-20px" href="javascript:void(0)"
+                [routerLinkActive]="['active']" [routerLink]="[route.link]" [class.highlight]="route.highlight">
+                <span [innerText]="route.label"></span>
+                <i-feather class="icon p-10px" [name]="route.icon"></i-feather>
+            </a>
+        </li>
+    </ul>
+
+    <ul class="m-v-20px">
+        <li>
+            <a class="fx-layout-row fx-align-spacebetween-center p-h-20px color-red highlight-white" href="javascript:void(0)" (click)="onLogout()">
+                <span>Log Out</span>
+                <i-feather class="icon p-10px" name="log-out"></i-feather>
+            </a>
+        </li>
+    </ul> 
+
+</div>

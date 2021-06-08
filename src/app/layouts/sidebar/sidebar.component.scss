@@ -1,0 +1,67 @@
+@import "../../styles/utils.scss";
+@import "../../styles/form.scss";
+@import "../../styles/flex.scss";
+
+
+:host {
+    position: absolute;
+    width: 264px;
+    height: calc(100% - 64px);
+    background-color: #2b303b;
+
+
+    .place-contents {
+      height: 100%;
+      place-content: space-between;
+    }
+  
+    overflow-y: scroll;
+    ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      li {
+        color: #788296;
+        a {
+          height: 48px;
+          color: #788296;
+          margin-right: 3px;
+          text-decoration: none;
+          transition: all 250ms ease-in;
+          &:hover {
+            opacity: 0.72;
+          }
+          &.active {
+            background-color: rgba(255, 255, 255, 0.032);
+            border-right: 3px solid $color-primary;
+            margin-right: 0px;
+            color: $color-primary;
+          }
+          &.highlight {
+            background-color: $color-primary;
+            border-right: 3px solid $color-primary;
+            margin-right: 0px;
+            color: #ffffff;
+            &.active {
+              background-color: $color-primary;
+              border-right: 3px solid #ffffff;
+              margin-right: 0px;
+              color: #ffffff;
+            }
+          }
+          &.highlight-white {
+            background-color: rgba(255, 255, 255, 0.032);
+          }
+          .icon {
+            width: 16px;
+            height: 16px;
+          }
+  
+          &.color-red {
+            color: #ff6358 !important;
+          }
+        }
+      }
+    }
+  }
+

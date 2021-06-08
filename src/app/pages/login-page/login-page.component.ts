@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { NgxIzitoastService } from 'ngx-izitoast';
 import { combineLatest } from 'rxjs';
 import { filter, map, skip, take } from 'rxjs/operators';
+import { AccountType } from 'src/app/classes/classes';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
 
@@ -17,6 +20,9 @@ export class LoginPageComponent implements OnInit {
     private fb: FormBuilder,
     private user: UserService,
     private users: UsersService,
+    private iziToast: NgxIzitoastService,
+    private route: ActivatedRoute,
+    private router: Router,
   ) {
     this.form = this.fb.group({
       email: ['', Validators.required],
@@ -25,6 +31,18 @@ export class LoginPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.user.get().pipe(
+      filter(user => user),
+      take(1)).subscribe(user => {
+      switch (user.accountType) {
+        case AccountType.BUYER:
+          this.router.navigate(['home/b']);
+          break;
+        case AccountType.SELLER:
+          this.router.navigate(['home/s']);
+          break;
+      }
+    })
   }
 
   onSubmit(): void {
@@ -39,6 +57,30 @@ export class LoginPageComponent implements OnInit {
         return user;
       })).subscribe(user => {
         console.log('user >>>', user)
+        if (!user) {
+          this.iziToast.show({
+            title: 'ERROR',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'User not found',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          })
+          return;
+        }
+
+        this.user.set(user);
+
+        switch (user.accountType) {
+          case AccountType.BUYER:
+            this.router.navigate(['home/b']);
+            break;
+          case AccountType.SELLER:
+            this.router.navigate(['home/s']);
+            break;
+        }
       })
   }
 

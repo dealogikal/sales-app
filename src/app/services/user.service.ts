@@ -6,35 +6,33 @@ import { BehaviorSubject, Observable } from 'rxjs';
 })
 export class UserService {
 
-  CREDENTIAL_STORAGE = 'DEMO_CREDENTIAL';
+  USER_STORAGE = 'DEMO_USER';
 
-  credential$: BehaviorSubject<any> = new BehaviorSubject(undefined);
   user$: BehaviorSubject<any> = new BehaviorSubject(undefined);
 
   constructor() {
-
+    this.retrieve();
   }
 
-  retrieve_credential() {
-    const credential = JSON.parse(sessionStorage.getItem(this.CREDENTIAL_STORAGE) as string);
-    this.credential$.next(credential);
-  }
-
-  set_credential(crendential: any): void {
-    this.credential$.next(crendential);
-    sessionStorage.setItem(this.CREDENTIAL_STORAGE, JSON.stringify(crendential));
+  retrieve(): void {
+    const user = JSON.parse(sessionStorage.getItem(this.USER_STORAGE) as string);
+    console.log('retrieve', user);
+    this.user$.next(user);
   }
 
   set(user: any): void {
     this.user$.next(user);
+    sessionStorage.setItem(this.USER_STORAGE, JSON.stringify(user));
   }
+
 
   get(): Observable<any> {
     return this.user$.asObservable();
   }
 
-  credential(): Observable<any> {
-    return this.credential$.asObservable();
+  logout(): void {
+    sessionStorage.removeItem(this.USER_STORAGE);
+    this.user$.next(undefined);
   }
 
 }

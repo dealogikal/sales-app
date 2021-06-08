@@ -1,0 +1,12 @@
+@import "../../styles/utils.scss";
+@import "../../styles/form.scss";
+@import "../../styles/flex.scss";
+
+:host {
+    width: 100%;
+    border-top: 1px solid rgba($font-secondary, 0.32);
+    min-height: 64px;
+    background-color: #ffffff;
+    box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.32);
+    // z-index: 2;
+}

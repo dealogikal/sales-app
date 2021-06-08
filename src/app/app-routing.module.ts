@@ -1,6 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { BuyerGuard } from './pages/buyer-page/buyer.guard';
+import { BuyerPageComponent } from './pages/buyer-page/buyer-page.component';
+import { HomePageComponent } from './pages/home-page/home-page.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
+import { SellerPageComponent } from './pages/seller-page/seller-page.component';
+import { SellerGuard } from './pages/seller-page/seller.guard';
+import { ErrorPageComponent } from './pages/error-page/error-page.component';
+import { NewOrderPageComponent } from './pages/new-order-page/new-order-page.component';
 
 const routes: Routes = [
   {
@@ -11,6 +18,36 @@ const routes: Routes = [
   {
     path: "login",
     component: LoginPageComponent,
+  },
+  {
+    path: 'home',
+    component: HomePageComponent,
+    children: [
+      {
+        path: 'b',
+        component: BuyerPageComponent,
+        canActivate: [BuyerGuard],
+        children: [
+          {
+            path: 'new-order',
+            component: NewOrderPageComponent,
+          }
+        ]
+      },
+      {
+        path: 's',
+        component: SellerPageComponent,
+        canActivate: [SellerGuard]
+      }
+    ]
+  },
+  {
+    path: "error/:errorNum",
+    component: ErrorPageComponent,
+  },
+  {
+    path: "**",
+    redirectTo: "/error/404",
   },
 ];
 

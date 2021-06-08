@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { combineLatest } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { UserService } from 'src/app/services/user.service';
@@ -11,6 +11,8 @@ import { UsersService } from 'src/app/services/users.service';
 })
 export class HomePageComponent implements OnInit {
 
+  @HostBinding('class.open') open: boolean = true;
+  
   constructor(
     private user: UserService,
     private users: UsersService,

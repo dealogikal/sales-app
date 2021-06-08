@@ -596,8 +596,8 @@ export class UsersService {
       ],
       password: 'demo.seller',
       "info": {
-        "firstName": "Buyer",
-        "lastName": "Dealogikal",
+        "firstName": "Seller",
+        "lastName": "Demo",
         "birthDate": "04/12/2000",
         "gender": "male",
         "address": {
@@ -634,7 +634,7 @@ export class UsersService {
         }
       },
       "enrollmentStatus": "Approved",
-      "accountType": "Buyer",
+      "accountType": "Seller",
       "userType": "Company",
       "registration": {
         "businessProfile": {
