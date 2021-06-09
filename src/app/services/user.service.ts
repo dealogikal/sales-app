@@ -16,7 +16,6 @@ export class UserService {
 
   retrieve(): void {
     const user = JSON.parse(sessionStorage.getItem(this.USER_STORAGE) as string);
-    console.log('retrieve', user);
     this.user$.next(user);
   }
 

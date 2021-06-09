@@ -1,8 +1,19 @@
 /* You can add global styles to this file, and also import other style files */
-@import "../node_modules/css-reset-and-normalize/scss/reset-and-normalize";
+
+@import "https://use.fontawesome.com/releases/v5.10.2/css/all.css";
+// @import "../node_modules/css-reset-and-normalize/scss/reset-and-normalize";
 @import "../src/app/styles/var.scss";
 @import "../src/app/styles/utils.scss";
 @import "../src/app/styles/flex.scss";
+@import "../src/assets/plugins/scss/_color";
+@import "../src/assets/plugins/scss/_var";
+@import "../src/assets/plugins/scss/_mixins";
+@import "../src/assets/plugins/scss/_extras";
+@import "../src/assets/plugins/bootstrap/css/bootstrap.min.css";
+@import "../src/assets/plugins/bootstrap-datepicker/css/datepicker3.css";
+@import "../src/assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.css";
+@import "../src/assets/plugins/pages/css/pages-icons.css";
+@import "../src/assets/plugins/pages/css/corporate.css";
 
 body {
     height: 100vh;
@@ -71,8 +82,222 @@ body {
     }
 }
 
+.fx-layout-row-wrap {
+    column-gap: 8px;
+    row-gap: 8px;
+}
+.__form-field {
+    border-radius: 5px;
+    border: 1px solid rgba(15, 173, 246, 0.5);
+    padding: 9px 16px;
+    color: #707070;
+    min-height: 41px;
+    width: 100%;
+}
+.__bubble {
+    @extend .fx-layout-row;
+    @extend .fx-align-center-center;
+    padding: 0 12px;
+    height: 24px;
+    border-radius: 8px;
+    background-color: #ffffff;
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.__bullet {
+    font-size: 10px;
+    line-height: normal;
+    position: relative;
+    &::before {
+        content: "";
+        position: absolute;
+        height: 5px;
+        width: 5px;
+        background-color: $color-primary;
+        border: 3px solid rgba($color: #ffffff, $alpha: 0.72);
+        border-radius: 100%;
+        box-sizing: content-box;
+    }
+}
+
+.__pill {
+    @extend .fx-layout-row;
+    @extend .fx-align-center-center;
+    height: 32px;
+    padding: 0 16px;
+    height: 32px;
+    border-radius: 4px;
+    font-size: 10px;
+    background-color: #f2f3f5;
+    &--error {
+        color: $color-error;
+    }
+}
+
+.__notes {
+    background-color: rgba($color-disabled, 0.1);
+    padding: 10px;
+    font-size: 10px;
+    border-radius: 4px;
+    line-height: normal;
+    min-height: 32px;
+}
+
+.__shipping {
+    font-size: 10px;
+    line-height: normal;
+    position: relative;
+    &::before {
+        content: "";
+        position: absolute;
+        margin-left: -24px;
+        height: 8px;
+        width: 8px;
+        background-color: $color-primary;
+        border: 3px solid rgba($color: #ffffff, $alpha: 0.72);
+        border-radius: 100%;
+        box-sizing: content-box;
+    }
+}
+
+.__card {
+    @extend .fx-layout-column;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
+    width: 100%;
+    display: block;
+    margin: 16px 0;
+    overflow: hidden;
+}
+
+.__item--wrapper {
+    @extend .fx-flex;
+    @extend .fx-layout-column;
+    padding: 24px;
+    overflow-y: scroll;
+    display: block;
+}
+
+.__form--wrapper {
+    @extend .fx-layout-column;
+    max-width: 400px;
+    width: 100%;
+    background-color: white;
+    &__content {
+        @extend .fx-flex;
+        @extend .fx-layout-column;
+        display: block;
+        padding: 0 24px;
+        overflow-y: scroll;
+    }
+}
+
+.close__button {
+    &-icon {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        height: 32px;
+        width: 32px;
+        border-radius: 2px;
+        transition: all 250ms ease-out;
+        background-color: #f2f3f5;
+        cursor: pointer;
+        &:hover {
+            opacity: 0.5;
+        }
+        &.icon {
+            width: 16px;
+        }
+    }
+    &-flat {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        height: 36px;
+        padding: 0 16px;
+    }
+}
+
+.img {
+    @extend .fx-layout-row;
+    @extend .fx-align-end-start;
+    width: 100px;
+    height: 120px;
+    box-shadow: 0 0 4px rgba($color-disabled, 0.5), 8px 8px 12px rgba($color-disabled, 0.5);
+    background-size: cover;
+    border-radius: 8px;
+}
+
+.__btn {
+    cursor: pointer;
+    transition: all ease-in-out 250ms;
+    &--mini {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+        transition: all 250ms ease-out;
+        background-color: #f2f3f5;
+        cursor: pointer;
+        margin: 8px;
+        &--icon {
+            width: 16px;
+            height: 16px;
+        }
+    }
+    &--dashed {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        padding: 16px;
+        border-radius: 4px;
+        background-color: rgba($color-primary, 0.1);
+        border: 2px dashed rgba($color-primary, 0.5);
+        color: $color-primary;
+        line-height: normal;
+        text-align: center;
+        font-size: 12px;
+        font-weight: bold;
+        letter-spacing: 1px;
+        &--disabled {
+            pointer-events: none;
+            background-color: rgba($color-disabled, 0.2);
+            border: 2px dashed rgba($color-disabled, 0.5);
+            color: $color-disabled;
+        }
+    }
+    &__icon {
+        width: 32px;
+        height: 32px;
+        padding: 8px;
+        border-radius: 100%;
+        background-color: $color-primary;
+        color: $color-white;
+        &--disabled {
+            background-color: $color-disabled;
+        }
+    }
+    &:hover {
+        opacity: 0.8;
+    }
+    &:focus {
+        outline: 0;
+    }
+}
+
+.__link {
+    transition: all ease-in-out 250ms;
+    font-size: 10px;
+    color: $color-primary;
+    line-height: normal;
+    &:hover {
+        opacity: 0.8;
+    }
+}
+
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
+input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
 textarea:-webkit-autofill,
 textarea:-webkit-autofill:hover,
@@ -80,9 +305,102 @@ textarea:-webkit-autofill:focus,
 select:-webkit-autofill,
 select:-webkit-autofill:hover,
 select:-webkit-autofill:focus {
-  border: none;
-  -webkit-text-fill-color: none;
-  box-shadow: none;
-  transition: background-color 5000s ease-in-out 0s;
-  
+    border: none;
+    -webkit-text-fill-color: none;
+    box-shadow: none;
+    transition: background-color 5000s ease-in-out 0s;
+}
+
+.datepicker.dropdown-menu,
+.bootstrap-timepicker-widget.dropdown-menu.open,
+.select2-dropdown.select2-dropdown--below {
+    z-index: 100000 !important;
+}
+
+.select2-selection__choice {
+    &[title=""] {
+        display: none;
+    }
+}
+
+select2,
+form-select-field {
+    .select2-container {
+        border: 1px solid rgba(94, 145, 248, 0.5);
+        border-radius: 5px;
+        background-color: #ffffff;
+        min-height: 40px !important;
+        padding: 2px 8px !important;
+        // z-index: 99999 !important;
+    }
+    .select2-container .select2-selection {
+        border: none !important;
+        background-color: none !important;
+        background: none !important;
+        padding: 2px 8px !important;
+    }
+    .select2-selection.select2-selection--multiple {
+        padding: 0px 8px !important;
+    }
+    .select2-selection__choice {
+        background-color: #d5e8fe !important;
+        color: rgb(94, 145, 248) !important;
+        margin: 4px -5px 0px 10px !important;
+        &[title=""] {
+            display: none;
+        }
+    }
+    .select2-selection__rendered {
+        padding-left: 0 !important;
+        color: #707070 !important;
+        font-size: 14px !important;
+        letter-spacing: 0.75px !important;
+    }
+    .select2-container--open .select2-selection--multiple .select2-selection__choice {
+        background-color: #d5e8fe !important;
+        color: rgb(94, 145, 248) !important;
+        margin: 6px -5px 0px 10px !important;
+    }
+
+    .select2-selection--multiple .select2-selection__choice {
+        background-color: #d5e8fe !important;
+        color: rgb(94, 145, 248) !important;
+        margin: 6px -5px 0px 10px !important;
+    }
+
+    .select2-selection__choice__remove {
+        line-height: 20px !important;
+        color: rgb(94, 145, 248) !important;
+    }
+    .select2-container .select2-search--inline .select2-search__field {
+        margin-top: 7px;
+    }
+
+    .select2-container .select2-selection--multiple .select2-search__field {
+        margin-top: 5px;
+    }
+    .select2-selection__arrow {
+        &::after {
+            content: "\f078";
+            display: block;
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            -moz-osx-font-smoothing: grayscale;
+            -webkit-font-smoothing: antialiased;
+            display: inline-block;
+            font-style: normal;
+            font-variant: normal;
+            text-rendering: auto;
+            line-height: 36px;
+            margin-top: 0;
+            color: rgba(94, 145, 248, 0.5);
+            transition: all ease-in-out 200ms;
+        }
+    }
+
+    .select2-container--open .select2-selection__arrow {
+        &::after {
+            transform: rotateX(180deg);
+        }
+    }
 }

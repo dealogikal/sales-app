@@ -8,6 +8,8 @@ import { SellerPageComponent } from './pages/seller-page/seller-page.component';
 import { SellerGuard } from './pages/seller-page/seller.guard';
 import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { NewOrderPageComponent } from './pages/new-order-page/new-order-page.component';
+import { CommoditySelectorComponent } from './pages/new-order-page/commodity-selector/commodity-selector.component';
+import { TemplatesPageComponent } from './pages/new-order-page/templates-page/templates-page.component';
 
 const routes: Routes = [
   {
@@ -31,6 +33,30 @@ const routes: Routes = [
           {
             path: 'new-order',
             component: NewOrderPageComponent,
+            children: [
+              {
+                path: 'commodity',
+                component: CommoditySelectorComponent
+              },
+              {
+                path: 'templates',
+                component: TemplatesPageComponent,
+              },
+            ]
+          },
+          {
+            path: 'new-order/:template_id',
+            component: NewOrderPageComponent,
+            children: [
+              {
+                path: 'commodity',
+                component: CommoditySelectorComponent
+              },
+              {
+                path: 'templates',
+                component: TemplatesPageComponent,
+              },
+            ]
           }
         ]
       },

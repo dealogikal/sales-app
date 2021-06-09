@@ -1,0 +1,3 @@
+<input class="form-field" #field [attr.disabled]="disabled" [formControl]="fieldControl" type="text"
+    [attr.data-v-min]="min" [attr.data-v-max]="max" [attr.placeholder]="placeholder" [attr.data-a-sign]="currency"
+    [attr.data-p-sign]="placement" (focusout)="onFocusOut($event)" (change)="update($event)" (keyup)="update($event)">

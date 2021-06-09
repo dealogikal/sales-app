@@ -1,0 +1,7 @@
+<select #field [attr.data-placeholder]="placeholder" data-init-plugin="select2"
+  class="full-width" required>
+  <option value=""></option>
+
+  <option *ngFor="let option of options$ | async; let i = index" [attr.value]="option?.value || option">
+    {{option?.label || option}}</option>
+</select>

@@ -1,0 +1,22 @@
+<div class="__backdrop"></div>
+<div class="__modal">
+    <div class="__modal__header">
+        <div class="fx-flex">
+            <div class="fw-600">Save as</div>
+        </div>
+        <div class="fx-layout-row m-r--16px">
+            <button class="__button __button-primary" (click)="onSave()">SAVE</button>
+            <div class="p-4px"></div>
+            <div class="__modal__button-icon" [routerLink]="['../']">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+    </div>
+    <div class="__modal__content">
+        <form class="fx-layout-column" [formGroup]="formGroup">
+            <input formControlName="name" autocomplete="off" class="__form-input" id="name" type="text"
+                placeholder="Template Name">
+        </form>
+        <div class="p-16px"></div>
+    </div>
+</div>

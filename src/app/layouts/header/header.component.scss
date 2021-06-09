@@ -3,6 +3,8 @@
 @import "../../styles/flex.scss";
 
 :host {
+    position: relative;
+    z-index: 2;
     width: 100%;
     border-top: 1px solid rgba($font-secondary, 0.32);
     min-height: 64px;

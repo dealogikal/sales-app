@@ -13,12 +13,12 @@
         transition: all ease-in-out 250ms;
     }
     .__content {
-        overflow-y: auto;
+        overflow-y: hidden;
         overflow-x: hidden;
         margin-left: 0;
         transition: all ease-in-out 250ms;
-        min-height: 0;
-        max-height: 100vh;
+        height: calc(100vh - 64px);
+        width: 100%;
     }
 
     &.open {

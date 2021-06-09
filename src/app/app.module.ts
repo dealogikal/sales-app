@@ -65,6 +65,16 @@ import { HeaderComponent } from './layouts/header/header.component';
 import { NewOrderPageComponent } from './pages/new-order-page/new-order-page.component';
 import { TemplatesPageComponent } from './pages/new-order-page/templates-page/templates-page.component';
 import { OrderFormComponent } from './pages/new-order-page/order-form/order-form.component';
+import { FormAbstractFieldComponent } from './ui/forms/form-abstract-field/form-abstract-field.component';
+import { FormSelectFieldComponent } from './ui/forms/form-select-field/form-select-field.component';
+import { FormDateFieldComponent } from './ui/forms/form-date-field/form-date-field.component';
+import { FormTimeFieldComponent } from './ui/forms/form-time-field/form-time-field.component';
+import { FormNumberFieldComponent } from './ui/forms/form-number-field/form-number-field.component';
+import { FormSwitchFieldComponent } from './ui/forms/form-switch-field/form-switch-field.component';
+import { CommoditySelectorComponent } from './pages/new-order-page/commodity-selector/commodity-selector.component';
+import { CardTemplateComponent } from './ui/cards/card-template/card-template.component';
+import { CheckSelectedPipe, FloatPipe, IsBeforeToday, NoComma, ObjectKeys, ProcessingFeePipe } from './helpers/pipes/pipe';
+import { SaveAsTemplateComponent } from './pages/new-order-page/save-as-template/save-as-template.component';
 
 
 const ICONS = {
@@ -123,7 +133,6 @@ const PAGES: any = [
   BuyerPageComponent,
   SellerPageComponent,
   NewOrderPageComponent,
-  TemplatesPageComponent,
   OrderFormComponent,
 ];
 
@@ -132,11 +141,47 @@ const LAYOUT: any = [
   HeaderComponent,
 ]
 
+const FORM_UI: any = [
+  FormAbstractFieldComponent,
+  FormSelectFieldComponent,
+  FormDateFieldComponent,
+  FormTimeFieldComponent,
+  FormNumberFieldComponent,
+  FormSwitchFieldComponent
+];
+
+const NEW_ORDER_PAGE: any = [
+  CommoditySelectorComponent,
+  TemplatesPageComponent,
+  SaveAsTemplateComponent,
+]
+
+const CARDS: any = [
+  CardTemplateComponent
+]
+
+const PIPES: any = [
+  ObjectKeys,
+  NoComma,
+  FloatPipe,
+  // TransactionInfoPipe,
+  // TransactionCostPipe,
+  ProcessingFeePipe,
+  CheckSelectedPipe,
+  // NextShippingStatusPipe,
+  // OfferCountPipe,
+  IsBeforeToday
+];
+
 @NgModule({
   declarations: [
     AppComponent,
     ...PAGES,
+    ...FORM_UI,
     ...LAYOUT,
+    ...NEW_ORDER_PAGE,
+    ...CARDS,
+    ...PIPES
   ],
   imports: [
     BrowserModule,

@@ -60,9 +60,9 @@ export class SidebarComponent implements OnInit {
     this.routes$ = this.user.get().pipe(
       filter(user => user),
       map((user: any) => {
-        console.log('user.accountTYpe MD', user.accountType)
+        // console.log('user.accountTYpe MD', user.accountType)
         const routes = this.routes[user.accountType];
-        console.log(routes);
+        // console.log(routes);
         return routes
       })
     );

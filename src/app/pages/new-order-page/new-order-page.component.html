@@ -1,4 +1,242 @@
-<p>new-order-page works!</p>
+<ng-container *ngIf="order$ | async as order">
+    <div class="__form-header">
+        <div>
+            <span>NEW ORDER</span>
+            <span *ngIf="order.name">&nbsp;/&nbsp;{{order.name}}</span>
+        </div>
+        <div class="fx-layout-row">
+            <div class="__button" [routerLink]="['save']">SAVE AS NEW</div>
+            <div class="p-4px"></div>
+            <div class="__button" (click)="onSave()">SAVE</div>
+            <div class="p-4px"></div>
+            <div class="__button __button-outlined" [routerLink]="['templates']">TEMPLATES</div>
+            <div class="p-4px"></div>
+            <button type="submit" class="__button __button-primary" (click)="onSubmit()">SUBMIT</button>
+        </div>
+    </div>
+    <div class="fx-flex fx-layout-row">
+        <div class="__item--wrapper">
+
+            <div class="__btn __btn--dashed" [class.__btn--dashed--disabled]="!order.commodity" [routerLink]="['form']">
+                <i-feather class="__btn__icon m-r-10px" [class.__btn__icon--disabled]="!order.commodity" name="plus">
+                </i-feather>
+                <span class="lh-n sm fc-p" [class.fc-gray]="!order.commodity">ADD PRODUCT</span>
+            </div>
+
+            <div class="p-8px"></div>
+
+            <div class="fx-layout-row fx-align-spacebetween-center">
+                <div class="fx-layout-row fx-align-start-center">
+                    <div class="fw-600 m-b-0px lh-n">Products</div>
+                    <div class="p-4px"></div>
+                    <div class="__bubble">
+                        <div>{{order.products.length || 0}}</div>
+                    </div>
+                </div>
+
+                <div class="fx-layout-row fx-align-start-center">
+                    <label for="same-location" class="hl m-b-0px">Same Location</label>
+                    <div class="p-4px"></div>
+                    <form-switch-field class="m-v-10px" [fieldControl]="form.get('isSameLocation')">
+                    </form-switch-field>
+                </div>
+            </div>
+
+            <!-- <div class="__card" *ngFor="let product of products$ | async">
+                <div class="p-10px"></div>
+                <div class="fx-layout-row fx-align-spacebetween-center p-h-20px">
+                    <div class="fx-layout-column">
+                        <div class="sm">
+                            <span class="fc-p">{{product.qty}}</span>
+                            <span>&nbsp;</span>
+                            <span class="fc-p">{{product.unit}}</span>
+                            <span>&nbsp;</span>
+                            <span class="fw-600">{{product.product}}</span>
+                            <span>&nbsp;</span>
+                            <span class="fw-600" *ngIf="product.type">- {{product.type}}</span>
+                        </div>
+                        <div class="p-4px"></div>
+                        <div class="__bullet">
+                            <span class="m-l-16px">{{ order.shippingMethod || 'Shipping' }}</span>
+                            <span class="m-l-4px">to
+                                <span class="">{{ product.shipping.location }} ({{product.shipping.province}})</span>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="fx-layout-row">
+                        <div class="__button" [routerLink]="['form', product.id]"><span class="fc-p">EDIT</span></div>
+                        <div class="p-4px"></div>
+                        <div class="close__button-icon" (click)="onRemove(product.id)">
+                            <i-feather class="icon" name="x"></i-feather>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="p-8px"></div>
+                <div class="m-h-20px __notes">
+                    <span>{{ product.notes }}</span>
+                </div>
+                <div class="p-8px"></div>
+                <ng-container *ngIf="product.attachments.length">
+                    <div class="fx-layout-row-wrap m-h-20px">
+                        <ng-container *ngFor="let attachment of product.attachments; let i = index">
+                            <div class="img" [style.background-image]="'url(' + attachment.secureUrl + ')'">
+                                <a [attr.href]="attachment.secureUrl" target="_blank" class="__btn--mini">
+                                    <i-feather class="__btn--mini--icon" name="eye"></i-feather>
+                                </a>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div class="p-8px"></div>
+                </ng-container>
+                <div class="p-h-20px sm fw-600">Shipping Schedule</div>
+                <div class="p-4px"></div>
+                <div class="p-h-20px fx-layout-row-wrap">
+                    <div class="__pill" [class.__pill--error]="(item.date + ' ' + item.time) | isBeforeToday"
+                        *ngFor="let item of product.shipping.schedules">
+                        <div>
+                            <span class="fc-p">{{item.qty}} {{item.unit}}</span>
+                            <span>&nbsp;</span><span>&nbsp;</span>
+                            <span>{{ (item.date + ' ' + item.time) | date : 'EEEE, MMMM d, y, h:mm a'}}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="p-8px"></div>
+
+                <div class="p-h-20px sm fw-600">Participants</div>
+                <div class="p-4px"></div>
+                <div class="fx-layout-row-wrap p-h-20px">
+                    <div class="__pill" *ngFor="let participant of product.participants">
+                        <div>{{participant.label}}</div>
+                    </div>
+                </div>
+                <div class="p-10px"></div>
+            </div> -->
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+            <div class="p-24px"></div>
+
+        </div>
+
+        <form class="__form--wrapper" [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="order$ | async as order">
+
+            <div class="__form--wrapper__content" *ngIf="config$ | async as config">
+                <div class="p-8px"></div>
+                <div class="p-8px"></div>
+                <div class="xs fc-p">COMMODITY</div>
+                <div class="p-4px"></div>
+                <div class="fx-layout-column m-b-12px">
+                    <div class="__form-field" [routerLink]="['commodity']">{{order.commodity || 'Choose Commodity'}}
+                    </div>
+                </div>
+                <div class="p-8px"></div>
+                <div class="p-8px"></div>
+                <div class="xs fc-p">AUCTION SCHEDULE</div>
+                <div class="p-4px"></div>
+
+                <div class="fx-layout-row">
+                    <div class="fx-flex fx-layout-column m-b-12px">
+                        <label for="startDate" class="sm"
+                            [class.fc-error]="form.get('startDate').hasError('required') && !form.get('startDate').pristine">Start
+                            Date</label>
+                        <form-date-field [fieldControl]="form.get('startDate')" [placeholder]="'MM/DD/YYYY'"
+                            [startDate]="'today'">
+                        </form-date-field>
+                    </div>
+                    <div class="p-4px"></div>
+                    <div class="fx-flex fx-layout-column m-b-12px">
+                        <label for="startTime" class="sm"
+                            [class.fc-error]="form.get('startTime').hasError('required') && !form.get('startTime').pristine">Start
+                            Time</label>
+                        <form-time-field [fieldControl]="form.get('startTime')" [placeholder]="'00:00 AM'">
+                        </form-time-field>
+                    </div>
+                </div>
+                <div class="fx-layout-column m-b-12px">
+                    <label for="duration" class="sm"
+                        [class.fc-error]="form.get('duration').hasError('required') && !form.get('duration').pristine">Duration</label>
+                    <form-number-field [decimals]="0" [fieldControl]="form.get('duration')"
+                        [placeholder]="'Maximum 336 hours'" [max]="336" [min]="0">
+                    </form-number-field>
+                </div>
+                <div class="p-8px"></div>
+                <div class="p-8px"></div>
+                <div class="xs fc-p"
+                    [class.fc-error]="form.get('shippingMethod').hasError('required') && !form.get('shippingMethod').pristine">
+                    SHIPPING METHOD</div>
+                <div class="p-4px"></div>
+
+                <div class="fx-layout-column m-b-12px">
+                    <form-select-field [fieldControl]="form.get('shippingMethod')" [placeholder]="'Choose Method'"
+                        [options]="config.shipping_methods">
+                    </form-select-field>
+                </div>
+                <div class="p-8px"></div>
+                <div class="p-8px"></div>
+                <div class="xs fc-p">PAYMENT OPTIONS</div>
+                <div class="p-4px"></div>
 
 
-<router-outlet></router-outlet>
+                <div class="fx-layout-column m-b-12px">
+                    <div class="fx-layout-row fx-align-spacebetween-center">
+                        <label for="paymentOptions" class="sm">Method</label>
+                        <div class="__link" *ngIf="showAddPaymentOptions$ | async" [routerLink]="['requirements']">
+                            ACTIVATE MORE PAYMENT OPTIONS
+                        </div>
+                    </div>
+                    <form-select-field [fieldControl]="form.get('payment.method')" [placeholder]="'Choose Method'"
+                        [options]="filterPaymentMethod(payment_methods$ | async, order.commodity)">
+                    </form-select-field>
+                </div>
+
+                <div class="fx-layout-column m-b-12px" [hidden]="form.get('payment.method').value != 'Terms'">
+                    <label for="payment_option" class="sm"
+                        [class.fc-error]="form.get('payment.days').hasError('required') && !form.get('payment.days').pristine">Days</label>
+                    <form-select-field [fieldControl]="form.get('payment.days')" [placeholder]="'Choose Days'" Method
+                        [options]="payment_days$ | async">
+                    </form-select-field>
+                </div>
+
+                <div class="fx-layout-column m-b-12px">
+                    <label for="payment_option" class="sm"
+                        [class.fc-error]="form.get('payment.option').hasError('required') && !form.get('payment.option').pristine">Pay
+                        Via</label>
+                    <form-select-field [fieldControl]="form.get('payment.option')" [placeholder]="'Choose Option'"
+                        Method [options]="payment_options$ | async">
+                    </form-select-field>
+                </div>
+
+                <div class="fx-layout-column m-b-12px">
+                    <label for="payment_channel" class="sm"
+                        [class.fc-error]="form.get('payment.channel').hasError('required') && !form.get('payment.channel').pristine">Channel</label>
+                    <form-select-field [fieldControl]="form.get('payment.channel')" [placeholder]="'Choose Channel'"
+                        Method [options]="payment_channels$ | async">
+                    </form-select-field>
+                </div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+                <div class="p-24px"></div>
+
+
+            </div>
+
+        </form>
+
+
+
+
+        <router-outlet></router-outlet>
+    </div>
+</ng-container>

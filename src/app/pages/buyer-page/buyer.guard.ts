@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
-import { AccountType } from 'src/app/classes/classes';
+import { AccountType } from 'src/app/helpers/classes/classes';
 import { UserService } from 'src/app/services/user.service';
 
 @Injectable({

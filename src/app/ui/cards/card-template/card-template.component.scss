@@ -1,0 +1,145 @@
+
+@import "../../../styles/flex.scss";
+@import "../../../styles/form.scss";
+@import "../../../styles/utils.scss";
+
+
+
+:host {
+  background-color: #f2f3f5;
+  border-radius: 8px;
+  // box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.16);
+
+  height: 120px;
+  width: 204px;
+
+  display: inline-block;
+  overflow: hidden;
+
+  cursor: pointer;
+
+  transition: box-shadow ease-in-out 250ms;
+
+  &:hover {
+    box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.32);
+  }
+
+  &.highlight {
+    box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.32);
+    // box-shadow: 0 8px 16px rgba($color-primary, 0.64);
+    // background-color: $color-primary;
+
+    ._card {
+      // &__header {
+      //   background-color: rgba(#ffffff, 0.24);
+      //   color: $color-primary
+      // }
+      &__content {
+        color: $color-primary;
+        .hl,
+        .bdy,
+        .sm {
+          color: $color-primary;
+        }
+      }
+      // &__footer {
+      //   border-top: 1px solid rgba($color-primary, 0.24);
+      //   position: relative;
+      // }
+      &__icon {
+        color: $color-primary;
+      }
+      // &__notes {
+      //   background-color: rgba(#ffffff, 0.24);
+      //   color: $color-primary
+      // }
+      // &__btn-action {
+      //   cursor: pointer;
+      //   color: $color-primary
+      // }
+    }
+  }
+  &.selected {
+    box-shadow: 0 8px 16px rgba($color-primary, 0.32);
+    background-color: $color-primary;
+
+    &:hover {
+      box-shadow: 0 8px 16px rgba($color-primary, 0.64);
+    }
+
+    .hl,
+    .bdy,
+    .sm {
+      color: #ffffff !important;
+    }
+    ._card {
+      &__header {
+        background-color: rgba(#ffffff, 0.24);
+        color: #ffffff;
+      }
+      &__content {
+        color: #ffffff;
+      }
+      &__footer {
+        border-top: 1px solid rgba(#ffffff, 0.24);
+        position: relative;
+      }
+      &__icon {
+        color: #ffffff;
+        &[ng-reflect-name="arrow-down"] {
+          color: #ffffff;
+        }
+        &[ng-reflect-name="arrow-up"] {
+          color: #ffffff;
+        }
+      }
+      &__notes {
+        background-color: rgba(#ffffff, 0.24);
+        color: #ffffff;
+      }
+      &__btn-action {
+        cursor: pointer;
+        color: #ffffff;
+      }
+    }
+  }
+  ._card {
+    box-sizing: border-box;
+    &__icon {
+      width: 14px;
+      height: 14px;
+      &[ng-reflect-name="arrow-down"] {
+        color: $color-success;
+      }
+      &[ng-reflect-name="arrow-up"] {
+        color: $color-error;
+      }
+    }
+    &__header {
+      padding: 10px 20px;
+      background-color: #fafafa;
+      font-size: 10px;
+    }
+    &__footer {
+      padding: 8px 20px;
+      border-top: 1px solid #f2f3f5;
+      position: relative;
+      button {
+        border: none;
+        min-width: 0;
+        padding: 4px 8px;
+        opacity: 0.8;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+    &__btn-action {
+      cursor: pointer;
+      transition: all ease-in-out 250ms;
+      &:hover {
+        opacity: 0.72;
+      }
+    }
+  }
+}

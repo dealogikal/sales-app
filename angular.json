@@ -32,10 +32,18 @@
             ],
             "styles": [
               "src/styles.scss",
-              "node_modules/izitoast/dist/css/iziToast.min.css"
+              "src/assets/plugins/font-awesome/css/font-awesome.css",
+              "node_modules/izitoast/dist/css/iziToast.min.css",
+              "node_modules/select2/dist/css/select2.css"
             ],
             "scripts": [
-              "node_modules/izitoast/dist/js/iziToast.min.js"
+              "node_modules/izitoast/dist/js/iziToast.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/select2/dist/js/select2.min.js",
+              "src/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.js",
+              "src/assets/plugins/bootstrap-timepicker/bootstrap-timepicker.min.js",
+              "src/assets/plugins/jquery-autonumeric/autonumeric.js"
+              
             ]
           },
           "configurations": {

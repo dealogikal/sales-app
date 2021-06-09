@@ -1,1 +1,29 @@
-<p>templates-page works!</p>
+<div class="__backdrop" ></div>
+<div class="__modal">
+    <div class="progress progress-small m-b--4px" *ngIf="!(templates$ | async)">
+        <div class="progress-bar-success progress-bar-indeterminate"></div>
+    </div>
+    <div class="__modal__header">
+        <div class="fx-flex">
+            <div class="fw-600">Select a Template</div>
+        </div>
+        <div class="fx-layout-row m-r--16px">
+            <div class="__modal__button-icon" [routerLink]="['../']">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+    </div>
+    <div class="__modal__content">
+        <ng-container *ngIf="templates$ | async as templates">
+            <div class="fx-layout-row-wrap p-h-32px">
+                <card-template [data]="template" *ngFor="let template of templates" (click)="onSelect(template)">
+                </card-template>
+            </div>
+            <div class="fx-layout-row fx-align-center-center" *ngIf="!templates.length">
+                <span class="fw-600 sm">NO TEMPLATES FOUND</span>
+            </div>
+        </ng-container>
+
+    </div>
+    <div class="p-16px"></div>
+</div>

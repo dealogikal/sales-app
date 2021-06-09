@@ -1,0 +1,16 @@
+<div class="_card p-20px fx-flex fx-layout-column fx-align-spacebetween-stretch" *ngIf="data$ | async as template">
+
+    <div>
+        <div class="hl fw-600">{{template.name}}</div>
+        <div class="hl fc-p p-t-8px" *ngIf="template.commodity">
+            <span>{{template.products.length}}</span>
+            <span>&nbsp;{{template.commodity}}</span>
+            <span>&nbsp;products</span>
+        </div>
+        <div>
+
+        </div>
+    </div>
+    <div class="sm" *ngIf="date$ | async as date">Last updated {{date}}</div>
+
+</div>

@@ -1,0 +1,30 @@
+@import "../../../styles/flex.scss";
+@import "../../../styles/form.scss";
+
+:host {
+  @extend .fx-layout-row;
+  background-color: rgba($color-dark, 0.1);
+  height: 16px;
+  width: 32px;
+  border-radius: 8px;
+  position: relative;
+  transition: all 250ms ease-in-out;
+  &:after {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    background-color: #ffffff;
+    box-shadow: 0px 0px 4px rgba(43, 48, 59, 0.2);
+    transition: all 250ms ease-in-out;
+  }
+  &.__on {
+    background-color: rgba($color-primary, 1);
+    &:after {
+      left: 12px;
+    }
+  }
+}

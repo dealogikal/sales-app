@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxIzitoastService } from 'ngx-izitoast';
 import { combineLatest } from 'rxjs';
 import { filter, map, skip, take } from 'rxjs/operators';
-import { AccountType } from 'src/app/classes/classes';
+import { AccountType } from 'src/app/helpers/classes/classes';
 import { UserService } from 'src/app/services/user.service';
 import { UsersService } from 'src/app/services/users.service';
 
