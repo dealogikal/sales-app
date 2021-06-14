@@ -73,6 +73,16 @@ body {
         color: $color-success;
         pointer-events: none;
     }
+
+    &-accent {
+        background-color: $color-success;
+        color: #ffffff;
+        &-disabled {
+            background-color: $color-disabled;
+            pointer-events: none;
+        }
+    }
+
     &:hover {
         opacity: 0.8;
     }
@@ -187,7 +197,6 @@ body {
     width: 14px !important;
     height: 14px !important;
 }
-
 
 .__action {
     cursor: pointer;

@@ -29,16 +29,19 @@ export class OrdersService {
       const date = new Date();
       orders.forEach((order: any) => {
         const diff = moment.duration(moment().diff(moment(order.lastUpdate))).asSeconds();
+        if (order.status == OrderStatus.OPEN && diff > 5 && order.hasOffer && !order.hasOfferUpdated) {
+          this.updateOffers(order).pipe(
+            take(1),
+            switchMap((order) => this.save(order))
+          ).subscribe(order => {
+          });
+        }
         if (order.status == OrderStatus.OPEN && diff > 5 && !order.hasOffer) {
-
-          console.log('order open');
           this.createOffers(order).pipe(
             take(1),
             switchMap((order) => this.save(order))
           ).subscribe(order => {
-            console.log('offers with', order);
           });
-
         }
         if (order.status == OrderStatus.WAITING && diff > 5) {
           order.status = OrderStatus.OPEN;
@@ -71,6 +74,57 @@ export class OrdersService {
     var rand = Math.random() < 0.5 ? ((1 - Math.random()) * (max - min) + min) : (Math.random() * (max - min) + min);  // could be min or max or anything in between
     var power = Math.pow(10, decimalPlaces);
     return Math.floor(rand * power) / power;
+  }
+
+  updateOffers(order: any): Observable<any> {
+    return new Observable((obs) => {
+      order.orders.products = order.orders.products.map((product: any) => {
+        product.offers = product.offers.map((offer: any) => {
+          const date = new Date();
+
+          const perUnit = offer.currentPrice.perUnit + this.getRand(-2, 2, 4);
+          const freightUnit = offer.currentPrice.freightUnit + this.getRand(-1, 1, 4);
+
+          const price = {
+            advisorRate: 0,
+            currency: order.transaction.currency,
+            notes: `note ${offer.user.companyName}`,
+            attachments: [],
+            dueDate: offer.currentPrice.dueDate,
+            dueTime: offer.currentPrice.dueTime,
+            expiration: offer.currentPrice.expiration,
+            subtotal: (perUnit + freightUnit) * product.qty,
+            perUnit: perUnit,
+            freightUnit: freightUnit,
+            perUnitTotal: perUnit * product.qty,
+            freightUnitTotal: freightUnit * product.qty,
+            adjustments: {
+              com: 0,
+              hedge: 0,
+              freight: 0,
+              freightRevenue: 0,
+              freightRevenueRate: 0.0,
+              storage: 0,
+              markToMarket: 0,
+            }
+          };
+
+          offer.currentPrice = price;
+          offer.prices.push(price);
+          offer.lastUpdated = date;
+
+          return offer;
+        });
+
+        return product;
+      });
+
+      order.hasOfferUpdated = true;
+      obs.next(order);
+      obs.complete();
+
+    });
+
   }
 
   createOffers(order: any): Observable<any> {

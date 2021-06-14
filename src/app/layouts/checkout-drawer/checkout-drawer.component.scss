@@ -1,0 +1,107 @@
+@import "../../styles/utils.scss";
+@import "../../styles/form.scss";
+@import "../../styles/flex.scss";
+
+:host {
+    font-family: "Avenir", sans-serif;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: calc(100vh - 64px);
+    width: 420px;
+    background-color: white;
+    @extend .fx-layout-column;
+
+    .__header {
+        height: 64px;
+        padding: 0 20px;
+        background-color: #fafafa;
+        font-size: 10px;
+        @extend .fx-layout-row;
+        @extend .fx-align-spacebetween-center;
+    }
+    .dashed {
+        margin: -1px 20px 0 20px;
+        border-top: 1px dashed rgba($font-secondary, 0.32);
+    }
+    .solid {
+        margin: -1px 20px 0 20px;
+        border-top: 1px solid rgba($font-secondary, 0.32);
+    }
+
+    .__cta-icon {
+        margin-left: 12px;
+        height: 20px;
+        width: 20px;
+        padding: 4px;
+        background-color: rgba(255, 255, 255, 0.12);
+        border-radius: 24px;
+    }
+
+    .ctc {
+        left: -10px !important;
+        position: relative !important;
+        font-size: 13px !important;
+        cursor: pointer !important;
+        font-weight: bold !important;
+    }
+    .tnc {
+        .checkbox label {
+            padding-left: 24px;
+        }
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        input[type="checkbox"] + .box:before,
+        input[type="checkbox"] + .box:after {
+            transition: all 0.3s;
+        }
+
+        input[type="checkbox"] + .box:after {
+            position: absolute;
+            left: 4px;
+            top: 3px;
+            margin-top: -5px;
+            margin-left: -4px;
+            display: inline-block;
+            content: " ";
+            width: 20px;
+            height: 20px;
+            border: 2px solid #999;
+            border-radius: 2px;
+            background-color: #fff;
+            z-index: 1000;
+            zoom: 1.3;
+        }
+
+        input[type="checkbox"]:checked + .box:after {
+            background-color: #8bc34a;
+            border-color: #8bc34a;
+            zoom: 1.3;
+            border-radius: 30px;
+        }
+
+        input[type="checkbox"]:checked + .box:before {
+            transform: rotate(45deg);
+            position: absolute;
+            left: 10px;
+            top: 3px;
+            width: 6px;
+            height: 13px;
+            border-width: 2px;
+            border-style: solid;
+            border-top: 0;
+            border-left: 0;
+            border-color: #fff;
+            content: "";
+            z-index: 10000;
+            zoom: 1;
+        }
+
+        .checkbox label:before {
+            visibility: hidden !important;
+        }
+    }
+}

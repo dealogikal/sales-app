@@ -90,15 +90,20 @@ export class BuyerAuctionPageComponent implements OnInit {
       );
 
       this.offers$ = this.item$.pipe(map(product => {
-        if (!product.offers) return [];
-        return product.offers.sort((a: any, b: any) => {
-          return b.currentPrice.subtotal - b.currentPrice.subtotal;
+        if (!product.hasOwnProperty('offers')) return [];
+        return product.offers.map((offer: any) => {
+
+          offer.product = product.product;
+          offer.product_id = product.id;
+          offer.type = product.type;
+          offer.unit = product.unit;
+          offer.qty = product.qty;
+
+          return offer;
+        }).sort((a: any, b: any) => {
+          return a.currentPrice.subtotal - b.currentPrice.subtotal;
         });
       }));
-
-
-
-
 
     });
   }

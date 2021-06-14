@@ -1,4 +1,4 @@
-import { PipeTransform, Pipe, ChangeDetectionStrategy } from '@angular/core';
+import { PipeTransform, Pipe, ChangeDetectionStrategy, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
@@ -76,6 +76,9 @@ export class DateUtils{
 @Pipe({
     name: 'isBeforeToday'
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class IsBeforeToday implements PipeTransform {
     transform(value: any): any {
         return moment(value).isBefore(moment(new Date()));
@@ -88,6 +91,9 @@ export class IsBeforeToday implements PipeTransform {
 @Pipe({
     name: 'objectKeys'
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class ObjectKeys implements PipeTransform {
     transform(value: any): any {
         return Object.keys(value).sort();
@@ -97,6 +103,9 @@ export class ObjectKeys implements PipeTransform {
 
 @Pipe({
     name: 'nocomma'
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class NoComma implements PipeTransform {
     transform(value: any): any {
@@ -109,6 +118,9 @@ export class NoComma implements PipeTransform {
 @Pipe({
     name: 'processingFee',
     pure: false
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class ProcessingFeePipe implements PipeTransform {
     transform(checkoutItems: any): any {
@@ -146,6 +158,9 @@ export class ProcessingFeePipe implements PipeTransform {
     name: 'checkSelected',
     pure: false
 })
+@Injectable({
+  providedIn: 'root'
+})
 export class CheckSelectedPipe implements PipeTransform {
     transform(offer: any, selected: any): any {
         if (!selected) return false;
@@ -172,6 +187,9 @@ export class CheckSelectedPipe implements PipeTransform {
 
 @Pipe({
     name: 'float'
+})
+@Injectable({
+  providedIn: 'root'
 })
 export class FloatPipe implements PipeTransform {
     transform(value: any): any {

@@ -1,0 +1,100 @@
+<ng-container *ngIf="order$ | async as order">
+    <ng-container *ngIf="checkoutItems$ | async as checkoutItems">
+        <div class="__header">
+            <span class="fw-600 sm">CHECKOUT</span>
+            <span class="fw-600 sm">{{checkoutItems.length}} of {{ validCount$ | async}}</span>
+        </div>
+
+        <div class="sm fw-600 m-t-20px p-h-20px fx-layout-row fx-align-spacebetween-center">
+            <span>ITEMS</span><span class="sm fc-p fw-400">Prices are VAT excluded</span>
+        </div>
+
+        <div class="p-h-20px" *ngFor="let item of checkoutItems">
+            <div class="fx-layout-row p-v-20px b-b-1">
+                <div class="fx-flex fx-layout-row fx-align-start-center">
+                    <div class="fx-layout-column">
+                        <span class="hl fw-600">{{ (item.type !='') ? item.product + ' - ' + item.type :
+                            item.product}}</span>
+                        <span class="hl fc-p">
+                            <span class="ls-1">{{item.qty | number:'2.'}}</span>
+                            <span class="m-l-4px">{{item.unit}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.currentPrice.perUnitTotal | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{item.currentPrice.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashed p-h-20px"></div>
+
+        <div class="p-h-20px" *ngFor="let item of checkoutBreakdowns$ | async">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fw-600 ttf-up">{{item.label}}</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.value | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{order.transaction.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="fx-layout-column fx-align-center-center">
+
+            <div class="p-v-10px"></div>
+
+            <div class="b-l-3 fx-layout-column p-h-16px m-20px" *ngIf="total$ | async as total">
+                <div class="sm fw-600">transaction cost</div>
+                <div class="hdr fc-2 m-t-4px fw-600 lh-n">
+                    <span>{{order.transaction.currency}}</span>&nbsp;<span>{{total | number: '1.4-4'}}</span>
+                </div>
+            </div>
+
+            <div class="p-v-10px"></div>
+
+            <div class="fx-layout-row-wrap fx-align-center-center"
+                *ngIf="(validCount$ | async) == checkoutItems.length">
+                <div class="tnc">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" [(ngModel)]="isChecked">
+                            <span class="box" style="margin: 10px;"></span>
+                            I agree to the
+                        </label>
+                    </div>
+                </div>
+                <div class="fc-p ctc">Closure Terms & Conditions</div>
+            </div>
+
+            <div class="p-v-10px"></div>
+
+            <button *ngIf="(validCount$ | async) == checkoutItems.length"
+                class="__button __button-accent ttf-up ls-1 fw-600" [class.__button-accent-disabled]="!isChecked" (click)="onProceed()">
+                <span>Proceed to Payment Review</span>
+                <i-feather class="__cta-icon" name="chevron-right"></i-feather>
+            </button>
+            <!-- 
+                  
+            <div class="p-v-10px"></div>
+
+            <button *ngIf="validOrdersCount(data?.request) == checkoutItems.length" [disabled]="(validOrdersCount(data?.request) != checkoutItems.length) ||  !isChecked"
+                [ngClass]="(validOrdersCount(data?.request) != checkoutItems.length || !isChecked) ?  'disabled' : ''"
+                class="form-btn success fx-layout-row fx-align-center-center" (click)="proceedToPaymentReview()">
+                <span>Proceed to Payment Review</span>
+                <i-feather class="icon" name="chevron-right"></i-feather>
+            </button> -->
+
+        </div>
+
+
+    </ng-container>
+</ng-container>

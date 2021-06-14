@@ -1,8 +1,13 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { DecimalPipe } from '@angular/common';
+import { Component, HostBinding, Input, OnInit } from '@angular/core';
 import * as moment from 'moment';
+import { NgxIzitoastService } from 'ngx-izitoast';
 import { BehaviorSubject, combineLatest, Observable, timer } from 'rxjs';
-import { debounceTime, filter, map } from 'rxjs/operators';
-import { AccountType, COLOR, OfferStatus } from 'src/app/helpers/classes/classes';
+import { debounceTime, filter, map, take } from 'rxjs/operators';
+import { AccountType, COLOR, OfferStatus, TaxRateType } from 'src/app/helpers/classes/classes';
+import { NoComma } from 'src/app/helpers/pipes/pipe';
+import { CheckoutService } from 'src/app/services/checkout.service';
+import { OrderService } from 'src/app/services/order.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -12,13 +17,16 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class CardOfferComponent implements OnInit {
 
+  @HostBinding('class.selected') selected = false;
+
   offer$: BehaviorSubject<any> = new BehaviorSubject(undefined);
+
   selected$: BehaviorSubject<any> = new BehaviorSubject(false);
 
   date$!: Observable<any>;
   duration$!: Observable<any>;
   actions$!: Observable<any>;
-
+  displayOffer$!: Observable<any>;
 
   @Input()
   set data(value: any) {
@@ -29,11 +37,40 @@ export class CardOfferComponent implements OnInit {
   @Input() shippingMethod!: String;
 
   constructor(
-    private user: UserService
+    private user: UserService,
+    private order: OrderService,
+    private iziToast: NgxIzitoastService,
+    private checkout: CheckoutService
   ) { }
 
   ngOnInit(): void {
 
+    combineLatest(
+      this.checkout.get(),
+      this.offer$
+    ).subscribe(([items, offer]) => {
+      const selected = items.some((item: any) => item.id == offer.id);
+      if (selected) this.selected = true;
+      else this.selected = false;
+    });
+
+    this.displayOffer$ = combineLatest(
+      this.order.get(),
+      this.offer$,
+    ).pipe(
+      map(([order, offer]) => {
+        console.log('orderssss', order)
+        let _offer = JSON.parse(JSON.stringify(offer));
+        const tax_multiplier = TaxRateType.VAT_REGISTERED == order.transaction.taxType ? 1.12 : 0;
+        _offer.currentPrice.subtotal = _offer.currentPrice.subtotal * tax_multiplier;
+        _offer.currentPrice.perUnit = _offer.currentPrice.perUnit * tax_multiplier;
+        _offer.currentPrice.freightUnit = _offer.currentPrice.freightUnit * tax_multiplier;
+        _offer.currentPrice.perUnitTotal = _offer.currentPrice.perUnitTotal * tax_multiplier;
+        _offer.currentPrice.freightUnitTotal = _offer.currentPrice.freightUnitTotal * tax_multiplier;
+
+        return _offer;
+      })
+    )
 
     this.date$ = combineLatest(
       this.offer$,
@@ -77,11 +114,11 @@ export class CardOfferComponent implements OnInit {
     this.actions$ = combineLatest(
       this.offer$,
       this.user.get().pipe(map(user => user.accountType)),
-      this.selected$
+      this.checkout.get()
     ).pipe(
-      debounceTime(250),
-      map(([offer, accountType, selected]) => {
-        console.log('actions', offer, accountType, selected);
+      map(([offer, accountType, items]) => {
+        // console.log('actions', offer, accountType, selected);
+        const selected = items.some((item: any) => item.id == offer.id);
         if (
           accountType !== AccountType.SELLER &&
           offer.status == OfferStatus.OPEN &&
@@ -110,6 +147,67 @@ export class CardOfferComponent implements OnInit {
       })
     );
 
+  }
+
+  onActionHandler(action: any) {
+    switch (action) {
+      case 'SELECT THIS OFFER':
+        this.iziToast.show({
+          title: 'Add to checkout',
+          message: `Are you sure you want to add this offer to checkout?`,
+          position: 'center',
+          closeOnEscape: false,
+          close: false,
+          overlay: true,
+          timeout: 0,
+          buttons: [
+            ['<button>Confirm</button>', (instance: any, toast: any) => {
+              instance.hide({
+                transitionOut: 'fadeOutUp',
+                onClosing: (instance: any, toast: any, closedBy: any) => {
+                  this.offer$.pipe(take(1)).subscribe(offer => {
+                    this.checkout.add(offer).subscribe(() => { });;
+                  });
+                }
+              }, toast, 'buttonName');
+            }, true], // true to focus
+            ['<button>Cancel</button>', (instance: any, toast: any) => {
+              instance.hide({
+                transitionOut: 'fadeOutUp'
+              }, toast, 'buttonName');
+            }]
+          ],
+        })
+        break;
+      case 'REMOVE IN CHECKOUT':
+        this.iziToast.show({
+          title: 'Remove in checkout',
+          message: `Are you sure you want to remove this offer to checkout?`,
+          position: 'center',
+          closeOnEscape: false,
+          close: false,
+          overlay: true,
+          timeout: 0,
+          buttons: [
+            ['<button>Confirm</button>', (instance: any, toast: any) => {
+              instance.hide({
+                transitionOut: 'fadeOutUp',
+                onClosing: (instance: any, toast: any, closedBy: any) => {
+                  this.offer$.pipe(take(1)).subscribe(offer => {
+                    this.checkout.remove(offer).subscribe(() => { });
+                  });
+                }
+              }, toast, 'buttonName');
+            }, true], // true to focus
+            ['<button>Cancel</button>', (instance: any, toast: any) => {
+              instance.hide({
+                transitionOut: 'fadeOutUp'
+              }, toast, 'buttonName');
+            }]
+          ],
+        });
+        break;
+    }
   }
 
 

@@ -4,12 +4,14 @@
 
 :host {
     font-family: "Avenir", sans-serif;
-    width: 100%;
+    // width: 100%;
     height: calc(100vh - 64px);
     overflow-y: scroll;
     @extend .fx-layout-row;
     @extend .fx-align-center-start;
-
+    &.__open-drawer {
+        margin-right: 420px;
+    }
     .__wrapper {
         max-width: 900px;
         width: 100%;

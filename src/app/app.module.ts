@@ -88,6 +88,9 @@ import { BuyerAuctionPageComponent } from './pages/order-page/buyer/tabs/auction
 import { StatusTagComponent } from './ui/etc/status-tag/status-tag.component';
 import { CardOfferComponent } from './ui/cards/card-offer/card-offer.component';
 import { DateAgoComponent } from './ui/etc/date-ago/date-ago.component';
+import { CheckoutDrawerComponent } from './layouts/checkout-drawer/checkout-drawer.component';
+import { CommonModule, DecimalPipe } from '@angular/common';
+import { BuyerBreakdownPageComponent } from './pages/order-page/buyer/tabs/breakdown-page/breakdown-page.component';
 
 
 const ICONS = {
@@ -142,6 +145,7 @@ const ICONS = {
 const LAYOUT: any = [
   SidebarComponent,
   HeaderComponent,
+  CheckoutDrawerComponent,
 ]
 
 const FORM_UI: any = [
@@ -169,7 +173,8 @@ const NEW_ORDER_PAGE: any = [
 
 const ORDER_PAGE: any = [
   BuyerOrderPageComponent,
-  BuyerAuctionPageComponent
+  BuyerAuctionPageComponent,
+  BuyerBreakdownPageComponent
 ]
 
 
@@ -205,7 +210,8 @@ const PIPES: any = [
   CheckSelectedPipe,
   // NextShippingStatusPipe,
   // OfferCountPipe,
-  IsBeforeToday
+  IsBeforeToday,
+  // DecimalPipe
 ];
 
 @NgModule({
@@ -216,10 +222,11 @@ const PIPES: any = [
     ...LAYOUT,
     ...NEW_ORDER_PAGE,
     ...CARDS,
-    ...PIPES,
     ...UI,
+    ...PIPES,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     AppRoutingModule,
     FormsModule,
@@ -227,7 +234,9 @@ const PIPES: any = [
     NgxIziToastModule,
     FeatherModule.pick(ICONS),
   ],
-  providers: [],
+  providers: [
+    ...PIPES
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

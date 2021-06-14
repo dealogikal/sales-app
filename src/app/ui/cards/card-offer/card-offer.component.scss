@@ -24,12 +24,52 @@
             color: $color-error;
         }
     }
-
     &.highlight {
         .__label-icon,
         .__label-text,
         .__value {
-            color: $color-primary
+            color: $color-primary;
+        }
+    }
+
+    &.selected {
+        box-shadow: 0 8px 16px rgba($color-primary, 0.64);
+        background-color: $color-primary;
+        .__label-icon,
+        .__label-text,
+        .__value,
+        .__id,
+        .__date-ago,
+        .__timer,
+        .__timer-label {
+            color: $color-white !important;
+        }
+
+        .__header {
+            background-color: rgba(#ffffff, 0.24);
+        }
+
+        .__footer {
+            border-top: 1px solid rgba(#ffffff, 0.24);
+            position: relative;
+        }
+
+        .__icon {
+            color: #ffffff;
+            &[ng-reflect-name="arrow-down"] {
+                color: #ffffff;
+            }
+            &[ng-reflect-name="arrow-up"] {
+                color: #ffffff;
+            }
+        }
+        .__notes {
+            background-color: rgba(#ffffff, 0.24);
+            color: #ffffff;
+        }
+        .__label-action {
+            cursor: pointer;
+            color: #ffffff !important;
         }
     }
 }

@@ -1,5 +1,4 @@
 <div class="__wrapper">
-
     <div class="p-24px" *ngIf="progress$ | async as progress">
         <div class="p-v-10px"></div>
         <div [style.margin-left.%]="-(100 / progress.steps.length / 2)"
@@ -94,3 +93,5 @@
     <router-outlet></router-outlet>
 
 </div>
+
+<checkout-drawer *ngIf="(checkoutItems$ | async)?.length"></checkout-drawer>

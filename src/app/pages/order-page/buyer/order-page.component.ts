@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import { debounceTime, filter, map, skipWhile, take } from 'rxjs/operators';
 import { AccountType, COLOR, OrderStatus, StepStatus, TaxRateType } from 'src/app/helpers/classes/classes';
+import { CheckoutService } from 'src/app/services/checkout.service';
 import { OrderService } from 'src/app/services/order.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
@@ -13,6 +14,9 @@ import { OrdersService } from 'src/app/services/orders.service';
   styleUrls: ['./order-page.component.scss']
 })
 export class BuyerOrderPageComponent implements OnInit {
+
+  @HostBinding('class.__open-drawer') openDrawer = false;
+  
   $routeParams!: Subscription;
   $progress!: Subscription;
 
@@ -20,6 +24,7 @@ export class BuyerOrderPageComponent implements OnInit {
   progress$!: Observable<any>;
   actions$!: Observable<any>;
   duration$!: Observable<any>;
+  checkoutItems$!: Observable<any>;
 
   StepStatus: any = StepStatus;
   TaxRateType: any = TaxRateType;
@@ -29,7 +34,8 @@ export class BuyerOrderPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private orders: OrdersService,
-    private order: OrderService
+    private order: OrderService,
+    private checkout: CheckoutService
   ) { }
 
   ngOnInit(): void {
@@ -130,9 +136,7 @@ export class BuyerOrderPageComponent implements OnInit {
       );
 
       this.actions$ = this.order$.pipe(
-
         map((order: any) => {
-          console.log("actions$", order);
           if ([
             OrderStatus.FOR_APPROVAL,
             OrderStatus.WAITING,
@@ -159,6 +163,13 @@ export class BuyerOrderPageComponent implements OnInit {
           return undefined;
         })
       );
+
+      this.checkoutItems$ = this.checkout.get();
+
+      this.checkout.get().subscribe(items => {
+        if (items.length) this.openDrawer = true;
+        else this.openDrawer = false;
+      });
 
       
     })

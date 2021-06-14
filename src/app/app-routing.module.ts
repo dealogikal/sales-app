@@ -20,6 +20,7 @@ import { ParticipantsSelectorComponent } from './pages/new-order-page/order-form
 import { FormParticipantsComponent } from './pages/new-order-page/order-form/forms/form-participants/form-participants.component';
 import { BuyerOrderPageComponent } from './pages/order-page/buyer/order-page.component';
 import { BuyerAuctionPageComponent } from './pages/order-page/buyer/tabs/auction-page/auction-page.component';
+import { BuyerBreakdownPageComponent } from './pages/order-page/buyer/tabs/breakdown-page/breakdown-page.component';
 
 const routes: Routes = [
   {
@@ -51,6 +52,10 @@ const routes: Routes = [
               {
                 path: "auction/:product_id",
                 component: BuyerAuctionPageComponent,
+              },
+              {
+                path: "breakdown",
+                component: BuyerBreakdownPageComponent,
               },
             ]
           },

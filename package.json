@@ -21,6 +21,7 @@
     "@types/jquery": "^3.5.5",
     "angular-feather": "^6.1.0",
     "css-reset-and-normalize": "^2.3.5",
+    "http-server": "^0.12.3",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
     "ng2-izitoast": "^2.0.0",
