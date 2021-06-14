@@ -383,7 +383,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "MRF Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "CEAT",
@@ -447,7 +447,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "MRF Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -485,7 +485,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/water.svg",
               "description": "Potable Water Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -548,7 +548,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Kerosene Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Light Sulfur Fuel Oil",
@@ -596,7 +596,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Light Sulfur Fuel Oil Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Blaze 100 Euro 6",
@@ -614,7 +614,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Blaze 100 Euro 6 Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Automotive Diesel Oil",
@@ -662,7 +662,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Automotive Diesel Oil Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Oil",
@@ -710,7 +710,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Kerosene Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Ethanol",
@@ -758,7 +758,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Ethanol Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "JET A-1",
@@ -806,7 +806,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "JET A-1 Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Unleaded Gasoline",
@@ -854,7 +854,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Unleaded Gasoline Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Premium Gasoline",
@@ -902,7 +902,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Premium Gasoline Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Base Oil SN150",
@@ -950,7 +950,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Base Oil SN150 Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Mazut M100",
@@ -998,7 +998,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Mazut M100 Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Diesel 550ppm",
@@ -1046,7 +1046,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Diesel 550ppm Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "SFO 60",
@@ -1094,7 +1094,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Diesel 550ppm Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "SFO 200",
@@ -1142,7 +1142,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Diesel 550ppm Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "SFO 400",
@@ -1190,7 +1190,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Diesel 550ppm Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "SFO 1100",
@@ -1238,7 +1238,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Diesel 550ppm Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Lubricants",
@@ -1286,7 +1286,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Lubricants Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Bunker",
@@ -1334,7 +1334,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Bunker Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Avgas",
@@ -1382,7 +1382,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Avgas Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Total Aero D 100",
@@ -1430,7 +1430,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Total Aero D 100 Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "LPG",
@@ -1478,7 +1478,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "LPG Products"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Asphalt",
@@ -1526,7 +1526,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Asphalt Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Gothong Southern",
@@ -1574,7 +1574,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/petroleum.svg",
               "description": "Gothong Southern"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -1707,7 +1707,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Medical Gloves",
@@ -1773,7 +1773,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Medical Suits",
@@ -1856,7 +1856,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Sanitation Products",
@@ -1907,7 +1907,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Equipments",
@@ -1958,7 +1958,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Test Kits",
@@ -1993,7 +1993,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Vaccines",
@@ -2028,7 +2028,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/medical.svg",
               "description": "Medical Supplies Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -2063,7 +2063,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Bearings Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Drill bits",
@@ -2081,7 +2081,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Drill bits Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -2114,7 +2114,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "A natural Euro 5 compliant cocobiodiesel in terms of sulphur specification and of the required emission reduction of hydrocarbon (HC) and Particulate Matter (PM) when used neat. It is a premium quality enhancer when blended with fossil diesel due to its natural fuel properties superior to petroleum diesel since it optimizes engine performance thru its many unique quality enhancing features. Can be used as diesel fuel additive (or quality enhancer) in any ratio."
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Blackstarr Diesel Enhancer",
@@ -2132,7 +2132,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "It is an organic industrial fuel improver packed with many performance additive features inherent in the product. It exhibits superb features in enhancing engine efficiency; and in elimination or substantial reduction of emissions of environmental pollutants from industrial fuels such as industrial diesel oil (IDO) or industrial fuel oil (IFO). It is uniquely blended with IDO or IFO in any quantity ranging from 5% even up to 80%. It is ideal for use in heavy equipment, ship engines, power plant genset, locomotives, tractors and trailers, and all medium and low speed internal combustion diesel engines to ensure engine cleanliness and optimum performance. It is recommended as performance – enhancing additive for industrial fuels in a ratio of 5% - 80% since it can be used as neat fuel for medium speed diesel engines."
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Hydraulic Brake Fluid (CTI Brake Fluid Dot-3 & Dot-4)",
@@ -2150,7 +2150,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "Complies with the International Standards. For automotive use"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "CTI Engine Radiator Coolant",
@@ -2168,7 +2168,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "It is the most advanced eco-friendly coolant; it is Phosphate, Nitrite, Amine-free (NAP free). It is also a high quality monoethylene glycol based fluid incorporated with rust and corrosion inhibitor. Designed for use in automotive, light and heavy duty diesel application. Recommended for engine water cooling system. Anti-freeze concentration of 30% to 50% or as recommended by vehicle manufacturer. For best protection 50% concentration will give maximum protection required."
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Green Solvents",
@@ -2219,7 +2219,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "Green Solvents Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Cleaners and Degreasers",
@@ -2296,7 +2296,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "Cleaners and Degreasers Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Oil Spill Dispersant",
@@ -2331,7 +2331,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/petrochemicals.svg",
               "description": "Oil Spill Dispersant Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -2412,7 +2412,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Ordinary Portland Cement (33 grade) Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Ordinary Portland Cement (43 grade)",
@@ -2476,7 +2476,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Ordinary Portland Cement (43 grade) Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Ordinary Portland Cement (53 grade)",
@@ -2540,7 +2540,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Ordinary Portland Cement (53 grade) Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Rapid Hardening cement",
@@ -2604,7 +2604,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Rapid Hardening cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Low heat portland cement",
@@ -2668,7 +2668,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Low heat portland cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Sulphate Resisting Portland Cement",
@@ -2732,7 +2732,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Sulphate Resisting Portland Cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "High alumina Cement",
@@ -2796,7 +2796,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "High alumina Cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Blast furnace slag cement",
@@ -2860,7 +2860,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Blast furnace slag cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Coloured Cement",
@@ -2924,7 +2924,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Coloured Cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Pozzolana cement",
@@ -2988,7 +2988,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Pozzolana cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Air-entraining cement",
@@ -3052,7 +3052,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Air-entraining cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Hydrophobic cement",
@@ -3116,7 +3116,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Hydrophobic cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Expansive cement",
@@ -3180,7 +3180,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Expansive cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Waterproof portland cement",
@@ -3244,7 +3244,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Waterproof portland cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           },
           {
             "name": "Oil-well cement",
@@ -3308,7 +3308,7 @@ export class ConfigService {
               "icon": "/assets/img/registration/cement.svg",
               "description": "Oil-well cement Product"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }, {
@@ -3341,7 +3341,7 @@ export class ConfigService {
               "icon": "https://res.cloudinary.com/dealogikal/image/upload/v1614062298/assets/commodities/chemicals.svg",
               "description": "Methanol Products"
             },
-            "minParticipants": 5
+            "minParticipants": 3
           }
         ]
       }]);

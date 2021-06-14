@@ -1,0 +1,38 @@
+<div class="__backdrop" [routerLink]="['../']"></div>
+<div class="__modal">
+    <div class="progress progress-small m-b-0px" *ngIf="!(participants$ | async)">
+        <div class="progress-bar-success progress-bar-indeterminate"></div>
+    </div>
+    <div class="__modal__header">
+        <div class="fx-flex">
+            <div class="fw-600">Select Participants</div>
+        </div>
+        <div class="fx-layout-row m-r--16px">
+            <button class="__button __button-outlined" (click)="onSelectAll()">SELECT ALL</button>
+            <div class="p-4px"></div>
+            <button class="__button __button-primary" [routerLink]="['../']">DONE</button>
+            <div class="p-4px"></div>
+            <div class="__modal__button-icon" [routerLink]="['../']">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+    </div>
+    <div class="__modal__content">
+        <form class="fx-layout-column" [formGroup]="formGroup">
+            <input formControlName="filter" autocomplete="off" class="__form-input" id="filter" type="text"
+                placeholder="Search">
+        </form>
+        <div class="p-4px"></div>
+        <ng-container *ngFor="let item of filteredParticipants$ | async">
+            <div class="__list" [class.__list--selected]="item.selected" (click)="onToggle(item)">
+                <div class="fx-layout-row">
+                    <div>{{item.label}}</div>
+                    <div class="p-4px"></div>
+                    <div class="__badge" *ngIf="item.verified">VERIFIED</div>
+                </div>
+                <i-feather class="__icon" [class.__icon--selected]="item.selected" name="check"></i-feather>
+            </div>
+        </ng-container>
+        <div class="p-16px"></div>
+    </div>
+</div>

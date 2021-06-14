@@ -1,0 +1,57 @@
+@import "../../../../../styles/utils.scss";
+@import "../../../../../styles/form.scss";
+@import "../../../../../styles/flex.scss";
+
+:host {
+    @extend .fx-layout-column;
+    .__tab {
+        &-group {
+            @extend .fx-layout-row-wrap;
+        }
+        &__item {
+            padding: 16px 20px;
+            margin-right: 10px;
+            margin-top: 10px;
+            border-radius: 8px;
+            line-height: 1em;
+            font-size: 12px;
+            background-color: #fafafa;
+            cursor: pointer;
+            box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
+            transition: all ease-in-out 250ms;
+            &.disabled {
+                pointer-events: none;
+                opacity: 0.5;
+            }
+            &:focus {
+                outline: 0;
+            }
+            &__quantity {
+                color: $color-primary;
+                margin-right: 4px;
+                font-weight: normal;
+                transition: all ease-in-out 250ms;
+            }
+        }
+    }
+
+    .active {
+        &.__tab__item {
+            box-shadow: 0 8px 16px -8px rgba($color-primary, 0.1);
+            background-color: $color-primary;
+            color: #ffffff;
+            &.disabled {
+                background-color: #fafafa;
+                color: #626262;
+                .__tab__item__quantity {
+                    color: $color-primary !important;
+                }
+            }
+            .__tab__item__quantity {
+                color: #ffffff;
+            }
+        }
+    }
+
+
+}

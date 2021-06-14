@@ -1,0 +1,53 @@
+<div class="fx-layout-row fx-align-center-center">
+    <div class="fx-layout-column fx-align-center-center">
+        <div class="xs">STEP 3/4</div>
+        <div class="fw-600">Additional Details</div>
+    </div>
+</div>
+
+<div class="p-16px"></div>
+
+<form class="fx-layout-column" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+
+    <div class="fx-layout-row form-row">
+        <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px"
+            [class.error]="formGroup.get('notes')!.hasError('required') && !formGroup.get('notes')!.pristine">
+
+            <label for="address" class="hl fx-layout-row">
+                <div>Notes</div>
+                <div class="p-4px"></div>
+                <div class="sm fc-p">Required</div>
+            </label>
+
+            <form-textarea-field [fieldControl]="formGroup.get('notes')" [placeholder]="'Notes'" [maxLines]="2">
+            </form-textarea-field>
+
+        </div>
+    </div>
+
+    <div class="fx-layout-column">
+        <label for="address" class="hl fx-layout-row">
+            <div>Attachments</div>
+            <div class="p-4px"></div>
+            <div class="sm">Optional</div>
+        </label>
+
+        <!-- <form-attachments-field [formArray]="formGroup.get('attachments')"></form-attachments-field> -->
+    </div>
+
+    <div class="p-8px"></div>
+    <div class="fx-layout-row fx-align-spacebetween-center">
+        <div>
+            <div class="__button __button-primary" (click)="onSave()" *ngIf="hasSave$ | async">SAVE</div>
+        </div>
+        <div class="fx-layout-row">
+            <div class="__button" [routerLink]="['../shipping']">BACK</div>
+            <div class="p-8px"></div>
+            <button type="submit" class="__button __button-secondary"
+                [class.__button-secondary-disabled]="!formGroup.valid">NEXT</button>
+        </div>
+    </div>
+
+    <div class="p-8px"></div>
+
+</form>

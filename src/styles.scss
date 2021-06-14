@@ -168,8 +168,59 @@ body {
     box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
     width: 100%;
     display: block;
-    margin: 16px 0;
+    margin: 8px 0;
     overflow: hidden;
+}
+
+.__header {
+    @extend .fx-layout-row;
+    @extend .fx-align-spacebetween-center;
+    padding: 0 20px;
+    background-color: #fafafa;
+    font-size: 10px;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: 30px;
+}
+
+.__icon {
+    width: 14px !important;
+    height: 14px !important;
+}
+
+
+.__action {
+    cursor: pointer;
+    transition: all ease-in-out 250ms;
+    &:hover {
+        opacity: 0.72;
+    }
+}
+
+[data-timer-unit] {
+    font-size: 10px;
+    &:after {
+        content: attr(data-timer-unit);
+        font-size: 0.9em;
+        margin-left: 1px;
+        line-height: normal;
+    }
+}
+
+.__footer {
+    height: 30px;
+    padding: 0 20px;
+    border-top: 1px solid #f2f3f5;
+    position: relative;
+    button {
+        border: none;
+        min-width: 0;
+        padding: 4px 8px;
+        opacity: 0.8;
+        &:hover {
+            opacity: 1;
+        }
+    }
 }
 
 .__item--wrapper {
@@ -228,7 +279,6 @@ body {
     background-size: cover;
     border-radius: 8px;
 }
-
 .__btn {
     cursor: pointer;
     transition: all ease-in-out 250ms;
@@ -268,8 +318,8 @@ body {
         }
     }
     &__icon {
-        width: 32px;
-        height: 32px;
+        width: 32px !important;
+        height: 32px !important;
         padding: 8px;
         border-radius: 100%;
         background-color: $color-primary;
@@ -313,7 +363,8 @@ select:-webkit-autofill:focus {
 
 .datepicker.dropdown-menu,
 .bootstrap-timepicker-widget.dropdown-menu.open,
-.select2-dropdown.select2-dropdown--below {
+.select2-dropdown.select2-dropdown--below,
+.iziToast-wrapper {
     z-index: 100000 !important;
 }
 

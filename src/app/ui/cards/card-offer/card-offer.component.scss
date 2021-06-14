@@ -1,0 +1,35 @@
+@import "../../../styles/flex.scss";
+@import "../../../styles/utils.scss";
+@import "../../../styles/var.scss";
+
+:host {
+    .__content {
+        @extend .fx-layout-row;
+        @extend .fx-layout-column-lt-md;
+        @extend .fx-align-spacebetween-center;
+        @extend .fx-align-none-lt-md;
+        @extend .p-l-20px;
+        @extend .p-r-20px;
+        @extend .p-t-10px;
+        @extend .p-b-10px;
+    }
+
+    .__icon {
+        width: 14px;
+        height: 14px;
+        &[ng-reflect-name="arrow-down"] {
+            color: $color-success;
+        }
+        &[ng-reflect-name="arrow-up"] {
+            color: $color-error;
+        }
+    }
+
+    &.highlight {
+        .__label-icon,
+        .__label-text,
+        .__value {
+            color: $color-primary
+        }
+    }
+}

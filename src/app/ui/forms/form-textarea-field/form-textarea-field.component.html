@@ -1,0 +1,3 @@
+<textarea class="form-field" #field [formControl]="fieldControl" [attr.placeholder]="placeholder" [attr.rows]="maxLines"
+  [attr.maxLength]="maxLength"></textarea>
+<div class="xs" *ngIf="fieldControl.value">{{fieldControl.value.length}}/{{maxLength}}</div>

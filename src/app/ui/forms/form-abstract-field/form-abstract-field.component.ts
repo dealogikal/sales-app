@@ -6,9 +6,9 @@ import { FormControl } from '@angular/forms';
 })
 export class FormAbstractFieldComponent {
   @Input() fieldControl!: FormControl;
-  @Input() placeholder: String = '';
-  @Input() label: String = '';
-  @Input() mask: String = '';
+  @Input() placeholder!: String;
+  @Input() label!: String ;
+  @Input() mask!: String ;
   @ViewChild('field') field!: ElementRef;
 
 

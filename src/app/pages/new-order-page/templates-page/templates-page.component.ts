@@ -41,7 +41,9 @@ export class TemplatesPageComponent implements OnInit {
   }
 
   onSelect(template: any) {
+    console.log('template', template);
     this.route.params.pipe(take(1)).subscribe(params => {
+      console.log('params', params);
       if (params.template_id) {
         this.router.navigate(['../../', template._id], { relativeTo: this.route });
         return;

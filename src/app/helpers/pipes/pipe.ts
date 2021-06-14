@@ -4,6 +4,64 @@ import { take } from 'rxjs/operators';
 
 import * as moment from 'moment';
 
+export class DateUtils{
+    static toUTC (date?: Date): Date {
+      return date || new Date();//DateUtils.utcStringToDate(date ? date.toUTCString() : new Date().toUTCString());
+    }
+  
+    static toLocal (date: Date): Date {
+      return new Date(date.toUTCString());
+    }
+  
+    static utcStringToLocal (utcStr: string ): Date {
+      return new Date(utcStr.substr(0, 25).trim() + ' GMT');
+    }
+  
+    static utcStringToDate (utcStr: string): Date {
+      return new Date(utcStr.substr(0, 25));
+    }
+  
+    static dateOnly(date? : any): String {
+      var dd = date.getDate();
+      var mm = date.getMonth()+1; 
+      var yyyy = date.getFullYear();
+      var finalDD;
+      var finalMM;
+  
+      if(mm < 10) { finalMM = '0' + mm; } else { finalMM = mm;}
+      if(dd < 10) { finalDD = '0' + dd; } else { finalDD = dd }
+      
+      return (finalMM+'/'+finalDD+'/'+yyyy)
+    }
+  
+    static timeOnly(date? : any): String {
+      var hh = date.getHours();
+      var mm = date.getMinutes()+1;     
+      var finalMM;
+      var finalHH;
+  
+      if(mm < 10) { finalMM = '0' + mm; } else { finalMM = mm; }
+      if(hh < 10) { finalHH = '0' + hh; } else { finalHH = hh; }
+  
+      return (finalHH+':'+finalMM)
+    }
+  
+    static timeInNumbers(date?: any): Object {
+      var hh = date.getHours();
+      var mm = date.getMinutes() + 1;
+      var finalMM;
+      var finalHH;
+  
+      if (mm < 10) { finalMM = '0' + mm; } else { finalMM = mm; }
+      if (hh < 10) { finalHH = '0' + hh; } else { finalHH = hh; }
+  
+      return {
+        hours: parseInt(finalHH),
+        minutes : parseInt(finalMM)
+      }
+    }
+  }
+
 // @Pipe({
 //     name: 'offerCount'
 // })

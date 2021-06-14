@@ -1,13 +1,13 @@
-@import "../../styles/utils.scss";
-@import "../../styles/form.scss";
-@import "../../styles/flex.scss";
+@import "../../../styles/utils.scss";
+@import "../../../styles/form.scss";
+@import "../../../styles/flex.scss";
 
 :host {
     font-family: "Avenir", sans-serif;
     position: fixed;
     left: 0;
     top: 0;
-    z-index: 999999;
+    z-index: 2;
     width: 100vw;
     height: 100vh;
     overflow-y: scroll;

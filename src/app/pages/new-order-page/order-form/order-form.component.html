@@ -1,1 +1,37 @@
-<p>order-form works!</p>
+<div class="__backdrop"></div>
+<div class="__modal">
+    <div class="__modal__header">
+        <div class="p-8px"></div>
+        <div class="fx-flex" *ngIf="progress$ | async as progress">
+            <div class="fx-flex fx-layout-column">
+                <div class="p-16px"></div>
+                <div class="__step__line-progress" [style.width.%]="100 - (100 / progress.steps.length / 2) * 2"
+                    [style.margin-left.%]="100 / progress.steps.length / 2">
+                    <div class="__step__line-progress__percent" [style.width.%]="progress.rate"></div>
+                </div>
+                <div class="fx-layout-row">
+                    <div class="__step fx-flex fx-layout-column fx-align-center-center"
+                        *ngFor="let item of progress.steps" [routerLink]="[item.routerLink]" routerLinkActive="active"
+                        [class.disabled]="item.status == StepStatus.INCOMPLETE">
+                        <div class="__step__indicator"
+                            [class.__step__indicator-complete]="item.status == StepStatus.COMPLETE"
+                            [class.__step__indicator-ongoing]="item.status == StepStatus.ONGOING">
+                            <i-feather class="__step__indicator__icon" name="check"
+                                *ngIf="item.status == StepStatus.COMPLETE">
+                            </i-feather>
+                        </div>
+                        <div class="__step__label">
+                            {{ item.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fx-layout-row m-r--16px">
+            <div class="__modal__button-icon" (click)="onClose()">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+    </div>
+    <router-outlet></router-outlet>
+</div>

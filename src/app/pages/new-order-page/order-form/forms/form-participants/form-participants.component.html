@@ -1,0 +1,60 @@
+<div class="fx-layout-row fx-align-center-center">
+    <div class="fx-layout-column fx-align-center-center">
+        <div class="xs">STEP 4/4</div>
+        <div class="fw-600">Select Participants</div>
+    </div>
+</div>
+
+<div class="p-8px"></div>
+
+<div class="__btn __btn--dashed" [routerLink]="['select']">
+    <i-feather class="__btn__icon m-r-10px" name="plus"></i-feather>
+    <span class="lh-n xs fc-p">ADD PARTICIPANTS</span>
+</div>
+<div class="p-8px"></div>
+<ng-container *ngIf="parsedParticipants$ | async as participants">
+    <div class="fx-layout-row fx-align-spacebetween-center">
+        <div class="fx-layout-row fx-align-center-center">
+            <div class="fw-600">Selected Participants</div>
+            <div class="p-4px"></div>
+            <div class="__bubble">
+                <div>{{participants.length || 0}}</div>
+            </div>
+        </div>
+        <div class="sm fc-p">Minimum of {{minParticipants$ | async}} participants is required</div>
+    </div>
+    <div class="p-4px"></div>
+    <div class="fx-layout-row-wrap">
+        <div class="__pill" *ngFor="let item of participants">
+            <div>{{item.label}}</div>
+        </div>
+    </div>
+
+    <div class="p-8px"></div>
+    <div class="msg-status">
+        <i style="font-size: 20px !important; margin: 0px 15px 0px 0px;" class="fa fa-exclamation-triangle fs-16 m-r-10"></i> <div style="text-align: justify;font-size:12px">Great list! Please note that the suppliers you have selected are the only ones to receive your order notification. We highly recommend to retain a minimum of {{minParticipants$ | async}} suppliers to encourage a competitive auction. </div>
+    </div>
+    <div class="p-8px"></div>
+    <div class="p-8px"></div>
+
+    <div class="fx-layout-row fx-align-spacebetween-center">
+        <div>
+            <div class="__button __button-primary" (click)="onSave()" *ngIf="hasSave$ | async">SAVE</div>
+        </div>
+        <div class="fx-layout-row">
+            <div class="__button" [routerLink]="['../details']">BACK</div>
+            <div class="p-8px"></div>
+            <ng-container *ngIf="minParticipants$ | async as minParticipants">
+
+                <button class="__button __button-secondary"
+                    [class.__button-secondary-disabled]="participants.length < minParticipants"
+                    (click)="onDone()">DONE</button>
+            </ng-container>
+        </div>
+    </div>
+
+</ng-container>
+
+<div class="p-8px"></div>
+
+<router-outlet></router-outlet>

@@ -4,11 +4,15 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { NgxIzitoastService } from 'ngx-izitoast';
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { delay, map, skipWhile, take, tap } from 'rxjs/operators';
-import { PaymentMethods } from 'src/app/helpers/classes/classes';
+import { OrderStatus, PaymentMethods } from 'src/app/helpers/classes/classes';
 import { ConfigService } from 'src/app/services/config.service';
 import { NewOrderService } from 'src/app/services/new-order.service';
 import { TemplatesService } from 'src/app/services/templates.service';
 import { UserService } from 'src/app/services/user.service';
+
+import * as moment from 'moment';
+import { DateUtils } from 'src/app/helpers/pipes/pipe';
+import { OrdersService } from 'src/app/services/orders.service';
 
 @Component({
   selector: 'new-order-page',
@@ -44,7 +48,8 @@ export class NewOrderPageComponent implements OnInit {
     private config: ConfigService,
     private user: UserService,
     private template: TemplatesService,
-    private order: NewOrderService,
+    private new_order: NewOrderService,
+    private order: OrdersService,
     private iziToast: NgxIzitoastService,
   ) {
     this.paymentGroup = this.fb.group({
@@ -66,7 +71,7 @@ export class NewOrderPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.order$ = this.order.get();
+    this.order$ = this.new_order.get();
 
     this.user$ = this.user.get();
 
@@ -111,7 +116,7 @@ export class NewOrderPageComponent implements OnInit {
       this.initDone$.next(false);
       this.template.find(params.template_id).pipe(
         tap(template => {
-          if (!template) this.order.clear();
+          if (!template) this.new_order.clear();
         }),
         skipWhile((template) => !template),
         take(1),
@@ -121,7 +126,7 @@ export class NewOrderPageComponent implements OnInit {
           product.id = (Date.now().toString(36) + Math.floor(1000 + Math.random() * 9000) + Math.random().toString(36).substr(2, 3)).toUpperCase();
           return product;
         });
-        this.order.set(template);
+        this.new_order.set(template);
       });
 
       if (this.$formInit) {
@@ -132,7 +137,7 @@ export class NewOrderPageComponent implements OnInit {
         this.$form.unsubscribe();
       }
 
-      this.$formInit = combineLatest(this.config$, this.order.get()).pipe(
+      this.$formInit = combineLatest(this.config$, this.new_order.get()).pipe(
         skipWhile(([__, order]) => order._id !== params.template_id),
         take(1),
         delay(100),
@@ -176,7 +181,7 @@ export class NewOrderPageComponent implements OnInit {
       ).pipe(
         skipWhile(([__, done]) => !done)
       ).subscribe(([order, __]) => {
-        this.order.set(order);
+        this.new_order.set(order);
       });
 
     });
@@ -243,7 +248,7 @@ export class NewOrderPageComponent implements OnInit {
       })
     );
 
-    this.products$ = this.order.get().pipe(
+    this.products$ = this.new_order.get().pipe(
       map((order) => {
         const _order = JSON.parse(JSON.stringify(order));
         return _order.products.map((product: any) => {
@@ -264,11 +269,273 @@ export class NewOrderPageComponent implements OnInit {
   }
 
   filterPaymentMethod(paymentMethods: string[], commodity: string) {
-    return this.order.filterPaymentMethod(paymentMethods, commodity)
+    return this.new_order.filterPaymentMethod(paymentMethods, commodity)
   }
 
   onSubmit() {
+    Object.keys(this.form.controls).forEach((key) => {
+      this.form.controls[key].markAsDirty();
+    });
 
+    Object.keys(this.paymentGroup.controls).forEach((key) => {
+      this.paymentGroup.controls[key].markAsDirty();
+    });
+
+    // this.form.updateValueAndValidity();
+    if (!this.form.valid) {
+
+      this.iziToast.show({
+        title: 'Error',
+        titleColor: '#933432',
+        titleSize: '13',
+        message: 'Incomplete details',
+        messageColor: '#933432',
+        messageSize: '13',
+        position: 'bottomRight',
+        backgroundColor: '#fddddd',
+      });
+      return;
+    }
+
+    if (this.form.valid) {
+      combineLatest(
+        this.new_order.get(),
+        this.user$,
+      ).pipe(take(1)).subscribe(([order, user]) => {
+        // console.log('order >>>', order);
+        const isInvalidDate = (() => {
+          var today = moment(new Date());
+          var date = moment(order.startDate + " " + order.startTime);
+          var duration = moment.duration(date.diff(today));
+          var minutes = duration.asMinutes();
+          return minutes <= 15;
+        })();
+
+        const isShippingValid = (() => {
+          return order.products.every((product: any) => {
+            return product.shipping.schedules.every((schedule: any) => moment(`${schedule.date} ${schedule.time}`).isAfter(moment(new Date())));
+          });
+        })();
+
+
+        const isShippingComplete = (() => {
+          return order.products.every((product: any) => {
+            return product.shipping.schedules.every((schedule: any) => {
+              return schedule.date && schedule.time && schedule.qty && schedule.unit;
+            });
+          });
+        })();
+
+        if (!isShippingComplete) {
+          this.iziToast.show({
+            title: 'Error',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'Shipping Fields is incomplete',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          });
+          return;
+        }
+
+        if (!isShippingValid) {
+
+          this.iziToast.show({
+            title: 'Error',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'Shipping Dates should be after the current date.',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          });
+          return;
+        }
+
+        if (isInvalidDate) {
+          this.iziToast.show({
+            title: 'Error',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'Bid start time should not be less than 15 minutes from current time.',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          });
+          return;
+        }
+
+        const orderDuration = order.duration;
+
+
+        if (parseInt(orderDuration) < 1) {
+
+          this.iziToast.show({
+            title: 'Error',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'Duration should be at least 1 hour',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          });
+          return;
+        }
+
+        const hasOrder = order.products.length;
+        if (!hasOrder) {
+          this.iziToast.show({
+            title: 'Error',
+            titleColor: '#933432',
+            titleSize: '13',
+            message: 'Minimum of 1 product is required.',
+            messageColor: '#933432',
+            messageSize: '13',
+            position: 'bottomRight',
+            backgroundColor: '#fddddd',
+          });
+          return;
+        }
+
+        this.iziToast.show({
+          title: "Submit Request",
+          message: "Are you sure you want to submit?",
+          position: "center",
+          closeOnEscape: false,
+          close: false,
+          overlay: true,
+          timeout: 0,
+          buttons: [
+            [
+              "<button>Confirm</button>",
+              (instance: any, toast: any) => {
+                instance.hide(
+                  {
+                    transitionOut: "fadeOutUp",
+                    onClosing: (instance: any, toast: any, closedBy: any) => {
+                      // $(".loaderModal").modal({
+                      //   backdrop: "static",
+                      //   keyboard: false,
+                      // });
+
+                      let result: any = {};
+
+                      result.shipping = {
+                        method: order.shippingMethod,
+                        isSameLocation: order.isSameLocation
+                      }
+
+                      result.payment = {
+                        method: order.payment.method,
+                        option: order.payment.option,
+                        channel: order.payment.channel,
+                        days: order.payment.days
+                      }
+
+                      result.orders = {
+                        commodity: order.commodity,
+                        products: order.products.map((product: any) => {
+                          product.qty = parseFloat(product.qty.replace(/\,/gi, ''));
+                          product.status = OrderStatus.FOR_APPROVAL;
+                          return product;
+                        })
+                      };
+
+                      result.startDate = DateUtils.toUTC(new Date(order.startDate + ' ' + order.startTime));
+                      result.duration = parseInt(order.duration);
+                      result.dateCreated = DateUtils.toUTC(new Date());
+                      result.dateApproved = null;
+
+                      result.user = {
+                        fullName: user.info.firstName + ' ' + user.info.lastName,
+                        companyName: user.registration.businessProfile.companyName,
+                        email: user.emails[0].address,
+                        mobileNo: {
+                          countryCode: user.info.mobileNo.countryCode,
+                          number: user.info.mobileNo.number,
+                        }
+                      }
+
+                      result.status = OrderStatus.FOR_APPROVAL;
+
+                      result.transaction = {
+                        currency: 'PHP',
+                        isSpecialUser: false,
+                        processingRate: user.processingRate,
+                        taxType: user.registration.businessProfile.taxRate,
+                        alias: 0,
+                        batchId: 0,
+                        user: {
+                          fullName: user.info.firstName + ' ' + user.info.lastName,
+                          companyName: user.registration.businessProfile.companyName,
+                          email: user.emails[0].address,
+                          mobileNo: {
+                            countryCode: user.info.mobileNo.countryCode,
+                            number: user.info.mobileNo.number,
+                          },
+                          cas: user.settings.cas
+                        }
+
+                      }
+
+                      result.adminReview = {
+                        userId: '',
+                        date: new Date(),
+                        notes: ''
+                      };
+
+                      result.warningNotif = {
+                        hours_5: false,
+                        hours_2: false,
+                      }
+
+                      result.comments = [];
+                      result.changeLog = [];
+
+                      // console.log('result >>>', result);
+
+                      result.alias = 0;
+                      result.batchId = 0;
+
+                      console.log('result >>>', result);
+
+
+                      this.order.save(result).subscribe(id => {
+                        this.new_order.clear();
+                        this.router.navigate(['/home/b/order', id]);
+                      });
+                    },
+                  },
+                  toast,
+                  "buttonName"
+                );
+              },
+              true,
+            ], // true to focus
+            [
+              "<button>Cancel</button>",
+              (instance: any, toast: any) => {
+                instance.hide(
+                  {
+                    transitionOut: "fadeOutUp",
+                  },
+                  toast,
+                  "buttonName"
+                );
+              },
+            ],
+          ],
+        });
+
+
+
+      });
+    }
   }
 
 
@@ -297,7 +564,7 @@ export class NewOrderPageComponent implements OnInit {
                 //     backdrop: "static",
                 //     keyboard: false,
                 // });
-                this.order.get().pipe(take(1)).subscribe(order => {
+                this.new_order.get().pipe(take(1)).subscribe(order => {
                   this.template.save(order).subscribe(() => {
                     setTimeout(() => {
                       // $(".loaderModal").modal("hide");
@@ -318,8 +585,33 @@ export class NewOrderPageComponent implements OnInit {
   }
 
 
-  onRemove(item_id: string) {
 
+  onRemove(item_id: string) {
+    this.iziToast.show({
+      title: 'Remove Product',
+      message: `Are you sure you want to remove?`,
+      position: 'center',
+      closeOnEscape: false,
+      close: false,
+      overlay: true,
+      timeout: 0,
+      buttons: [
+        ['<button>Confirm</button>', (instance: any, toast: any) => {
+          instance.hide({
+            transitionOut: 'fadeOutUp',
+            onClosing: (instance: any, toast: any, closedBy: any) => {
+              this.new_order.removeProduct(item_id);
+            }
+          }, toast, 'buttonName');
+        }, true],
+        ['<button>Cancel</button>', (instance: any, toast: any) => {
+          instance.hide({
+            transitionOut: 'fadeOutUp'
+          }, toast, 'buttonName');
+        }]
+      ],
+    });
   }
+
 
 }

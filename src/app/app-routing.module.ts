@@ -10,6 +10,16 @@ import { ErrorPageComponent } from './pages/error-page/error-page.component';
 import { NewOrderPageComponent } from './pages/new-order-page/new-order-page.component';
 import { CommoditySelectorComponent } from './pages/new-order-page/commodity-selector/commodity-selector.component';
 import { TemplatesPageComponent } from './pages/new-order-page/templates-page/templates-page.component';
+import { SaveAsTemplateComponent } from './pages/new-order-page/save-as-template/save-as-template.component';
+import { OrderFormComponent } from './pages/new-order-page/order-form/order-form.component';
+import { FormProductComponent } from './pages/new-order-page/order-form/forms/form-product/form-product.component';
+import { FormShippingComponent } from './pages/new-order-page/order-form/forms/form-shipping/form-shipping.component';
+import { ScheduleSelectComponent } from './pages/new-order-page/order-form/forms/form-shipping/schedule-select/schedule-select.component';
+import { FormDetailsComponent } from './pages/new-order-page/order-form/forms/form-details/form-details.component';
+import { ParticipantsSelectorComponent } from './pages/new-order-page/order-form/forms/form-participants/selector/selector.component';
+import { FormParticipantsComponent } from './pages/new-order-page/order-form/forms/form-participants/form-participants.component';
+import { BuyerOrderPageComponent } from './pages/order-page/buyer/order-page.component';
+import { BuyerAuctionPageComponent } from './pages/order-page/buyer/tabs/auction-page/auction-page.component';
 
 const routes: Routes = [
   {
@@ -31,6 +41,20 @@ const routes: Routes = [
         canActivate: [BuyerGuard],
         children: [
           {
+            path: 'order/:_id',
+            component: BuyerOrderPageComponent,
+            children: [
+              {
+                path: "auction",
+                component: BuyerAuctionPageComponent,
+              },
+              {
+                path: "auction/:product_id",
+                component: BuyerAuctionPageComponent,
+              },
+            ]
+          },
+          {
             path: 'new-order',
             component: NewOrderPageComponent,
             children: [
@@ -42,6 +66,96 @@ const routes: Routes = [
                 path: 'templates',
                 component: TemplatesPageComponent,
               },
+              {
+                path: 'save',
+                component: SaveAsTemplateComponent,
+              },
+              {
+                path: 'form',
+                component: OrderFormComponent,
+                children: [
+                  {
+                    path: "",
+                    pathMatch: "full",
+                    redirectTo: "product",
+                  },
+                  {
+                    path: 'product',
+                    component: FormProductComponent,
+                  },
+                  {
+                    path: 'shipping',
+                    component: FormShippingComponent,
+                    children: [
+                      {
+                        path: 'schedule',
+                        component: ScheduleSelectComponent,
+                      },
+                      {
+                        path: 'schedule/:schedule_id',
+                        component: ScheduleSelectComponent,
+                      },
+                    ]
+                  },
+                  {
+                    path: 'details',
+                    component: FormDetailsComponent,
+                  },
+                  {
+                    path: 'participants',
+                    component: FormParticipantsComponent,
+                    children: [
+                      {
+                        path: 'select',
+                        component: ParticipantsSelectorComponent,
+                      },
+                    ]
+                  }
+                ]
+              },
+              {
+                path: 'form/:item_id',
+                component: OrderFormComponent,
+                children: [
+                  {
+                    path: "",
+                    pathMatch: "full",
+                    redirectTo: "product",
+                  },
+                  {
+                    path: 'product',
+                    component: FormProductComponent,
+                  },
+                  {
+                    path: 'shipping',
+                    component: FormShippingComponent,
+                    children: [
+                      {
+                        path: 'schedule',
+                        component: ScheduleSelectComponent,
+                      },
+                      {
+                        path: 'schedule/:schedule_id',
+                        component: ScheduleSelectComponent,
+                      },
+                    ]
+                  },
+                  {
+                    path: 'details',
+                    component: FormDetailsComponent,
+                  },
+                  {
+                    path: 'participants',
+                    component: FormParticipantsComponent,
+                    children: [
+                      {
+                        path: 'select',
+                        component: ParticipantsSelectorComponent,
+                      },
+                    ]
+                  }
+                ]
+              }
             ]
           },
           {
@@ -56,6 +170,95 @@ const routes: Routes = [
                 path: 'templates',
                 component: TemplatesPageComponent,
               },
+              {
+                path: 'save',
+                component: SaveAsTemplateComponent,
+              }, {
+                path: 'form',
+                component: OrderFormComponent,
+                children: [
+                  {
+                    path: "",
+                    pathMatch: "full",
+                    redirectTo: "product",
+                  },
+                  {
+                    path: 'product',
+                    component: FormProductComponent,
+                  },
+                  {
+                    path: 'shipping',
+                    component: FormShippingComponent,
+                    children: [
+                      {
+                        path: 'schedule',
+                        component: ScheduleSelectComponent,
+                      },
+                      {
+                        path: 'schedule/:schedule_id',
+                        component: ScheduleSelectComponent,
+                      },
+                    ]
+                  },
+                  {
+                    path: 'details',
+                    component: FormDetailsComponent,
+                  },
+                  {
+                    path: 'participants',
+                    component: FormParticipantsComponent,
+                    children: [
+                      {
+                        path: 'select',
+                        component: ParticipantsSelectorComponent,
+                      },
+                    ]
+                  }
+                ]
+              },
+              {
+                path: 'form/:item_id',
+                component: OrderFormComponent,
+                children: [
+                  {
+                    path: "",
+                    pathMatch: "full",
+                    redirectTo: "product",
+                  },
+                  {
+                    path: 'product',
+                    component: FormProductComponent,
+                  },
+                  {
+                    path: 'shipping',
+                    component: FormShippingComponent,
+                    children: [
+                      {
+                        path: 'schedule',
+                        component: ScheduleSelectComponent,
+                      },
+                      {
+                        path: 'schedule/:schedule_id',
+                        component: ScheduleSelectComponent,
+                      },
+                    ]
+                  },
+                  {
+                    path: 'details',
+                    component: FormDetailsComponent,
+                  },
+                  {
+                    path: 'participants',
+                    component: FormParticipantsComponent,
+                    children: [
+                      {
+                        path: 'select',
+                        component: ParticipantsSelectorComponent,
+                      },
+                    ]
+                  }
+                ]
+              }
             ]
           }
         ]
@@ -78,7 +281,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { paramsInheritanceStrategy: 'always' })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

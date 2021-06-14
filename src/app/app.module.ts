@@ -75,6 +75,19 @@ import { CommoditySelectorComponent } from './pages/new-order-page/commodity-sel
 import { CardTemplateComponent } from './ui/cards/card-template/card-template.component';
 import { CheckSelectedPipe, FloatPipe, IsBeforeToday, NoComma, ObjectKeys, ProcessingFeePipe } from './helpers/pipes/pipe';
 import { SaveAsTemplateComponent } from './pages/new-order-page/save-as-template/save-as-template.component';
+import { FormProductComponent } from './pages/new-order-page/order-form/forms/form-product/form-product.component';
+import { FormShippingComponent } from './pages/new-order-page/order-form/forms/form-shipping/form-shipping.component';
+import { FormDetailsComponent } from './pages/new-order-page/order-form/forms/form-details/form-details.component';
+import { FormParticipantsComponent } from './pages/new-order-page/order-form/forms/form-participants/form-participants.component';
+import { ScheduleSelectComponent } from './pages/new-order-page/order-form/forms/form-shipping/schedule-select/schedule-select.component';
+import { ParticipantsSelectorComponent } from './pages/new-order-page/order-form/forms/form-participants/selector/selector.component';
+import { FormTextareaFieldComponent } from './ui/forms/form-textarea-field/form-textarea-field.component';
+import { BuyerOrderPageComponent } from './pages/order-page/buyer/order-page.component';
+import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
+import { BuyerAuctionPageComponent } from './pages/order-page/buyer/tabs/auction-page/auction-page.component';
+import { StatusTagComponent } from './ui/etc/status-tag/status-tag.component';
+import { CardOfferComponent } from './ui/cards/card-offer/card-offer.component';
+import { DateAgoComponent } from './ui/etc/date-ago/date-ago.component';
 
 
 const ICONS = {
@@ -126,6 +139,40 @@ const ICONS = {
 };
 
 
+const LAYOUT: any = [
+  SidebarComponent,
+  HeaderComponent,
+]
+
+const FORM_UI: any = [
+  FormAbstractFieldComponent,
+  FormDateFieldComponent,
+  FormNumberFieldComponent,
+  FormSelectFieldComponent,
+  FormSwitchFieldComponent,
+  FormTimeFieldComponent,
+  FormSwitchFieldComponent,
+  FormTextareaFieldComponent
+];
+
+const NEW_ORDER_PAGE: any = [
+  CommoditySelectorComponent,
+  TemplatesPageComponent,
+  SaveAsTemplateComponent,
+  FormProductComponent,
+  FormShippingComponent,
+  FormDetailsComponent,
+  FormParticipantsComponent,
+  ScheduleSelectComponent,
+  ParticipantsSelectorComponent
+]
+
+const ORDER_PAGE: any = [
+  BuyerOrderPageComponent,
+  BuyerAuctionPageComponent
+]
+
+
 const PAGES: any = [
   ErrorPageComponent,
   LoginPageComponent,
@@ -134,30 +181,18 @@ const PAGES: any = [
   SellerPageComponent,
   NewOrderPageComponent,
   OrderFormComponent,
+  OrdersPageComponent,
+  ...ORDER_PAGE,
 ];
-
-const LAYOUT: any = [
-  SidebarComponent,
-  HeaderComponent,
-]
-
-const FORM_UI: any = [
-  FormAbstractFieldComponent,
-  FormSelectFieldComponent,
-  FormDateFieldComponent,
-  FormTimeFieldComponent,
-  FormNumberFieldComponent,
-  FormSwitchFieldComponent
-];
-
-const NEW_ORDER_PAGE: any = [
-  CommoditySelectorComponent,
-  TemplatesPageComponent,
-  SaveAsTemplateComponent,
-]
 
 const CARDS: any = [
-  CardTemplateComponent
+  CardTemplateComponent,
+  CardOfferComponent,
+]
+
+const UI: any = [
+  DateAgoComponent,
+  StatusTagComponent
 ]
 
 const PIPES: any = [
@@ -181,7 +216,8 @@ const PIPES: any = [
     ...LAYOUT,
     ...NEW_ORDER_PAGE,
     ...CARDS,
-    ...PIPES
+    ...PIPES,
+    ...UI,
   ],
   imports: [
     BrowserModule,

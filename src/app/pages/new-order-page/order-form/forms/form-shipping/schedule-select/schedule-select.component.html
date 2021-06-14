@@ -1,0 +1,68 @@
+<div class="__backdrop"></div>
+<form class="__modal" [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+    <div class="__modal__header">
+        <div class="fx-flex">
+            <div class="fw-600">Add Shipping Schedule</div>
+        </div>
+        <div class="fx-layout-row m-r--16px">
+            <button type="submit" class="__button __button-primary"
+                [class.__button-secondary-disabled]="!formGroup.valid">{{(isExist$ | async ) ? 'UPDATE' :
+                'ADD'}}</button>
+            <div class="p-4px"></div>
+            <div class="__modal__button-icon" (click)="onClose()">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+
+    </div>
+    <div class="__modal__content">
+        <div class="fx-layout-row form-row">
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px"
+                [class.error]="formGroup.get('date')!.hasError('required') && !formGroup.get('date')!.pristine">
+                <label for="quantity" class="hl fx-layout-row">
+                    <div>Shipping Date</div>
+                    <div class="p-4px"></div>
+                    <div class="sm fc-p">Required</div>
+                </label>
+                <form-date-field [fieldControl]="formGroup.get('date')" [placeholder]="'MM/DD/YYYY'"
+                    [startDate]="'today'">
+                </form-date-field>
+            </div>
+
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px"
+                [class.error]="formGroup.get('time')!.hasError('required') && !formGroup.get('time')!.pristine">
+                <label for="unit" class="hl fx-layout-row">
+                    <div>Shipping Time</div>
+                    <div class="p-4px"></div>
+                    <div class="sm fc-p">Required</div>
+                </label>
+                <form-time-field [fieldControl]="formGroup.get('time')" [placeholder]="'00:00 AM'">
+                </form-time-field>
+            </div>
+        </div>
+
+
+        <div class="fx-layout-column  m-l-4px m-r-4px m-b-24px"
+            [class.error]="formGroup.get('qty')!.hasError('required') && !formGroup.get('qty')!.pristine">
+
+            <div class="hl fx-layout-row fx-align-spacebetween-center m-b-8px">
+                <div>
+                    <span>Quantity</span>
+                    <span class="p-4px"></span>
+                    <span class="sm fc-p">Required</span>
+                </div>
+                <div class="sm fc-p" *ngIf="remaining$ | async as remaining">
+                    Remaining {{remaining.qty}} {{remaining.unit}}
+                </div>
+            </div>
+            <ng-container *ngIf="max$ | async as max">
+                <form-number-field [decimals]="0" [fieldControl]="formGroup.get('qty')"
+                    [placeholder]="'Maximum 9,999,999'" [max]="max">
+                </form-number-field>
+            </ng-container>
+        </div>
+
+
+        <div class="p-16px"></div>
+    </div>
+</form>

@@ -1,0 +1,149 @@
+@import "../../../styles/utils.scss";
+@import "../../../styles/form.scss";
+@import "../../../styles/flex.scss";
+
+:host {
+    font-family: "Avenir", sans-serif;
+    width: 100%;
+    height: calc(100vh - 64px);
+    overflow-y: scroll;
+    @extend .fx-layout-row;
+    @extend .fx-align-center-start;
+
+    .__wrapper {
+        max-width: 900px;
+        width: 100%;
+        margin: 8px;
+        margin-bottom: 50px;
+        @extend .fx-layout-column;
+    }
+
+    .__step {
+        cursor: pointer;
+        &:focus {
+            outline: 0;
+        }
+        &__line-progress {
+            margin-bottom: -21px !important;
+            position: relative;
+            height: 2px;
+            background-color: $color-disabled;
+            &__percent {
+                position: absolute;
+                content: "";
+                width: attr(data-progress);
+                height: 2px;
+                background-color: $color-primary;
+            }
+        }
+        &__indicator {
+            position: relative;
+            height: 20px;
+            width: 20px;
+            background-color: #edf0f0;
+            border: 2px solid $color-disabled;
+            border-radius: 100%;
+            box-sizing: border-box;
+            margin: 10px 0;
+            position: relative;
+            &-complete {
+                background-color: $color-primary;
+                box-shadow: 0 2px 4px rgba($color-dark, 0.2);
+                border: none;
+            }
+            &-ongoing {
+                background-color: $color-primary;
+                box-shadow: 0 2px 4px rgba($color-dark, 0.2);
+                border: 6px solid $color-white;
+            }
+            &__icon {
+                position: absolute;
+                width: 12px;
+                height: 14px;
+                color: $color-white;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                margin: auto;
+            }
+        }
+        &__label {
+            @media screen and (max-width: 959px) {
+                font-size: 9px;
+            }
+            font-size: 10px;
+        }
+        &.active {
+            .__step__label {
+                color: $color-primary;
+            }
+        }
+        &.disabled {
+            pointer-events: none;
+            .__step__label {
+                opacity: 0.5;
+            }
+        }
+    }
+
+    .__tag {
+        height: 20px;
+        padding: 0 8px;
+        border-radius: 4px;
+        font-size: 9px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background: #f2f3f5;
+        line-height: normal;
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+    }
+
+    .__card {
+        @extend .fx-layout-column;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
+        width: 100%;
+        display: block;
+        overflow: hidden;
+    }
+    .__bullet {
+        font-size: 10px;
+        line-height: normal;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            height: 5px;
+            width: 5px;
+            background-color: $color-primary;
+            border: 3px solid rgba($color: #ffffff, $alpha: 0.72);
+            border-radius: 100%;
+            box-sizing: content-box;
+        }
+    }
+    .__notes {
+        background-color: #f2f3f5;
+        padding: 10px;
+        font-size: 10px;
+        border-radius: 4px;
+        line-height: normal;
+        min-height: 32px;
+    }
+    
+    .__action {
+        cursor: pointer;
+        transition: all ease-in-out 250ms;
+        &:hover {
+            opacity: 0.72;
+        }
+    }
+    .__icon {
+        width: 14px;
+        height: 14px;
+    }
+
+   
+}
