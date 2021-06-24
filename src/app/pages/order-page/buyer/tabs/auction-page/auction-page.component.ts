@@ -33,7 +33,7 @@ export class BuyerAuctionPageComponent implements OnInit {
   ngOnInit(): void {
 
     this.$routeParams = this.route.params.subscribe(params => {
-      console.log('params >>>', params);
+      // console.log('params >>>', params);
       this.order$ = this.order.get().pipe(filter(order => order));
 
       if (!params.product_id) {
@@ -89,21 +89,22 @@ export class BuyerAuctionPageComponent implements OnInit {
         })
       );
 
-      this.offers$ = this.item$.pipe(map(product => {
-        if (!product.hasOwnProperty('offers')) return [];
-        return product.offers.map((offer: any) => {
-
-          offer.product = product.product;
-          offer.product_id = product.id;
-          offer.type = product.type;
-          offer.unit = product.unit;
-          offer.qty = product.qty;
-
-          return offer;
-        }).sort((a: any, b: any) => {
-          return a.currentPrice.subtotal - b.currentPrice.subtotal;
-        });
-      }));
+      this.offers$ = this.item$.pipe(
+        filter(product => product),
+        filter(product => product.hasOwnProperty('offers')),
+        map(product => {
+          return product.offers.map((offer: any) => {
+            offer.product = product.product;
+            offer.product_id = product.id;
+            offer.type = product.type;
+            offer.unit = product.unit;
+            offer.qty = product.qty;
+            return offer;
+          }).sort((a: any, b: any) => {
+            return a.currentPrice.subtotal - b.currentPrice.subtotal;
+          });
+        })
+      );
 
     });
   }

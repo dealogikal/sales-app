@@ -91,6 +91,14 @@ import { DateAgoComponent } from './ui/etc/date-ago/date-ago.component';
 import { CheckoutDrawerComponent } from './layouts/checkout-drawer/checkout-drawer.component';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { BuyerBreakdownPageComponent } from './pages/order-page/buyer/tabs/breakdown-page/breakdown-page.component';
+import { CardOrderComponent } from './ui/cards/card-order/card-order.component';
+import { BuyerPaymentPageComponent } from './pages/order-page/buyer/tabs/payment-page/payment-page.component';
+import { BuyerShippingPageComponent } from './pages/order-page/buyer/tabs/shipping-page/shipping-page.component';
+import { BuyerClosedPageComponent } from './pages/order-page/buyer/tabs/closed-page/closed-page.component';
+import { FormAttachmentsFieldComponent } from './ui/forms/form-attachments-field/form-attachments-field.component';
+import { FileUploadModule } from 'ng2-file-upload';
+import { FormUploaderFieldComponent } from './ui/forms/form-uploader-field/form-uploader-field.component';
+import { BankDepositComponent } from './pages/order-page/partials/bank-deposit/bank-deposit.component';
 
 
 const ICONS = {
@@ -156,7 +164,9 @@ const FORM_UI: any = [
   FormSwitchFieldComponent,
   FormTimeFieldComponent,
   FormSwitchFieldComponent,
-  FormTextareaFieldComponent
+  FormTextareaFieldComponent,
+  FormAttachmentsFieldComponent,
+  FormUploaderFieldComponent,
 ];
 
 const NEW_ORDER_PAGE: any = [
@@ -174,7 +184,11 @@ const NEW_ORDER_PAGE: any = [
 const ORDER_PAGE: any = [
   BuyerOrderPageComponent,
   BuyerAuctionPageComponent,
-  BuyerBreakdownPageComponent
+  BuyerBreakdownPageComponent,
+  BuyerPaymentPageComponent,
+  BuyerShippingPageComponent,
+  BuyerClosedPageComponent,
+  BankDepositComponent
 ]
 
 
@@ -193,6 +207,7 @@ const PAGES: any = [
 const CARDS: any = [
   CardTemplateComponent,
   CardOfferComponent,
+  CardOrderComponent
 ]
 
 const UI: any = [
@@ -232,6 +247,7 @@ const PIPES: any = [
     FormsModule,
     ReactiveFormsModule,
     NgxIziToastModule,
+    FileUploadModule,
     FeatherModule.pick(ICONS),
   ],
   providers: [

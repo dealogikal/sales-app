@@ -65,7 +65,7 @@ export class CheckoutDrawerComponent implements OnInit {
                 take(1),
                 map(([order, items]) => {
                   order.orders.products = order.orders.products.map((product: any) => {
-                    product.selectedPrice = items.filter((item: any) => item.product_id == product.id);;
+                    product.selectedPrice = items.find((item: any) => item.product_id == product.id);;
                     product.status = OrderStatus.FOR_REVIEW;
                     return product;
                   });

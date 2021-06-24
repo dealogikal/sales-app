@@ -1,0 +1,9 @@
+<ng-container *ngIf="uploader">
+    <input type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''" />
+    <span class="p-h-10px" [innerText]="status" *ngIf="status !== Status.DONE"></span>
+    <span class="form-btn" *ngIf="status !== Status.DONE" (click)="selectFile(fileInput)">Select File</span>
+    <span class="p-h-10px fw-600" [innerText]="filename" *ngIf="status == Status.DONE"></span>
+    <i-feather class="check m-h-30px" name="check" *ngIf="status == Status.DONE"></i-feather>
+
+
+</ng-container>

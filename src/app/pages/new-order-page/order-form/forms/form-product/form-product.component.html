@@ -81,6 +81,10 @@
             <div class="p-8px"></div>
             <button type="submit" class="__button __button-secondary"
                 [class.__button-secondary-disabled]="!formGroup.valid">NEXT</button>
+            <ng-container *ngIf="enableSkip$ | async">
+                <div class="p-8px"></div>
+                <div class="__button __button-outlined" [class.__button-disabled]="!formGroup.valid" (click)="onSkipAndReuse()">SKIP AND REUSE DETAILS</div>
+            </ng-container>
         </div>
     </div>
 

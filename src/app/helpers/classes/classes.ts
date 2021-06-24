@@ -37,8 +37,55 @@ export enum OrderStatus {
     BALANCE_PAYMENT_VERIFICATION = 'Balance Payment Verification',
 }
 
+export const cloudinaryConfig: any = {
+    cloud_name: 'dealogikal',
+    upload_preset: 'mwzkpiee',
+    api_key: '526263877935813',
+    api_secret: 'NKFdj1-CcmS2E325tZ5XDJPangc',
+}
+
+export const cloudinaryURLUploadRaw = `https://api.cloudinary.com/v1_1/${cloudinaryConfig.cloud_name}/raw/upload`;
+
+export const uploaderOptionsRaw: any = {
+    url: cloudinaryURLUploadRaw,
+    // Upload files automatically upon addition to upload queue
+    autoUpload: true,
+    // Use xhrTransport in favor of iframeTransport
+    isHTML5: true,
+    // Calculate progress independently for each uploaded file
+    removeAfterUpload: true,
+    // XHR request headers
+    headers: [
+        {
+            name: 'X-Requested-With',
+            value: 'XMLHttpRequest'
+        }
+    ]
+};
+
+
 export enum OfferStatus {
-    OPEN = "Open",
+
+    OPEN = 'Open',
+    CANCELLED = 'Cancelled',
+    SOLD = 'Sold',
+    CLOSED = 'Closed',
+    PENDING_VERIFICATION = 'Pending Verification',
+    DENIED = 'Denied',
+
+    CLOSED_SOLD = 'Closed Sold',
+    CLOSED_EXPIRED_OFFER = 'Closed Expired Offer',
+    CLOSED_EXPIRED_AUCTION = 'Closed Expired Auction',
+    CLOSED_PAID = 'Closed Paid',
+
+    FOR_VALIDATION = 'For Validation'
+}
+
+
+export enum Pages {
+    BREAKDOWN  = 'breakdown',
+    PAYMENT = 'payment',
+    SHIPPING = 'shipping'
 }
 
 export enum AccountType {

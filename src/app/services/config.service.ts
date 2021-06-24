@@ -217,7 +217,7 @@ export class ConfigService {
         },
         {
           "bank": "Eastwest Bank",
-          "accountNo": "200040319367",
+          "accountNo": "2000 4031 9367",
           "accountName": "DEALOGIKAL CORP"
         }
       ]);
@@ -3373,14 +3373,14 @@ export class ConfigService {
         {
           "method": "Cash before delivery",
           "options": [
-            {
-              "type": "CC/Debit Card",
-              "channel": [
-                "PayMaya Online",
-                "PayMaya Local Terminal",
-                "BDO Commercial Card"
-              ]
-            },
+            // {
+            //   "type": "CC/Debit Card",
+            //   "channel": [
+            //     "PayMaya Online",
+            //     "PayMaya Local Terminal",
+            //     "BDO Commercial Card"
+            //   ]
+            // },
             {
               "type": "Bank Transfer",
               "channel": [
@@ -3393,13 +3393,13 @@ export class ConfigService {
         {
           "method": "Cash on delivery",
           "options": [
-            {
-              "type": "CC/Debit Card",
-              "channel": [
-                "PayMaya Online",
-                "PayMaya Local Terminal"
-              ]
-            },
+            // {
+            //   "type": "CC/Debit Card",
+            //   "channel": [
+            //     "PayMaya Online",
+            //     "PayMaya Local Terminal"
+            //   ]
+            // },
             {
               "type": "Bank Transfer",
               "channel": [

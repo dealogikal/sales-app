@@ -45,7 +45,7 @@ export class BuyerOrderPageComponent implements OnInit {
       this.order$ = this.orders.find(params._id);
 
       this.order$.pipe(take(1)).subscribe(order => {
-        console.log('settt >>>', order);
+        // console.log('settt >>>', order);
         this.order.set(order);
       });
 

@@ -20,15 +20,6 @@
         @extend .fx-layout-row;
         @extend .fx-align-spacebetween-center;
     }
-    .dashed {
-        margin: -1px 20px 0 20px;
-        border-top: 1px dashed rgba($font-secondary, 0.32);
-    }
-    .solid {
-        margin: -1px 20px 0 20px;
-        border-top: 1px solid rgba($font-secondary, 0.32);
-    }
-
     .__cta-icon {
         margin-left: 12px;
         height: 20px;

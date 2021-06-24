@@ -4,7 +4,7 @@ import * as moment from 'moment';
 import { NgxIzitoastService } from 'ngx-izitoast';
 import { BehaviorSubject, combineLatest, Observable, timer } from 'rxjs';
 import { debounceTime, filter, map, take } from 'rxjs/operators';
-import { AccountType, COLOR, OfferStatus, TaxRateType } from 'src/app/helpers/classes/classes';
+import { AccountType, COLOR, OfferStatus, OrderStatus, TaxRateType } from 'src/app/helpers/classes/classes';
 import { NoComma } from 'src/app/helpers/pipes/pipe';
 import { CheckoutService } from 'src/app/services/checkout.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -30,7 +30,7 @@ export class CardOfferComponent implements OnInit {
 
   @Input()
   set data(value: any) {
-    console.log('CardOfferComponent', value);
+    // console.log('CardOfferComponent', value);
     this.offer$.next(value);
   }
 
@@ -47,10 +47,19 @@ export class CardOfferComponent implements OnInit {
 
     combineLatest(
       this.checkout.get(),
-      this.offer$
-    ).subscribe(([items, offer]) => {
-      const selected = items.some((item: any) => item.id == offer.id);
-      if (selected) this.selected = true;
+      this.offer$,
+      this.order.get()
+    ).subscribe(([items, offer, order]) => {
+      const checkout_selected = items.some((item: any) => item.id == offer.id);
+      const product = order.orders.products.find((p: any) => p.id == offer.product_id);
+
+      // console.log('product >>>', offer.id, product);
+      if (product.hasOwnProperty('selectedPrice')) {
+        if (product.selectedPrice.id == offer.id) this.selected = true;
+        return;
+      }
+
+      if (checkout_selected) this.selected = true;
       else this.selected = false;
     });
 
@@ -59,7 +68,7 @@ export class CardOfferComponent implements OnInit {
       this.offer$,
     ).pipe(
       map(([order, offer]) => {
-        console.log('orderssss', order)
+        // console.log('orderssss', order)
         let _offer = JSON.parse(JSON.stringify(offer));
         const tax_multiplier = TaxRateType.VAT_REGISTERED == order.transaction.taxType ? 1.12 : 0;
         _offer.currentPrice.subtotal = _offer.currentPrice.subtotal * tax_multiplier;
@@ -84,12 +93,13 @@ export class CardOfferComponent implements OnInit {
 
     this.duration$ = combineLatest(
       this.offer$,
+      this.order.get(),
       timer(0, 1000),
     ).pipe(
-      filter(([offer, __]) => {
-        return [OfferStatus.OPEN].indexOf(offer.status) !== -1;
+      filter(([offer, order, __]) => {
+        return [OfferStatus.OPEN].indexOf(offer.status) !== -1 && [OrderStatus.OPEN, OrderStatus.AUCTION_ENDED].indexOf(order.status) !== -1;
       }),
-      map(([offer, __]) => {
+      map(([offer, order, __]) => {
         // console.log("duration$", order);
         const due = moment(offer.currentPrice.expiration).format();
         // console.log('due', due);
@@ -114,10 +124,13 @@ export class CardOfferComponent implements OnInit {
     this.actions$ = combineLatest(
       this.offer$,
       this.user.get().pipe(map(user => user.accountType)),
-      this.checkout.get()
+      this.checkout.get(),
+      this.order.get()
     ).pipe(
+      filter(([offer, user, checkout, order]) => {
+        return [OfferStatus.OPEN].indexOf(offer.status) !== -1 && [OrderStatus.OPEN, OrderStatus.AUCTION_ENDED].indexOf(order.status) !== -1;
+      }),
       map(([offer, accountType, items]) => {
-        // console.log('actions', offer, accountType, selected);
         const selected = items.some((item: any) => item.id == offer.id);
         if (
           accountType !== AccountType.SELLER &&

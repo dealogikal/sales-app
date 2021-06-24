@@ -21,6 +21,10 @@ import { FormParticipantsComponent } from './pages/new-order-page/order-form/for
 import { BuyerOrderPageComponent } from './pages/order-page/buyer/order-page.component';
 import { BuyerAuctionPageComponent } from './pages/order-page/buyer/tabs/auction-page/auction-page.component';
 import { BuyerBreakdownPageComponent } from './pages/order-page/buyer/tabs/breakdown-page/breakdown-page.component';
+import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
+import { BuyerPaymentPageComponent } from './pages/order-page/buyer/tabs/payment-page/payment-page.component';
+import { BuyerShippingPageComponent } from './pages/order-page/buyer/tabs/shipping-page/shipping-page.component';
+import { BuyerClosedPageComponent } from './pages/order-page/buyer/tabs/closed-page/closed-page.component';
 
 const routes: Routes = [
   {
@@ -42,6 +46,21 @@ const routes: Routes = [
         canActivate: [BuyerGuard],
         children: [
           {
+            path: "",
+            pathMatch: "full",
+            redirectTo: "my-orders",
+          },
+          {
+            path: "my-orders",
+            component: OrdersPageComponent,
+            // children: [
+            //   {
+            //     path: "filter",
+            //     component: FormOrderFilterComponent,
+            //   }
+            // ]
+          },
+          {
             path: 'order/:_id',
             component: BuyerOrderPageComponent,
             children: [
@@ -56,6 +75,18 @@ const routes: Routes = [
               {
                 path: "breakdown",
                 component: BuyerBreakdownPageComponent,
+              },
+              {
+                path: "payment",
+                component: BuyerPaymentPageComponent,
+              },
+              {
+                path: "shipping",
+                component: BuyerShippingPageComponent,
+              },
+              {
+                path: "closed",
+                component: BuyerClosedPageComponent,
               },
             ]
           },

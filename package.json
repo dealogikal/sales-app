@@ -24,6 +24,7 @@
     "http-server": "^0.12.3",
     "jquery": "^3.6.0",
     "moment": "^2.29.1",
+    "ng2-file-upload": "^1.4.0",
     "ng2-izitoast": "^2.0.0",
     "ngx-izitoast": "^1.0.1",
     "rxjs": "^6.6.7",

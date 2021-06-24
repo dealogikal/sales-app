@@ -27,6 +27,8 @@ export class FormProductComponent implements OnInit {
     units$!: Observable<any>;
     hasSave$!: Observable<any>;
 
+    enableSkip$!: Observable<any>
+
     initDone$: BehaviorSubject<any> = new BehaviorSubject(false);
 
     constructor(
@@ -57,6 +59,13 @@ export class FormProductComponent implements OnInit {
                 return commodities.find((_commodity: any) => _commodity.name == order.commodity);
             })
         );
+
+        this.enableSkip$ = combineLatest(
+            this.order.get(),
+            this.route.params
+        ).pipe(map(([order, params]) => {
+            return order.products.length && !params.item_id;
+        }))
 
         this.products$ = this.config$.pipe(
             map((config) => {
@@ -169,6 +178,39 @@ export class FormProductComponent implements OnInit {
         var start_idx = this.router.url.indexOf('/form');
         var url = this.router.url.substring(0, start_idx);
         this.router.navigate([url]);
+    }
+
+    onSkipAndReuse() {
+        this.order.get().pipe(
+            map((order) => {
+                const copy = order.products[0];
+                return copy;
+            })
+        ).subscribe(copy => {
+            const schedules = [
+                {
+                    id: (Date.now().toString(36) + Math.floor(1000 + Math.random() * 9000) + Math.random().toString(36).substr(2, 3)).toUpperCase(),
+                    date: copy.shipping.schedules[0].date,
+                    time: copy.shipping.schedules[0].time,
+                    qty: this.formBloc.getValue('qty'),
+                    unit: this.formBloc.getValue('unit'),
+                }
+            ];
+            const details = {
+                shipping: {
+                    region: copy.shipping.region,
+                    province: copy.shipping.province,
+                    location: copy.shipping.location,
+                    schedules: schedules
+                },
+                notes: copy.notes,
+                attachments: copy.attachments,
+
+            };
+
+            this.formBloc.set(details);
+            this.router.navigate(['../participants'], { relativeTo: this.route });
+        })
     }
 
     onSave() {

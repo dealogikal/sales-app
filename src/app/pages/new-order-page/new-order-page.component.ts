@@ -505,9 +505,9 @@ export class NewOrderPageComponent implements OnInit {
                       console.log('result >>>', result);
 
 
-                      this.order.save(result).subscribe(id => {
+                      this.order.save(result).subscribe(order => {
                         this.new_order.clear();
-                        this.router.navigate(['/home/b/order', id]);
+                        this.router.navigate(['/home/b/order', order._id]);
                       });
                     },
                   },

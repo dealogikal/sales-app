@@ -23,11 +23,11 @@ export class SidebarComponent implements OnInit {
         link: 'b/my-orders',
         icon: 'shopping-cart'
       },
-      {
-        label: 'User Settings',
-        link: 'b/user-settings',
-        icon: 'settings'
-      }
+      // {
+      //   label: 'User Settings',
+      //   link: 'b/user-settings',
+      //   icon: 'settings'
+      // }
     ],
     'Seller': [
       {
@@ -40,11 +40,11 @@ export class SidebarComponent implements OnInit {
         link: 's/my-offers',
         icon: 'briefcase'
       },
-      {
-        label: 'User Settings',
-        link: 's/user-settings',
-        icon: 'settings'
-      }
+      // {
+      //   label: 'User Settings',
+      //   link: 's/user-settings',
+      //   icon: 'settings'
+      // }
     ]
   }
 

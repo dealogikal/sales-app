@@ -51,15 +51,15 @@
                 </div>
             </ng-container>
         </div>
-        <div class="p-4px"></div>
+        <div class="p-8px"></div>
         <div class="fx-layout-row fx-align-spacebetween-center">
             <div class="fx-layout-column" *ngIf="order.payment">
-                <div class="p-h-20px m-t--4px __bullet" *ngIf="order.payment.method != 'Terms'">
+                <div class="p-h-20px __bullet" *ngIf="order.payment.method != 'Terms'">
                     <span class="m-l-20px fw-600">{{ order.payment.method }}</span>
                     <span class="m-l-4px">via </span>
                     <span class="fw-600">{{ order.payment.option }} ({{ order.payment.channel }})</span>
                 </div>
-                <div class="p-h-20px m-t--4px __bullet" *ngIf="order.payment.method == 'Terms'">
+                <div class="p-h-20px __bullet" *ngIf="order.payment.method == 'Terms'">
                     <span class="m-l-20px fw-600">{{ order.payment.days }} day Terms</span>
                     <span class="m-l-4px">via </span>
                     <span class="fw-600">{{ order.payment.option }} ({{ order.payment.channel }})</span>
@@ -70,7 +70,7 @@
                 *ngIf="['Open','Waiting','For Approval'].indexOf(order.status) !== -1"></countdown-timer>
         </div>
         <div class="p-4px"></div>
-        <div class=" p-v-2px " *ngIf="!(actions$ | async) "></div>
+        <div class="p-v-2px" *ngIf="!(actions$ | async) "></div>
         <div class="__footer separator fx-layout-row " *ngIf="actions$ | async as actions ">
             <div class="fx-flex fx-layout-row fx-align-spacebetween-center ">
                 <div>

@@ -1,0 +1,128 @@
+@import "../../../../styles/utils.scss";
+@import "../../../../styles/form.scss";
+@import "../../../../styles/flex.scss";
+:host {
+  @extend .fx-layout-column;
+}
+
+.__card {
+  max-width: 320px;
+  width: 100%;
+  box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1), 0 0 16px rgba($font-secondary, 0.12);
+  //   .b-l-3 {
+  //     // border-color: white;
+  //   }
+}
+
+.notice {
+  display: flex;
+  background-color: white;
+  padding: 8px;
+  color: #d65249;
+  margin: 0px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0px 1px 1px #ff9292;
+  border: 1px solid #ffa59e;
+}
+
+.notice-blue {
+  display: flex;
+  background-color: white;
+  padding: 8px;
+  color: $color-primary;
+  margin: 0px 10px;
+  border-radius: 8px;
+  font-weight: 700;
+  box-shadow: 0px 1px 1px rgba($color-primary, 0.64);
+  border: 1px solid rgba($color-primary, 0.64);
+}
+
+.error {
+  label {
+    color: $color-error;
+  }
+  .form-field {
+    border-color: $color-error;
+    &:focus {
+      box-shadow: 0 0 0 2px rgba($color-error, 0.35) !important;
+    }
+  }
+  &.hdr {
+    color: $color-error;
+  }
+  &.shdr {
+    color: $color-error;
+  }
+  &.hl {
+    color: $color-error;
+  }
+}
+
+.form-btn {
+  padding: 10px 24px;
+  background-color: $color-primary;
+  color: #ffffff;
+  letter-spacing: 1px;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+  border: none;
+  box-shadow: 0 8px 16px -8px rgba($color-primary, 0.64);
+  .icon {
+    margin-left: 12px;
+    height: 24px;
+    width: 24px;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+  }
+  &:hover {
+    box-shadow: 0 0 5px 5px rgba(0, 0, 0, 0.05);
+  }
+
+  &.remove {
+    background-color: $color-error;
+    box-shadow: 0 8px 16px -8px rgba($color-error, 0.64);
+  }
+
+  &.success {
+    background-color: $color-success;
+    box-shadow: 0 8px 16px -8px rgba($color-success, 0.64);
+  }
+
+  &.w-100 {
+    width: 100%;
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.msg-status {
+  padding: 20px !important;
+  background-color: #c6edff;
+  border-radius: 15px;
+  border: dashed 2px #ffffff;
+  color: #318ab3;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.account-name {
+  color: $color-primary;
+}
+
+.account-number {
+  color: #6f6f6f;
+}
+
+.bank {
+  background-color: $color-primary;
+  box-shadow: 0 8px 16px -8px rgba($color-primary, 0.64);
+  color: white;
+  padding: 7px 10px;
+  border-radius: 20px;
+}

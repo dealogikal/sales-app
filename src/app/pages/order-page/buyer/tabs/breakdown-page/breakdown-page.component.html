@@ -1,1 +1,192 @@
-<p>breakdown-page works!</p>
+<ng-container *ngIf="order$ | async as order">
+
+
+    <div class="__card" *ngIf="order.status == OrderStatus.FOR_REVIEW">
+        <div class="__header fw-600">SET UP PAYMENT</div>
+        <form class="fx-layout-column p-h-20px m-20px" [formGroup]="form">
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px" [class.error-form]="form.get('method').hasError('required')
+                    && !form.get('method').pristine">
+
+                <div class="fx-layout-row fx-align-spacebetween-center">
+                    <label for="paymentOptions" class="sm"
+                        [class.error-form]="form.get('method').hasError('required')">Method</label>
+                    <!-- <div class="__button __button-link" *ngIf="showAddPaymentOptions$ | async"
+                        [routerLink]="['requirements']">
+                        ACTIVATE MORE PAYMENT OPTIONS
+                    </div> -->
+                </div>
+
+                <form-select-field [fieldControl]="form.get('method')" [placeholder]="'Choose Method'"
+                    [options]="methods$ | async">
+                </form-select-field>
+                <small class="error-form" *ngIf="form.get('method').hasError('required')">This
+                    field is required</small>
+            </div>
+
+
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px" [class.error-form]="form.get('option').hasError('required')
+            && !form.get('option').pristine">
+
+                <div class="fx-layout-row fx-align-spacebetween-center">
+                    <label for="paymentOptions" class="sm"
+                        [class.error-form]="form.get('option').hasError('required')">Pay Via</label>
+                </div>
+
+                <form-select-field [fieldControl]="form.get('option')" [placeholder]="'Choose Option'"
+                    [options]="options$ | async">
+                </form-select-field>
+                <small class="error-form" *ngIf="form.get('option').hasError('required')">This
+                    field is required</small>
+            </div>
+
+
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px m-b-24px" [class.error-form]="form.get('channel').hasError('required')
+            && !form.get('channel').pristine">
+
+                <div class="fx-layout-row fx-align-spacebetween-center">
+                    <label for="paymentchannels" class="sm"
+                        [class.error-form]="form.get('channel').hasError('required')">Pay Via</label>
+                </div>
+
+                <form-select-field [fieldControl]="form.get('channel')" [placeholder]="'Choose Channel'"
+                    [options]="channels$ | async">
+                </form-select-field>
+                <small class="error-form" *ngIf="form.get('channel').hasError('required')">This
+                    field is required</small>
+            </div>
+
+            <div class="p-8px"></div>
+
+            <button class="__button __button-lg __button-primary ttf-up ls-1 fw-600 m-8px"
+                [class.__button-accent-disabled]="!form.valid" (click)="onProceed()">
+                <span>Proceed</span>
+                <i-feather class="__cta-icon" name="chevron-right"></i-feather>
+            </button>
+
+            <div class="p-8px"></div>
+
+            <div class="fx-layout-row form-row m-b-24px">
+                <div class="notice">
+                    <i-feather class="icon" name="info"></i-feather>&nbsp;Notice: By proceeding,
+                    you guarantee that you have read, understood, and agree to our Order Closure
+                    Terms and Conditions.
+                </div>
+            </div>
+
+
+        </form>
+    </div>
+
+    <div class="__card" *ngIf="order.status !== OrderStatus.FOR_REVIEW">
+        <div class="__header fw-600">PAYMENT DETAILS</div>
+
+        <ng-container *ngIf="msg$ | async as msg">
+            <div class="p-8px"></div>
+            <div class="m-h-20px msg-status" *ngIf="msg$ | async as msg">{{msg}}</div>
+        </ng-container>
+
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Method</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.method }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Option</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.option }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Channel</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.channel }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-8px"></div>
+
+    <div class="__card">
+        <div class="__header fw-600">BREAKDOWN</div>
+
+        <div class="fx-layout-column fx-align-center-center">
+
+            <div class="b-l-3 fx-layout-column p-h-16px m-20px" *ngIf="total$ | async as total">
+                <div class="sm fw-600">transaction cost</div>
+                <div class="hdr fc-2 m-t-4px fw-600 lh-n">
+                    <span>{{order.transaction.currency}}</span>&nbsp;<span>{{total | number: '1.4-4'}}</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="solid p-h-20px"></div>
+
+        <div class="sm fw-600 m-t-20px p-h-20px fx-layout-row fx-align-spacebetween-center">
+            <span>ITEMS</span><span class="sm fc-p fw-400">Prices are VAT excluded</span>
+        </div>
+
+        <div class="p-h-20px" *ngFor="let item of items$ | async">
+            <div class="fx-layout-row p-v-20px b-b-1">
+                <div class="fx-flex fx-layout-row fx-align-start-center">
+                    <div class="fx-layout-column">
+                        <span class="hl fw-600">{{ (item.type !='') ? item.product + ' - ' + item.type :
+                            item.product}}</span>
+                        <span class="hl fc-p">
+                            <span class="ls-1">{{item.qty | number:'2.'}}</span>
+                            <span class="m-l-4px">{{item.unit}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.selectedPrice.currentPrice.perUnitTotal | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{item.selectedPrice.currentPrice.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashed p-h-20px"></div>
+
+        <div class="p-h-20px" *ngFor="let item of breakdowns$ | async">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fw-600 ttf-up">{{item.label}}</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.value | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{order.transaction.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</ng-container>

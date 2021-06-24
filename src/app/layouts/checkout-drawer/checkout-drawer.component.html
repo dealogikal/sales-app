@@ -78,20 +78,11 @@
             <div class="p-v-10px"></div>
 
             <button *ngIf="(validCount$ | async) == checkoutItems.length"
-                class="__button __button-accent ttf-up ls-1 fw-600" [class.__button-accent-disabled]="!isChecked" (click)="onProceed()">
+                class="__button __button-lg  __button-accent ttf-up ls-1 fw-600" [class.__button-accent-disabled]="!isChecked" (click)="onProceed()">
                 <span>Proceed to Payment Review</span>
                 <i-feather class="__cta-icon" name="chevron-right"></i-feather>
             </button>
-            <!-- 
-                  
-            <div class="p-v-10px"></div>
 
-            <button *ngIf="validOrdersCount(data?.request) == checkoutItems.length" [disabled]="(validOrdersCount(data?.request) != checkoutItems.length) ||  !isChecked"
-                [ngClass]="(validOrdersCount(data?.request) != checkoutItems.length || !isChecked) ?  'disabled' : ''"
-                class="form-btn success fx-layout-row fx-align-center-center" (click)="proceedToPaymentReview()">
-                <span>Proceed to Payment Review</span>
-                <i-feather class="icon" name="chevron-right"></i-feather>
-            </button> -->
 
         </div>
 

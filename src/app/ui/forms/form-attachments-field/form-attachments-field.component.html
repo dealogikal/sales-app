@@ -1,0 +1,14 @@
+<!-- <span class="form-btn" *ngIf="status !== Status.DONE" (click)="selectFile(fileInput)">Select File</span> -->
+
+<div class="__btn __btn--dashed" [class.__btn--disabled]="loading$ | async">
+    <input type="file" id="fileupload" #fileInput ng2FileSelect [uploader]="uploader" (change)="fileInput.value=''" />
+    <i-feather class="__btn__icon" name="plus" *ngIf="!(loading$ | async)"></i-feather>
+    <div class="progress-circle-indeterminate" *ngIf="(loading$ | async)"></div>
+</div>
+<ng-container *ngFor="let attachment of formArray.value; let i = index">
+    <div class="img" [style.background-image]="'url(' + attachment.secureUrl + ')'">
+        <div class="__close" (click)="onRemove(i)">
+            <i-feather class="__close--icon" name="x"></i-feather>
+        </div>
+    </div>
+</ng-container>

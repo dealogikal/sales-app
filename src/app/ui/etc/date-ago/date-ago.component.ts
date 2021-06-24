@@ -16,7 +16,7 @@ export class DateAgoComponent implements OnInit {
 
   @Input()
   set date(value: any) {
-    console.log('dateAgo', value);
+    // console.log('dateAgo', value);
     this.data$.next(value);
     this._date = value;
   }

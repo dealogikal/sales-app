@@ -1,0 +1,42 @@
+<ng-container *ngIf="order$ | async as order">
+
+    <div class="hl p-h-20px m-v-20px" *ngIf="order.status == OrderStatus.FOR_BUYER_PAYMENT">Pay the total transaction
+        cost to the provided bank details.</div>
+
+    <div class="fx-layout-row fx-align-center-center">
+        <div class="__card p-20px">
+            <ng-container *ngIf="order.status == OrderStatus.FOR_BUYER_PAYMENT">
+                <form-select-field [fieldControl]="form.get('bank')" [placeholder]="'Choose Bank'"
+                    [options]="options$ | async"></form-select-field>
+                <div class="p-10px"></div>
+            </ng-container>
+
+            <div class="fx-layout-row w-100 fx-align-spacebetween-center animated fadeIn" *ngIf="bank$ | async as bank">
+                <div class="fx-layout-column">
+                    <span class="body fw-500 account-number">{{ bank.accountNo }}</span>
+                    <span class="hl fw-600 account-name">{{ bank.accountName }}</span>
+                </div>
+                <span class="hl fw-600 bank">{{bank.bank}}</span>
+            </div>
+
+
+        </div>
+    </div>
+
+    <form class="fx-layout-column p-h-20px">
+        <div class="fx-layout-column fx-flex m-v-20px"
+            [class.error]="form.get('file').hasError('required') && !form.get('file').pristine">
+            <label class="hl fw-600 m-b-20px">Deposit Slip</label>
+            <form-uploader-field [fieldControl]="form.get('file')"></form-uploader-field>
+        </div>
+
+        <div class="fx-layout-row fx-align-center-center">
+
+            <button class="__button __button-lg __button-primary ttf-up ls-1 fw-600 m-8px"
+                [class.__button-accent-disabled]="!form.valid" (click)="onProceed()">
+                <span>Submit</span>
+                <i-feather class="__cta-icon" name="chevron-right"></i-feather>
+            </button>
+        </div>
+    </form>
+</ng-container>

@@ -23,6 +23,19 @@ body {
     color: #626262;
 }
 
+
+.msg-status {
+    padding: 16px !important;
+    // border: 1px solid #f2f2f2;
+    background-color: rgba($color-primary, 0.1);
+    border-radius: 8px;
+    text-align: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: $color-primary;
+    font-size: 10px;
+  }
+
 .__button {
     @extend .fx-layout-row;
     @extend .fx-align-center-center;
@@ -37,6 +50,10 @@ body {
     border: none;
     transition: all ease-in-out 250ms;
     letter-spacing: 0.5px;
+
+    &-lg {
+        height: 40px;
+    }
 
     &-primary {
         background-color: $color-primary;
@@ -216,6 +233,18 @@ body {
     }
 }
 
+.notice {
+    display: flex;
+    background-color: white;
+    padding: 8px;
+    color: #d65249;
+    margin: 0px 10px;
+    border-radius: 8px;
+    font-weight: 700;
+    box-shadow: 0px 1px 1px #ff9292;
+    border: 1px solid #ffa59e;
+}
+
 .__footer {
     height: 30px;
     padding: 0 20px;
@@ -230,6 +259,24 @@ body {
             opacity: 1;
         }
     }
+}
+
+.__cta-icon {
+    margin-left: 12px;
+    height: 20px;
+    width: 20px;
+    padding: 4px;
+    background-color: rgba(255, 255, 255, 0.12);
+    border-radius: 24px;
+}
+
+.dashed {
+    margin: -1px 20px 0 20px;
+    border-top: 1px dashed rgba($font-secondary, 0.32);
+}
+.solid {
+    margin: -1px 20px 0 20px;
+    border-top: 1px solid rgba($font-secondary, 0.32);
 }
 
 .__item--wrapper {

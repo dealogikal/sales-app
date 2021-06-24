@@ -1,0 +1,78 @@
+<ng-container *ngIf="order$ | async as order">
+    <div class="__header">
+        <div>
+            <span class="ls-1 fw-600">ORDER {{order.batchId | number:'5.0' | nocomma}}</span>
+            <!-- <span class="ls-1 fw-600" *ngIf="card?.showName">{{card.order.user.companyName}}&nbsp;</span> -->
+            <span>&nbsp;</span>
+            <span [innerText]="date$ | async"></span>
+        </div>
+        <ng-container *ngIf="duration$ | async as duration">
+
+            <div class="__timer lh-n fc-1 fw-600 fs-14px fx-layout-row fx-align-start-center b-r-1px"
+                [style.color]="duration.color ">
+                <span class="fw-600" [style.color]="duration.color">{{duration.label}}</span>
+                <span>&nbsp;</span>
+                <span>&nbsp;</span>
+                <i-feather name="clock" class="__icon"></i-feather>
+                <span>&nbsp;</span>
+                <span>&nbsp;</span>
+                <span [innerText]="duration.value[0] | number: '2.0' " [attr.data-timer-unit]=" 'd' "></span>
+                <span>&nbsp;</span>
+                <span [innerText]="duration.value[1] | number: '2.0' " [attr.data-timer-unit]=" 'h' "></span>
+                <span>&nbsp;</span>
+                <span [innerText]="duration.value[2] | number: '2.0' " [attr.data-timer-unit]=" 'm' "></span>
+            </div>
+        </ng-container>
+
+    </div>
+
+    <div class="__content">
+        <div class="p-4px"></div>
+        <div class="fx-layout-row-wrap">
+            <div class="__item" *ngFor="let product of order.orders.products">
+                <div class="p-8px"></div>
+                <div class="fx-layout-row">
+                    <span class="fc-p">
+                        <span>{{product.qty | number:'2.'}}</span>
+                        <span>&nbsp;</span>
+                        <span>{{product.unit}}</span>
+                    </span>
+                    <span *ngIf="product.type">&nbsp;</span>
+                    <span class="fw-600" *ngIf="product.type">{{product.type}} -</span>
+                    <span>&nbsp;</span>
+                    <span class="fw-600">{{product.product}}</span>
+                    <span>&nbsp;</span>
+                    <div class="__bubble" *ngIf="['Open', 'Auction Ended'].indexOf(order.status) !== -1"
+                        [attr.data-value]="({bidId: order._id, productId: product.id} | offerCount) | async">
+                        {{({bidId: order._id, productId: product.id} | offerCount) | async}}
+                    </div>
+                </div>
+                <div class="p-2px"></div>
+                <div class="__bullet fx-layout-row">
+                    <span class="p-l-16px fw-600">{{order.shipping.method}}</span>
+                    <span>&nbsp;</span>
+                    <span>in</span>
+                    <span>&nbsp;</span>
+                    <span class="fw-600">{{product.shipping.province}}</span>
+                    <span>&nbsp;</span>
+                    <date-ago class="sm"
+                        [date]="product.shipping.schedules[0].date + ' ' + product.shipping.schedules[0].time">
+                    </date-ago>
+                </div>
+                <div class="p-8px"></div>
+            </div>
+        </div>
+        <div class="p-4px"></div>
+    </div>
+
+    <div class="__footer">
+        <div class="__tag">
+            <span [innerText]="status$ | async"></span>
+        </div>
+        <div class="__action p-l-20px fx-layout-row fx-align-center-center" (click)="onView()">
+            <i-feather class="__icon fc-p" name="eye"></i-feather>
+            <span>&nbsp;</span>
+            <span class="fw-600 sm lh-n fc-p ">VIEW DETAILS</span>
+        </div>
+    </div>
+</ng-container>

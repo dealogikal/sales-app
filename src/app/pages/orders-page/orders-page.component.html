@@ -1,1 +1,56 @@
-<p>orders-page works!</p>
+<div class="wrapper">
+    <div class="p-16px"></div>
+    <span class="fw-600">My Orders</span>
+    <div class="p-4px"></div>
+    <div class="fx-layout-row">
+        <form class="fx-layout-row fx-align-start-center __form fx-flex" [formGroup]="form">
+            <div class="p-8px"></div>
+            <i-feather class="__form__icon" name="search"></i-feather>
+            <input class="__form__input p-h-16px fx-flex" formControlName="search" placeholder="Search"
+                autocomplete="off" id="search" type="text">
+            <div class="__form__button" (click)="setSort(-1)" [class.__form__button-active]="(sort$ | async) == -1">
+                <span>Recent</span>
+            </div>
+            <div class="p-4px"></div>
+            <div class="__form__button" (click)="setSort(1)" [class.__form__button-active]="(sort$ | async) == 1">
+                <span>Earlier</span>
+            </div>
+            <div class="p-4px"></div>
+        </form>
+
+        <div class="p-4px"></div>
+
+        <div class="__button __button-primary __button-large" [routerLink]="['filter']" queryParamsHandling="merge">
+            FILTERS
+        </div>
+    </div>
+    <div class="p-4px"></div>
+    <div class="fx-layout-row-wrap">
+        <div class="__tag" *ngFor="let tag of tags$ | async"><span [innerHTML]="tag"></span></div>
+    </div>
+    <!-- 
+    <div class="fx-layout-row fx-align-center-center">
+        <div class="m-16px progress-circular-success progress-circle-indeterminate" *ngIf="loading$ | async"></div>
+    </div> -->
+
+    <ng-container *ngIf="orders$ | async as orders">
+        <div class="fx-layout-column fx-align-center-center" *ngIf="!orders.length">
+            <div class="shdr p-40px ls-1 fw-600 fx-layout-row  fx-align-center-center">
+                <i-feather class="icon p-10px" name="search"></i-feather> NO RESULTS FOUND
+            </div>
+            <img class="image-display h-300 m-20px" src="assets/images/idea.svg" alt="No Results Found">
+        </div>
+        <card-order *ngFor="let order of orders" [data]="order"></card-order>
+    </ng-container>
+
+
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+
+
+</div>
+
+<router-outlet></router-outlet>
