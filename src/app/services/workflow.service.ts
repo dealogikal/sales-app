@@ -5,17 +5,91 @@ import { OrderStatus, PaymentMethods, TaxRateType } from '../helpers/classes/cla
 import { OrderService } from './order.service';
 import { OrdersService } from './orders.service';
 import { UserService } from './user.service';
-
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class WorkflowService {
 
   constructor(
-    private order: OrderService,
-    private user: UserService,
-    private orders: OrdersService
+    private user: UserService
   ) { }
+
+  shippingNext(order: any, product: any, schedule: any): Observable<any> {
+    // order = JSON.parse(JSON.stringify(order));
+    // product = JSON.parse(JSON.stringify(product));
+    // schedule = JSON.parse(JSON.stringify(schedule));
+    const shipping = [
+      OrderStatus.FOR_DELIVERY,
+      OrderStatus.IN_TRANSIT,
+      OrderStatus.PRODUCT_DELIVERED,
+      OrderStatus.CLOSED_DEAL
+    ];
+
+    const cod_next = OrderStatus.FOR_BUYER_PAYMENT;
+    const cbd_next = OrderStatus.CLOSED_DEAL;
+    const terms_next = OrderStatus.FOR_BUYER_PAYMENT;
+
+    // const product_index = order.orders.products.findIndex((p:any) => p.id == product.id);
+    // const sched_index = schedules.findIndex((schedule:any) => schedule.id == schedule.id);
+
+    const isSchedulesFresh = product.shipping.schedules.every((s: any) => s.status == OrderStatus.FOR_DELIVERY);
+
+    const isProductsFresh = order.orders.products.every((p: any) => p.status == OrderStatus.FOR_DELIVERY);
+
+    const curr_status_index = shipping.findIndex(status => schedule.status == status);
+
+    const final_status = (PaymentMethods.COD == order.payment.method ? cod_next : (PaymentMethods.TERMS == order.payment.method ? terms_next : cbd_next));
+
+    // schedules[sched_index].status = shipping[curr_status_index + 1];
+
+    product.shipping.schedules = product.shipping.schedules.map((s: any) => {
+      if (s.id == schedule.id) {
+        s.status = shipping[curr_status_index + 1];
+      }
+      return s;
+    })
+
+    const isSchedulesComplete = product.shipping.schedules.every((s: any) => s.status == OrderStatus.CLOSED_DEAL);
+
+    const isProductsComplete = order.orders.products.every((p: any) => {
+      if (p.id == product.id) {
+        p.shipping.schedules = product.shipping.schedules;
+      }
+      return p.shipping.schedules.every((s: any) => s.status == OrderStatus.CLOSED_DEAL);
+    });
+
+    if (isProductsFresh) {
+      order.status = OrderStatus.IN_TRANSIT;
+    }
+    if (isSchedulesFresh) {
+      order.orders.products = order.orders.products.map((p: any) => {
+        if (p.id == product.id) {
+          p.status = OrderStatus.IN_TRANSIT
+        }
+        return p;
+      })
+    }
+    if (isSchedulesComplete) {
+      order.orders.products = order.orders.products.map((p: any) => {
+        if (p.id == product.id) {
+          p.status = OrderStatus.PRODUCT_DELIVERED
+        }
+        return p;
+      })
+
+    }
+    if (isProductsComplete) {
+      order.status = final_status;
+
+      order.orders.products = order.orders.products.map((p: any) => {
+        p.status = final_status;
+        return p
+      });
+
+    }
+    console.log('shipping next >>>', order)
+    return of(order);
+  }
 
   next(order: any, products: any): Observable<any> {
     return this.user.get().pipe(
@@ -109,20 +183,20 @@ export class PaymentService {
         );
 
 
-        console.log("status_index", status_index);
+        // console.log("status_index", status_index);
 
         const statuses = order.orders.products.map((product: any) => {
           return product.status;
         });
 
-        console.log("statuses", statuses);
+        // console.log("statuses", statuses);
 
         const isSame = statuses.every((value: any, index: any, array: any) => {
           // console.log("isSame 1", value, array[0]);
           return value == array[0];
         });
 
-        console.log("isSame", isSame);
+        // console.log("isSame", isSame);
 
         const statuses_index = step_order.findIndex((step: any) =>
           step.includes(statuses[0])
@@ -131,78 +205,10 @@ export class PaymentService {
 
         order.status = statuses[0];
 
-        console.log("statuses_index", statuses_index);
+        console.log("shipping next", JSON.parse(JSON.stringify(order)));
 
         return order;
-      }),
-      switchMap(order => this.orders.save(order))
-    )
-  }
-
-  total(): Observable<any> {
-    return this.order.get().pipe(map((order) => {
-      const total = order.orders.products.reduce((total: any, item: any) => {
-        const tax_multiplier = (order.transaction.taxType == TaxRateType.VAT_REGISTERED) ? 0.12 : 0;
-        const subtotal = item.selectedPrice.currentPrice.perUnitTotal;
-        const delivery = item.selectedPrice.currentPrice.freightUnitTotal;
-        const processing_fee = (order.transaction.processingRate / 100) * (subtotal + delivery);
-        const value_added_tax = (subtotal + delivery + processing_fee) * tax_multiplier;
-
-        const totalAmountDue = ((subtotal + processing_fee + delivery + (value_added_tax)));
-        total += totalAmountDue
-        return total;
-      }, 0);
-
-      return total;
-    }))
-  }
-
-  breakdown(): Observable<any> {
-    return this.order.get().pipe(
-      map(order => {
-        const breakdown = order.orders.products.reduce((breakdown: any, item: any) => {
-          const tax_multiplier = (order.transaction.taxType == TaxRateType.VAT_REGISTERED) ? 0.12 : 0;
-          const subtotal = item.selectedPrice.currentPrice.perUnitTotal;
-          const delivery = item.selectedPrice.currentPrice.freightUnitTotal;
-          const processing_fee = (order.transaction.processingRate / 100) * (subtotal + delivery);
-          const value_added_tax = (subtotal + delivery + processing_fee) * tax_multiplier;
-          breakdown.subtotal += subtotal;
-          breakdown.delivery += delivery;
-          breakdown.processing_fee += processing_fee;
-          breakdown.value_added_tax += value_added_tax;
-          return breakdown;
-        }, {
-          subtotal: 0,
-          delivery: 0,
-          processing_fee: 0,
-          value_added_tax: 0,
-        });
-
-        let result: any = [];
-        result.push({
-          key: 'subtotal',
-          label: 'subtotal',
-          value: breakdown.subtotal
-        });
-        result.push({
-          key: 'delivery',
-          label: 'delivery',
-          value: breakdown.delivery
-        });
-        result.push({
-          key: 'processing_fee',
-          label: 'processing ee',
-          value: breakdown.processing_fee
-        });
-        result.push({
-          key: 'value_added_tax',
-          label: 'value added tax',
-          value: breakdown.value_added_tax
-        });
-
-        // console.log('breakdown', result);
-        return result;
       })
-    );
+    )
   }
 }

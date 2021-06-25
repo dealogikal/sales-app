@@ -4,7 +4,9 @@ import { BehaviorSubject, combineLatest, concat, forkJoin, from, interval, Obser
 import { concatMap, debounceTime, delay, flatMap, map, mergeMap, switchMap, take, tap } from 'rxjs/operators';
 import { AccountType, OfferStatus, OrderStatus, PaymentMethods, StepStatus } from '../helpers/classes/classes';
 import { OrderService } from './order.service';
+import { PaymentService } from './payment.service';
 import { UsersService } from './users.service';
+import { WorkflowService } from './workflow.service';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +21,7 @@ export class OrdersService {
   constructor(
     private order: OrderService,
     private users: UsersService,
+    private workflow: WorkflowService
   ) {
     this.retrieve();
     if (this.$cron) this.$cron.unsubscribe();
@@ -28,11 +31,90 @@ export class OrdersService {
     ).subscribe(([orders, __]) => {
       const date = new Date();
       orders.forEach((order: any) => {
-        const diff = moment.duration(moment().diff(moment(order.lastUpdate))).asSeconds();
+        const diff = moment.duration(moment().diff(moment(order.lastUpdated))).asSeconds();
+
+        // if (order.status == OrderStatus.IN_TRANSIT && diff > 3 && order.for_delivery_done) {
+        //   const hasDelivered = order.orders.products.some((product: any) => {
+        //     return product.shipping.schedules.some((sched: any) => sched.status == OrderStatus.PRODUCT_DELIVERED)
+        //   })
+        //   if (!hasDelivered) {
+        //     const obs = order.orders.products.reduce((obs: any, product: any, index: any) => {
+        //       product.shipping.schedules.forEach((schedule: any) => {
+        //         obs.push(of(order).pipe(
+        //           delay(index == 0 ? 0 : 2000),
+        //           switchMap(order => this.workflow.shippingNext(order, product, schedule)),
+        //           switchMap(order => this.save(order)),
+        //         ));
+        //       })
+        //       return obs;
+        //     }, []);
+        //     console.log('obs', obs);
+
+        //     zip(
+        //       ...obs
+        //     ).subscribe(e => {
+        //       console.log('zip product delivered', order);
+        //       // order.for_delivery_done = true;
+        //       // this.save(order);
+        //     })
+        //   }
+
+        // }
+
+        if (order.status == OrderStatus.FOR_DELIVERY && diff > 3) {
+
+          const obs = order.orders.products.reduce((obs: any, product: any, index: any) => {
+            product.shipping.schedules.forEach((schedule: any) => {
+              obs.push(of(order).pipe(
+                delay(index == 0 ? 0 : 2000),
+                switchMap(order => this.workflow.shippingNext(order, product, schedule).pipe(switchMap(order => this.save(order)))),
+                delay(2000),
+                switchMap(order => this.workflow.shippingNext(order, product, schedule).pipe(switchMap(order => this.save(order)))),
+              ));
+            })
+            return obs;
+          }, []);
+          console.log('obs', obs);
+          zip(
+            ...obs
+          ).subscribe(e => {
+            console.log('zip in transit', order);
+          })
+        }
+
+        if (order.status == OrderStatus.SELLER_PAYMENT && diff > 3) {
+          this.workflow.next(order, order.orders.products).pipe(
+            take(1),
+            map(order => {
+              if (order.payment.method == PaymentMethods.CBD) {
+                order.orders.products = order.orders.products.map((product: any) => {
+                  product.shipping.schedules = product.shipping.schedules.map((sched: any) => {
+                    sched.status = OrderStatus.FOR_DELIVERY;
+                    return sched;
+                  })
+                  return product;
+                })
+              }
+              return order;
+            }),
+            switchMap(order => this.save(order)),
+          ).subscribe(e => {
+            console.log('SELLER_PAYMENT', e);
+          });
+        }
+
+        if (order.status == OrderStatus.BUYER_PAYMENT_VERIFICATION && diff > 3) {
+          this.workflow.next(order, order.orders.products).pipe(
+            take(1),
+            switchMap(order => this.save(order)),
+          ).subscribe(e => {
+            console.log('BUYER_PAYMENT_VERIFICATION', e);
+          });
+        }
 
 
         if (order.status == OrderStatus.OPEN && diff > 5 && order.hasOffer && !order.hasOfferUpdated && order.hasOfferDone) {
-      
+
 
           const obs = order.orders.products.reduce((obs: any, product: any) => {
             product.offers.forEach((offer: any, index: any) => {
@@ -82,20 +164,20 @@ export class OrdersService {
         }
         if (order.status == OrderStatus.WAITING && diff > 5) {
           order.status = OrderStatus.OPEN;
-          order.lastUpdate = date;
+          order.lastUpdated = date;
           order.orders.products.map((product: any) => {
             product.status = OrderStatus.OPEN;
-            product.lastUpdate = date;
+            product.lastUpdated = date;
           });
           this.save(order).subscribe((e) => { });
         }
 
         if (order.status == OrderStatus.FOR_APPROVAL && diff > 5) {
           order.status = OrderStatus.WAITING;
-          order.lastUpdate = date;
+          order.lastUpdated = date;
           order.orders.products.map((product: any) => {
             product.status = OrderStatus.WAITING;
-            product.lastUpdate = date;
+            product.lastUpdated = date;
           });
           this.save(order).subscribe((e) => { });
         }
@@ -332,13 +414,13 @@ export class OrdersService {
         const date = new Date();
         if (order._id) {
           const orderIndex = orders.findIndex((t: any) => t._id == order._id);
-          order.lastUpdate = date;
+          order.lastUpdated = date;
           orders[orderIndex] = order;
         } else {
           order._id = id;
           order.batchId = orders.length + 1;
           order.dateCreated = date;
-          order.lastUpdate = date;
+          order.lastUpdated = date;
           orders.push(order);
         }
 

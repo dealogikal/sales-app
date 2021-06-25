@@ -1,1 +1,40 @@
-<p>closed-page works!</p>
+<div class="fx-layout-row" *ngIf="order$ | async as order">
+    <div class="__card p-16px ">
+        <div class="fx-layout-column fx-align-start-center">
+            <div class="__illustration">
+                <img class="" src="assets/images/closed_deal.svg" alt="" srcset="" />
+            </div>
+
+            <div class="hl fw-600">Closed Deal</div>
+            <div class="p-4px"></div>
+            <div class="sm fw-600">{{ order.lastUpdated | date : 'EEEE, MMMM d, y, h:mm a'}}</div>
+            <div class="p-4px"></div>
+            <div class="sm">This transaction is now closed</div>
+            <div class="p-8px"></div>
+        </div>
+    </div>
+    <div class="p-8px"></div>
+    <div class="__card ">
+        <div class="__header">
+            <span class="sm fw-600">ITEMS</span>
+        </div>
+
+        <div class="p-h-20px" *ngFor="let item of items$ | async">
+            <div class="fx-layout-row fx-align-spacebetween-center p-v-20px b-b-1">
+                <div class="fx-flex fx-layout-column fx-align-center-start">
+                    <span class="hl fw-600">{{ item.product }} {{ item.type ? "- " + item.type : "" }}</span>
+                    <span class="hl fc-p m-t-4px">
+                        <span class="ls-1">{{ item.qty | number: "2." }}</span>
+                        <span class="m-l-4px">{{ item.unit }}</span>
+                    </span>
+                </div>
+
+                <div class="fx-layout-row fx-align-end-center fx-flex">
+                    <button type="button" class="__button __button-primary __button-disabled __button-success">
+                        CLOSED DEAL
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

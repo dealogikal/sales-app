@@ -1,0 +1,4 @@
+<div class="chip fx-layout-row fx-align-center-center" [class.selected]="option.selected"
+  *ngFor="let option of options_; index as i" (click)="toggle(option, i)">
+  <span [innerText]="option?.name || option"></span>
+</div>

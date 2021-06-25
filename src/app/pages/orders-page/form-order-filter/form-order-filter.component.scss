@@ -1,0 +1,120 @@
+@import "../../../styles/var.scss";
+@import "../../../styles/flex.scss";
+@import "../../../styles/utils.scss";
+
+:host {
+    font-family: "Avenir", sans-serif;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+
+    .__backdrop {
+        width: 100%;
+        height: 100%;
+        background-color: rgba(9, 30, 66, 0.54);
+        cursor: pointer;
+        transition: all 250ms ease-in-out 1000ms;
+        position: fixed;
+    }
+
+    .__modal {
+        @extend .fx-layout-column;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin-top: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 500px;
+        // min-height: 250px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        &__header {
+            @extend .fx-layout-row;
+            @extend .fx-align-start-center;
+            padding: 0 32px;
+            min-height: 70px;
+        }
+        &__content {
+            @extend .fx-layout-column;
+            padding: 0 32px;
+        }
+        &__close {
+            @extend .fx-layout-row;
+            @extend .fx-align-center-center;
+            height: 32px;
+            width: 32px;
+            border-radius: 2px;
+            transition: all 250ms ease-out;
+            background-color: #f2f3f5;
+            cursor: pointer;
+            overflow: hidden;
+            &:hover {
+                opacity: 0.5;
+            }
+            &.icon {
+                width: 16px;
+            }
+        }
+    }
+
+    .__button {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        @extend .sm;
+        min-width: 80px;
+        height: 32px;
+        padding: 0 16px;
+        background-color: #f2f3f5;
+        cursor: pointer;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        transition: all ease-in-out 250ms;
+        &-primary {
+            background-color: $color-primary;
+            color: #ffffff;
+        }
+        &-outlined {
+            background-color: $color-white;
+            border: 1px solid $color-primary;
+            color: $color-primary;
+            &-disabled {
+                color: $color-disabled;
+                border: 1px solid $color-disabled;
+                background-color: $color-white;
+                pointer-events: none;
+            }
+        }
+        &-secondary {
+            background-color: $color-white;
+            border: 1px solid $color-primary;
+            color: $color-primary;
+            &-disabled {
+                color: $color-disabled;
+                border: 1px solid $color-disabled;
+                background-color: $color-white;
+                pointer-events: none;
+            }
+        }
+        &-disabled {
+            background-color: $color-disabled;
+            pointer-events: none;
+        }
+        &-success {
+            background-color: #f2f3f5;
+            color: $color-success;
+            pointer-events: none;
+        }
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+}

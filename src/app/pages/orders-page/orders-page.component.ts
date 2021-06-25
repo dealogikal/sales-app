@@ -5,6 +5,7 @@ import * as moment from 'moment';
 import { BehaviorSubject, combineLatest, Observable, of, Subscription, zip } from 'rxjs';
 import { delay, filter, map, take, tap } from 'rxjs/operators';
 import { OrderStatus } from 'src/app/helpers/classes/classes';
+import { NavigatorService } from 'src/app/services/navigator.service';
 import { OrderService } from 'src/app/services/order.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
@@ -31,7 +32,7 @@ export class OrdersPageComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private orders: OrdersService,
-    // private navigator: NavigatorService
+    private navigator: NavigatorService
   ) {
     this.form = this.fb.group({
       search: ['']
@@ -91,12 +92,12 @@ export class OrdersPageComponent implements OnInit {
         params_order.dateCreated = dateCreated;
       }
 
-      // this.navigator.set({
-      //   name: '',
-      //   routerLink: '/home/b/order/$id',
-      //   homeLink: '/home/b/my-orders',
-      //   queryParams: params
-      // });
+      this.navigator.set({
+        name: '',
+        routerLink: '/home/b/order/$id',
+        homeLink: '/home/b/my-orders',
+        queryParams: params
+      });
 
       this.loading$.next(true);
 
@@ -109,7 +110,7 @@ export class OrdersPageComponent implements OnInit {
           return orders.filter((order: any) => {
             const status = status_order.indexOf(order.status) !== -1;
             const date_gte = moment(order.dateCreated).isSameOrAfter(moment(params.from));
-            const date_lte = moment(order.dateCreated).isSameOrBefore(moment(params.to));
+            const date_lte = params.to ? moment(order.dateCreated).isSameOrBefore(moment(params.to).add(1, 'days').toDate()) : true;
             const id = order._id == params.search;
             const batchId = order.batchId == parseInt(params.search);
             const product_search = order.orders.products.some((product: any) => {

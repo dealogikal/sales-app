@@ -7,7 +7,9 @@ import { delay, filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { OrderStatus, Pages, PaymentMethods } from 'src/app/helpers/classes/classes';
 import { ConfigService } from 'src/app/services/config.service';
 import { OrderService } from 'src/app/services/order.service';
+import { OrdersService } from 'src/app/services/orders.service';
 import { PaymentService } from 'src/app/services/payment.service';
+import { WorkflowService } from 'src/app/services/workflow.service';
 
 @Component({
   selector: 'breakdown-page',
@@ -33,10 +35,12 @@ export class BuyerBreakdownPageComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private order: OrderService,
+    private orders: OrdersService,
     private payment: PaymentService,
     private fb: FormBuilder,
     private config: ConfigService,
     private iziToast: NgxIzitoastService,
+    private workflow: WorkflowService
   ) {
     this.form = this.fb.group({
       method: ['Cash on delivery', Validators.required],
@@ -141,10 +145,8 @@ export class BuyerBreakdownPageComponent implements OnInit {
             onClosing: (instance: any, toast: any, closedBy: any) => {
               this.order.get().pipe(
                 take(1),
-                map(order => {
-                  return order.orders.products;
-                }),
-                switchMap(products => this.payment.next(products))
+                switchMap(order => this.workflow.next(order, order.orders.products)),
+                switchMap(order => this.orders.save(order))
               ).subscribe((order) => {
                 console.log('onProceed >>>', order);
                 switch (order.payment.method) {

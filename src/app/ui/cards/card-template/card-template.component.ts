@@ -10,8 +10,8 @@ import * as moment from 'moment';
 })
 export class CardTemplateComponent implements OnInit {
 
-   data$: BehaviorSubject<any> = new BehaviorSubject({});
-   date$!: Observable<any>;
+  data$: BehaviorSubject<any> = new BehaviorSubject({});
+  date$!: Observable<any>;
 
 
   @Input()
@@ -32,10 +32,10 @@ export class CardTemplateComponent implements OnInit {
       (data: any) => data
     ).pipe(
       map((template: any) => {
-        return moment(template.lastUpdate).fromNow();
+        return moment(template.lastUpdated).fromNow();
       })
     );
 
   }
-  
+
 }

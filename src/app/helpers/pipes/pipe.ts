@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import * as moment from 'moment';
+import { OrderStatus } from '../classes/classes';
 
 export class DateUtils{
     static toUTC (date?: Date): Date {
@@ -168,22 +169,22 @@ export class CheckSelectedPipe implements PipeTransform {
     }
 }
 
-// @Pipe({
-//     name: 'nextShippingStatus',
-//     pure: false
-// })
-// export class NextShippingStatusPipe implements PipeTransform {
-//     shippingStatus: any = [
-//         PaymentStatus.FOR_DELIVERY,
-//         PaymentStatus.IN_TRANSIT,
-//         PaymentStatus.PRODUCT_DELIVERED,
-//     ];
+@Pipe({
+    name: 'nextShippingStatus',
+    pure: false
+})
+export class NextShippingStatusPipe implements PipeTransform {
+    shippingStatus: any = [
+        OrderStatus.FOR_DELIVERY,
+        OrderStatus.IN_TRANSIT,
+        OrderStatus.PRODUCT_DELIVERED,
+    ];
 
-//     transform(status: any): any {
-//         const statusIdx: number = this.shippingStatus.indexOf(status);
-//         return this.shippingStatus[statusIdx + 1];
-//     }
-// }
+    transform(status: any): any {
+        const statusIdx: number = this.shippingStatus.indexOf(status);
+        return this.shippingStatus[statusIdx + 1];
+    }
+}
 
 @Pipe({
     name: 'float'

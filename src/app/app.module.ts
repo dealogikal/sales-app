@@ -73,7 +73,7 @@ import { FormNumberFieldComponent } from './ui/forms/form-number-field/form-numb
 import { FormSwitchFieldComponent } from './ui/forms/form-switch-field/form-switch-field.component';
 import { CommoditySelectorComponent } from './pages/new-order-page/commodity-selector/commodity-selector.component';
 import { CardTemplateComponent } from './ui/cards/card-template/card-template.component';
-import { CheckSelectedPipe, FloatPipe, IsBeforeToday, NoComma, ObjectKeys, ProcessingFeePipe } from './helpers/pipes/pipe';
+import { CheckSelectedPipe, FloatPipe, IsBeforeToday, NextShippingStatusPipe, NoComma, ObjectKeys, ProcessingFeePipe } from './helpers/pipes/pipe';
 import { SaveAsTemplateComponent } from './pages/new-order-page/save-as-template/save-as-template.component';
 import { FormProductComponent } from './pages/new-order-page/order-form/forms/form-product/form-product.component';
 import { FormShippingComponent } from './pages/new-order-page/order-form/forms/form-shipping/form-shipping.component';
@@ -99,6 +99,8 @@ import { FormAttachmentsFieldComponent } from './ui/forms/form-attachments-field
 import { FileUploadModule } from 'ng2-file-upload';
 import { FormUploaderFieldComponent } from './ui/forms/form-uploader-field/form-uploader-field.component';
 import { BankDepositComponent } from './pages/order-page/partials/bank-deposit/bank-deposit.component';
+import { FormOrderFilterComponent } from './pages/orders-page/form-order-filter/form-order-filter.component';
+import { FormChipsFieldComponent } from './ui/forms/form-chips-field/form-chips-field.component';
 
 
 const ICONS = {
@@ -167,6 +169,7 @@ const FORM_UI: any = [
   FormTextareaFieldComponent,
   FormAttachmentsFieldComponent,
   FormUploaderFieldComponent,
+  FormChipsFieldComponent
 ];
 
 const NEW_ORDER_PAGE: any = [
@@ -178,7 +181,8 @@ const NEW_ORDER_PAGE: any = [
   FormDetailsComponent,
   FormParticipantsComponent,
   ScheduleSelectComponent,
-  ParticipantsSelectorComponent
+  ParticipantsSelectorComponent,
+  FormOrderFilterComponent
 ]
 
 const ORDER_PAGE: any = [
@@ -188,7 +192,7 @@ const ORDER_PAGE: any = [
   BuyerPaymentPageComponent,
   BuyerShippingPageComponent,
   BuyerClosedPageComponent,
-  BankDepositComponent
+  BankDepositComponent,
 ]
 
 
@@ -223,7 +227,7 @@ const PIPES: any = [
   // TransactionCostPipe,
   ProcessingFeePipe,
   CheckSelectedPipe,
-  // NextShippingStatusPipe,
+  NextShippingStatusPipe,
   // OfferCountPipe,
   IsBeforeToday,
   // DecimalPipe

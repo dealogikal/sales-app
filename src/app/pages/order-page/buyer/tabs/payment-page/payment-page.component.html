@@ -1,9 +1,34 @@
 <ng-container *ngIf="order$ | async as order">
 
 
-    <div class="__card" *ngIf="order.status == OrderStatus.FOR_BUYER_PAYMENT">
-        <div class="__header fw-600">SET UP PAYMENT</div>
-        <bank-deposit></bank-deposit>
+    <div class="__card">
+        <div class="__header fw-600">PAYMENT</div>
+
+        <ng-container *ngIf="msg$ | async as msg">
+            <div class="p-8px"></div>
+            <div class="m-h-20px msg-status" *ngIf="msg$ | async as msg">{{msg}}</div>
+        </ng-container>
+
+        <bank-deposit *ngIf="order.status == OrderStatus.FOR_BUYER_PAYMENT"></bank-deposit>
+
+        <a target="_blank" *ngIf="order.payment.document" [attr.href]="order.payment.document.secureUrl"
+            class="__button __button-lg __button-primary ttf-up ls-1 fw-600 m-20px">
+            <span class="fc-white">DEPOSIT SLIP</span>
+            <i-feather class="__cta-icon fc-white" name="eye"></i-feather>
+        </a>
+
+        <label class="sm fw-600 p-h-20px m-v-20px">DOCUMENTS</label>
+
+        <ng-container *ngFor="let doc of documents$ | async">
+
+            <a  target="_blank" [attr.href]="doc.url"class="document fx-layout-row fx-align-spacebetween-center m-h-20px p-v-20px b-b-1">
+                <span class="fw-600">{{doc.name}}</span>
+                <i-feather class="__cta-icon" name="eye"></i-feather>
+            </a>
+
+
+        </ng-container>
+
     </div>
 
     <!-- <div class="__card" *ngIf="order.status !== OrderStatus.FOR_REVIEW">

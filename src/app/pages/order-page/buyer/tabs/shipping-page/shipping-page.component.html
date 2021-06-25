@@ -1,1 +1,110 @@
-<p>shipping-page works!</p>
+<div class="p-8px"></div>
+<span class="fw-600 sm">ITEMS</span>
+<!-- <div class="p-4px"></div> -->
+<ng-container *ngIf="order$ | async as order">
+    <div class="__card" *ngFor="let item of items$ | async">
+        <div class="__card__header">
+            <div class="sm">
+                <span class="fc-p">{{item.qty | number: "2."}}</span>
+                <span>&nbsp;</span>
+                <span class="fc-p">{{item.unit}}</span>
+                <span>&nbsp;&nbsp;</span>
+                <span class="fw-600">{{item.product}}</span>
+                <span>&nbsp;</span>
+                <span class="fw-600" *ngIf="item.type">- {{item.type}}</span>
+            </div>
+        </div>
+
+        <div class="fx-layout-row fx-align-spacebetween-center m-h-20px p-v-20px b-b-1"
+            *ngFor="let schedule of item.shipping.schedules; let sched_index = index">
+
+            <div class="fx-layout-column fx-flex">
+                <div class="sm">
+                    <span class="fc-p">{{schedule.qty}} {{schedule.unit}}</span>
+                    <span>&nbsp;</span><span>&nbsp;</span>
+                    <span>{{ (schedule.date + ' ' + schedule.time) | date : 'EEEE, MMMM d, y, h:mm a'}}</span>
+                </div>
+                <div class="p-4px"></div>
+
+                <div class="__bullet sm">
+                    <span class="m-l-16px">{{ order.shipping.method || 'Shipping' }}</span>
+                    <span class="m-l-4px">to
+                        <span class="">{{ item.shipping.location }} ({{item.shipping.province}})</span>
+                    </span>
+                </div>
+
+            </div>
+
+            <div class="fx-layout-column fx-flex" *ngIf="progress$ | async as progress">
+                <div class="p-t-10px m-h-8px">
+                    <div class="__line-progress" *ngIf="percentage$ | async as percentage">
+                        <div class="__line-progress__percent" [style.width]="percentage[item.id][schedule.id]"></div>
+                    </div>
+                </div>
+                <div class="fx-layout-row m-t--12px">
+                    <div class="fx-flex fx-layout-column" [class.fx-align-start-start]="step.position == 'start'"
+                        [class.fx-align-start-center]="step.position == 'center'"
+                        [class.fx-align-start-end]="step.position == 'end'"
+                        *ngFor="let step of progress[item.id][schedule.id]">
+                        <div class="__step" [class.__step-done]="step.progress == step.total"></div>
+                        <div class="__step__label" [class.__step__label-done]="step.progress == step.total">
+                            {{ step.label }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="fx-layout-row fx-align-end-center fx-flex">
+                <button type="button" class="__button __button-primary"
+                    [class.__button-disabled]="schedule.status !== OrderStatus.PRODUCT_DELIVERED"
+                    [class.__button-success]="schedule.status == OrderStatus.CLOSED_DEAL"
+                    (click)="onNext(item, schedule)">
+                    <ng-container *ngIf="
+                    [
+                      OrderStatus.FOR_DELIVERY,
+                      OrderStatus.IN_TRANSIT,
+                      OrderStatus.PRODUCT_DELIVERED
+                    ].indexOf(schedule.status) !== -1
+                  ">
+                        Delivery Confirmation
+                    </ng-container>
+                    <ng-container *ngIf="
+                    [
+                      OrderStatus.FOR_DELIVERY,
+                      OrderStatus.IN_TRANSIT,
+                      OrderStatus.PRODUCT_DELIVERED
+                    ].indexOf(schedule.status) == -1
+                  ">
+                        Product Delivered
+                    </ng-container>
+                </button>
+            </div>
+
+        </div>
+
+
+        <div class="p-8px"></div>
+
+        <div class="m-h-20px __notes">
+            <span>{{ item.notes }}</span>
+        </div>
+
+        <div class="p-8px"></div>
+
+        <ng-container *ngIf="item.attachments.length">
+            <div class="fx-layout-row-wrap m-h-20px">
+                <ng-container *ngFor="let attachment of item.attachments; let i = index">
+                    <div class="img" [style.background-image]="'url(' + attachment.secureUrl + ')'">
+                        <a [attr.href]="attachment.secureUrl" target="_blank" class="__btn--mini">
+                            <i-feather class="__btn--mini--icon" name="eye"></i-feather>
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+
+            <div class="p-8px"></div>
+        </ng-container>
+
+
+    </div>
+</ng-container>

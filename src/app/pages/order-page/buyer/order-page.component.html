@@ -1,4 +1,26 @@
 <div class="__wrapper">
+
+    <div class="p-8px"></div>
+    <div class="__navigator fx-layout-row fx-align-spacebetween-center p-16px" *ngIf="navigator$ | async as navigator">
+        <div>
+            <button class="__button __button-secondary" [routerLink]="[navigator.home]"
+                [queryParams]="navigator.params">
+                BACK TO ORDERS
+            </button>
+        </div>
+        <div class="fx-layout-row">
+            <button [class.__button-secondary-disabled]="navigator.prev == ''" class="__button __button-secondary"
+                [routerLink]="[navigator.prev]">
+                PREV
+            </button>
+            <div class="p-8px"></div>
+            <button class="__button __button-secondary" [class.__button-secondary-disabled]="navigator.next == ''"
+                [routerLink]="[navigator.next]">
+                NEXT
+            </button>
+        </div>
+    </div>
+
     <div class="p-24px" *ngIf="progress$ | async as progress">
         <div class="p-v-10px"></div>
         <div [style.margin-left.%]="-(100 / progress.steps.length / 2)"

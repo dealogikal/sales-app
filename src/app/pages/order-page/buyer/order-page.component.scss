@@ -19,6 +19,13 @@
         margin-bottom: 50px;
         @extend .fx-layout-column;
     }
+    .__navigator {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
+        width: 100%;
+        box-sizing: border-box;
+    }
 
     .__step {
         cursor: pointer;
@@ -134,7 +141,7 @@
         line-height: normal;
         min-height: 32px;
     }
-    
+
     .__action {
         cursor: pointer;
         transition: all ease-in-out 250ms;
@@ -146,6 +153,4 @@
         width: 14px;
         height: 14px;
     }
-
-   
 }

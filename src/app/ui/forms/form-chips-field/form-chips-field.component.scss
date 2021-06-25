@@ -1,0 +1,31 @@
+
+@import "../../../styles/flex.scss";
+@import "../../../styles/form.scss";
+
+:host {
+  @extend .fx-layout-row-wrap;
+  font-family: "Avenir", sans-serif;
+  column-gap: 8px;
+  row-gap: 8px;
+  .chip {
+    background-color: #f2f3f5;
+    font-size: 10px;
+    height: 32px;
+    padding: 0 20px;
+    border-radius: 4px;
+    font-weight: 500;
+    box-sizing: content-box;
+    cursor: pointer;
+    transition: all 250ms ease-in-out;
+    &:hover {
+      box-shadow: 0 0 2px 2px #f2f3f5;
+    }
+    span {
+      line-height: normal;
+    }
+    &.selected {
+      background-color: $color-primary;
+      color: $color-white;
+    }
+  }
+}

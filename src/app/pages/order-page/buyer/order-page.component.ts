@@ -5,6 +5,7 @@ import { combineLatest, Observable, Subscription, timer } from 'rxjs';
 import { debounceTime, filter, map, skipWhile, take } from 'rxjs/operators';
 import { AccountType, COLOR, OrderStatus, StepStatus, TaxRateType } from 'src/app/helpers/classes/classes';
 import { CheckoutService } from 'src/app/services/checkout.service';
+import { NavigatorService } from 'src/app/services/navigator.service';
 import { OrderService } from 'src/app/services/order.service';
 import { OrdersService } from 'src/app/services/orders.service';
 
@@ -25,6 +26,7 @@ export class BuyerOrderPageComponent implements OnInit {
   actions$!: Observable<any>;
   duration$!: Observable<any>;
   checkoutItems$!: Observable<any>;
+  navigator$!: Observable<any>;
 
   StepStatus: any = StepStatus;
   TaxRateType: any = TaxRateType;
@@ -35,13 +37,19 @@ export class BuyerOrderPageComponent implements OnInit {
     private router: Router,
     private orders: OrdersService,
     private order: OrderService,
-    private checkout: CheckoutService
+    private checkout: CheckoutService,
+    private navigator: NavigatorService,
   ) { }
 
   ngOnInit(): void {
     this.$routeParams = this.route.params.pipe(
       debounceTime(250)
     ).subscribe(params => {
+
+      this.navigator.setCurrentId(params._id);
+      this.navigator$ = this.navigator.get();
+
+
       this.order$ = this.orders.find(params._id);
 
       this.order$.pipe(take(1)).subscribe(order => {

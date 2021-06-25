@@ -34,7 +34,7 @@ export class TemplatesPageComponent implements OnInit {
     this.templates$ = this.templates.get().pipe(
       map((templates) => {
         console.log('templates', templates);
-        return templates.sort((a: any, b: any) => b.lastUpdate - a.lastUpdate);
+        return templates.sort((a: any, b: any) => b.lastUpdated - a.lastUpdated);
       })
     );
 

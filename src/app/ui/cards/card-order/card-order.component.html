@@ -43,8 +43,8 @@
                     <span class="fw-600">{{product.product}}</span>
                     <span>&nbsp;</span>
                     <div class="__bubble" *ngIf="['Open', 'Auction Ended'].indexOf(order.status) !== -1"
-                        [attr.data-value]="({bidId: order._id, productId: product.id} | offerCount) | async">
-                        {{({bidId: order._id, productId: product.id} | offerCount) | async}}
+                        [attr.data-value]="product.offers.length">
+                        {{product.offers.length}}
                     </div>
                 </div>
                 <div class="p-2px"></div>

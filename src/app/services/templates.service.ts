@@ -186,14 +186,14 @@ export class TemplatesService {
         const date = new Date();
         if (template._id) {
           const templateIndex = templates.findIndex((t: any) => t._id == template._id);
-          template.lastUpdate = date;
+          template.lastUpdated = date;
           templates[templateIndex] = template;
 
           // console.log('update >>>', template, templateIndex);
         } else {
           template._id = id;
           template.dateCreated = date;
-          template.lastUpdate = date;
+          template.lastUpdated = date;
           // console.log('new >>>', template);
           templates.push(template);
         }

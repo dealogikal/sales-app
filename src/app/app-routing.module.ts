@@ -25,6 +25,7 @@ import { OrdersPageComponent } from './pages/orders-page/orders-page.component';
 import { BuyerPaymentPageComponent } from './pages/order-page/buyer/tabs/payment-page/payment-page.component';
 import { BuyerShippingPageComponent } from './pages/order-page/buyer/tabs/shipping-page/shipping-page.component';
 import { BuyerClosedPageComponent } from './pages/order-page/buyer/tabs/closed-page/closed-page.component';
+import { FormOrderFilterComponent } from './pages/orders-page/form-order-filter/form-order-filter.component';
 
 const routes: Routes = [
   {
@@ -53,12 +54,12 @@ const routes: Routes = [
           {
             path: "my-orders",
             component: OrdersPageComponent,
-            // children: [
-            //   {
-            //     path: "filter",
-            //     component: FormOrderFilterComponent,
-            //   }
-            // ]
+            children: [
+              {
+                path: "filter",
+                component: FormOrderFilterComponent,
+              }
+            ]
           },
           {
             path: 'order/:_id',

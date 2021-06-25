@@ -149,7 +149,7 @@ export interface Order {
     name?: string;
     dateCreated?: string;
     user?: User;
-    lastUpdate?: string;
+    lastUpdated?: string;
     startDate: string;
     startTime: string;
     duration: string;
