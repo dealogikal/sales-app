@@ -1,0 +1,119 @@
+<div class="__wrapper">
+
+    <div class="p-8px"></div>
+    <div class="__navigator fx-layout-row fx-align-spacebetween-center p-16px" *ngIf="navigator$ | async as navigator">
+        <div>
+            <button class="__button __button-secondary" [routerLink]="[navigator.home]"
+                [queryParams]="navigator.params">
+                BACK TO ORDERS
+            </button>
+        </div>
+        <div class="fx-layout-row">
+            <button [class.__button-secondary-disabled]="navigator.prev == ''" class="__button __button-secondary"
+                [routerLink]="[navigator.prev]">
+                PREV
+            </button>
+            <div class="p-8px"></div>
+            <button class="__button __button-secondary" [class.__button-secondary-disabled]="navigator.next == ''"
+                [routerLink]="[navigator.next]">
+                NEXT
+            </button>
+        </div>
+    </div>
+
+    <div class="p-24px" *ngIf="progress$ | async as progress">
+        <div class="p-v-10px"></div>
+        <div [style.margin-left.%]="-(100 / progress.steps.length / 2)"
+            [style.margin-right.%]="-(100 / progress.steps.length / 2)">
+            <div class="__step__line-progress" [style.width.%]="100 - (100 / progress.steps.length / 2) * 2"
+                [style.margin-left.%]="100 / progress.steps.length / 2">
+                <div class="__step__line-progress__percent" [style.width.%]="progress.rate"></div>
+            </div>
+            <div class="fx-layout-row">
+                <div class="__step fx-flex fx-layout-column fx-align-center-center" *ngFor="let item of progress.steps"
+                    [routerLink]="[item.routerLink]" routerLinkActive="active"
+                    [class.disabled]="item.status == StepStatus.INCOMPLETE">
+                    <div class="__step__indicator"
+                        [class.__step__indicator-complete]="item.status == StepStatus.COMPLETE"
+                        [class.__step__indicator-ongoing]="item.status == StepStatus.ONGOING">
+                        <i-feather class="__step__indicator__icon" name="check"
+                            *ngIf="item.status == StepStatus.COMPLETE">
+                        </i-feather>
+                    </div>
+                    <div class="__step__label">{{ item.label }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="__card" *ngIf="order$ | async as order">
+        <div class="__header">
+            <div class="fx-layout-row fx-align-center-center">
+                <span class="fw-600 ls-1 lh-n">ORDER {{ order.batchId | number: "5.0" | nocomma }}</span>
+                <date-ago class="m-l-4px sm lh-n" [date]="order.startDate"></date-ago>
+                <span
+                    *ngIf="order.transaction.taxType == TaxRateType.ZERO_RATED || order.transaction.taxType == TaxRateType.TAX_EXEMPTED"
+                    class="m-l-8px m-r-8px badge badge-warning" style="font-size: 10px">ZERO-RATED</span>
+            </div>
+            <!-- <div>{{order.status}}</div> -->
+            <ng-container *ngIf="duration$ | async as duration">
+                <div class="__timer lh-n fc-1 fw-600 fs-14px fx-layout-row fx-align-start-center b-r-1px"
+                    [style.color]="duration.color ">
+                    <span class="fw-600" [style.color]="duration.color">{{duration.label}}</span>
+                    <span>&nbsp;</span>
+                    <span>&nbsp;</span>
+                    <i-feather name="clock" class="__icon"></i-feather>
+                    <span>&nbsp;</span>
+                    <span>&nbsp;</span>
+                    <span [innerText]="duration.value[0] | number: '2.0' " [attr.data-timer-unit]=" 'd' "></span>
+                    <span>&nbsp;</span>
+                    <span [innerText]="duration.value[1] | number: '2.0' " [attr.data-timer-unit]=" 'h' "></span>
+                    <span>&nbsp;</span>
+                    <span [innerText]="duration.value[2] | number: '2.0' " [attr.data-timer-unit]=" 'm' "></span>
+                </div>
+            </ng-container>
+        </div>
+        <div class="p-8px"></div>
+        <div class="fx-layout-row fx-align-spacebetween-center">
+            <div class="fx-layout-column" *ngIf="order.payment">
+                <div class="p-h-20px __bullet" *ngIf="order.payment.method != 'Terms'">
+                    <span class="m-l-20px fw-600">{{ order.payment.method }}</span>
+                    <span class="m-l-4px">via </span>
+                    <span class="fw-600">{{ order.payment.option }} ({{ order.payment.channel }})</span>
+                </div>
+                <div class="p-h-20px __bullet" *ngIf="order.payment.method == 'Terms'">
+                    <span class="m-l-20px fw-600">{{ order.payment.days }} day Terms</span>
+                    <span class="m-l-4px">via </span>
+                    <span class="fw-600">{{ order.payment.option }} ({{ order.payment.channel }})</span>
+                </div>
+
+            </div>
+            <countdown-timer class="p-r-20px p-v-8px" [data]="order"
+                *ngIf="['Open','Waiting','For Approval'].indexOf(order.status) !== -1"></countdown-timer>
+        </div>
+        <div class="p-4px"></div>
+        <!-- <div class="p-v-2px" *ngIf="!(actions$ | async) "></div> -->
+        <div class="__footer separator fx-layout-row " *ngIf="actions$ | async as actions ">
+            <div class="fx-flex fx-layout-row fx-align-spacebetween-center ">
+                <div>
+                    <div class="__tag">
+                        <div class="lh-n">{{order.shipping.method}}</div>
+                    </div>
+                </div>
+                <!-- <div class="fx-layout-row ">
+                    <div class="__action p-l-20px fx-layout-row fx-align-center-center "
+                        (click)="onActionHandler(action.label) " *ngFor="let action of actions ">
+                        <i-feather class="__icon m-r-8px fc-p " [name]="action.icon"></i-feather>
+                        <span class="fw-400 sm lh-n fc-p ">{{ action.label }}</span>
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+
+
+    <router-outlet></router-outlet>
+
+</div>
+
+<checkout-drawer *ngIf="(checkoutItems$ | async)?.length"></checkout-drawer>

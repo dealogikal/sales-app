@@ -1,0 +1,26 @@
+<div class="wrapper">
+    <div class="p-16px"></div>
+    <span class="fw-600">Open for Auction</span>
+    <div class="p-4px"></div>
+
+    <ng-container *ngIf="orders$ | async as orders">
+        <div class="fx-layout-column fx-align-center-center" *ngIf="!orders.length">
+            <div class="shdr p-40px ls-1 fw-600 fx-layout-row  fx-align-center-center">
+                <i-feather class="icon p-10px" name="search"></i-feather> NO RESULTS FOUND
+            </div>
+            <img class="image-display h-300 m-20px" src="assets/images/idea.svg" alt="No Results Found">
+        </div>
+        <card-order *ngFor="let order of orders" [data]="order"></card-order>
+    </ng-container>
+
+
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+    <div class="p-32px"></div>
+
+
+</div>
+
+<router-outlet></router-outlet>

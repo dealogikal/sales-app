@@ -67,7 +67,7 @@ export class LoginPageComponent implements OnInit {
             messageSize: '13',
             position: 'bottomRight',
             backgroundColor: '#fddddd',
-          })
+          });
           return;
         }
 

@@ -1,5 +1,6 @@
 import { DecimalPipe } from '@angular/common';
 import { Component, HostBinding, Input, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import * as moment from 'moment';
 import { NgxIzitoastService } from 'ngx-izitoast';
 import { BehaviorSubject, combineLatest, Observable, timer } from 'rxjs';
@@ -36,7 +37,11 @@ export class CardOfferComponent implements OnInit {
 
   @Input() shippingMethod!: String;
 
+  @Input() showAction!: boolean;
+
   constructor(
+    private route: ActivatedRoute,
+    private router: Router,
     private user: UserService,
     private order: OrderService,
     private iziToast: NgxIzitoastService,
@@ -48,7 +53,8 @@ export class CardOfferComponent implements OnInit {
     combineLatest(
       this.checkout.get(),
       this.offer$,
-      this.order.get()
+      this.order.get(),
+      this.user.get().pipe(filter(user => user.accountType == AccountType.BUYER))
     ).subscribe(([items, offer, order]) => {
       const checkout_selected = items.some((item: any) => item.id == offer.id);
       const product = order.orders.products.find((p: any) => p.id == offer.product_id);
@@ -132,6 +138,14 @@ export class CardOfferComponent implements OnInit {
       }),
       map(([offer, accountType, items]) => {
         const selected = items.some((item: any) => item.id == offer.id);
+        if (accountType == AccountType.SELLER && this.showAction) {
+          return [
+            {
+              label: "EDIT OFFER",
+              icon: "edit",
+            },
+          ];
+        }
         if (
           accountType !== AccountType.SELLER &&
           offer.status == OfferStatus.OPEN &&
@@ -164,6 +178,9 @@ export class CardOfferComponent implements OnInit {
 
   onActionHandler(action: any) {
     switch (action) {
+      case 'EDIT OFFER':
+        this.router.navigate(['offer'], { relativeTo: this.route });
+        break;
       case 'SELECT THIS OFFER':
         this.iziToast.show({
           title: 'Add to checkout',

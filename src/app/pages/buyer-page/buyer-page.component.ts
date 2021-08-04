@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { BuyerCronService } from 'src/app/services/buyer-cron.service';
 
 @Component({
   selector: 'buyer-page',
@@ -7,9 +8,12 @@ import { Component, OnInit } from '@angular/core';
 })
 export class BuyerPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private cron: BuyerCronService
+  ) { }
 
-  ngOnInit(): void {
+  ngOnInit(
+  ): void {
   }
 
 }

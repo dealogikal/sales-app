@@ -19,6 +19,9 @@ export class NavigatorService {
   constructor(
     private orders: OrdersService
   ) {
+
+    this.retrieve();
+    
     this.result$ = combineLatest(
       this.orders.get(),
       this.currentId$

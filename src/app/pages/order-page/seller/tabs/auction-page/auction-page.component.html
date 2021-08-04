@@ -1,0 +1,150 @@
+<ng-container *ngIf="order$ | async as order">
+    <div class="p-4px"></div>
+    <div class="sm ls-1 fw-600" style="font-weight: 600; margin: 0px 5px;">PRODUCTS</div>
+    <div class="__tab-group" *ngIf="items$ | async as items">
+        <div class="__tab__item" *ngFor="let item of items" [routerLink]="['../'+item.id]" routerLinkActive="active">
+            <span class="__tab__item__quantity">
+                <span class="ls-1">{{item.qty | number:'2.'}}</span>
+                <span class="m-l-4px">{{item.unit}}</span>
+            </span>
+            <span class="fw-600 m-l-4px">{{(item.type !== '') ? item.type : item.product}}</span>
+        </div>
+    </div>
+
+    <div class="p-4px"></div>
+    <div class="__card" *ngIf="item$ | async as item">
+        <div class="p-4px"></div>
+
+        <div class="fx-layout-column">
+            <div class="p-h-20px sm fx-layout-row fx-align-spacebetween-center" style="height: 34px">
+                <div>
+                    <span class="fc-p">{{item.qty | number:'2.'}}</span>
+                    <span>&nbsp;</span>
+                    <span class="fc-p">{{item.unit}}</span>
+                    <span>&nbsp;</span>
+                    <span class="fw-600">{{item.product}}</span>
+                    <span>&nbsp;</span>
+                    <span class="fw-600" *ngIf="item.type">- {{item.type}}</span>
+                </div>
+
+                <status-tag [data]="item.status"></status-tag>
+            </div>
+            <div class="p-h-20px m-t--4px __bullet">
+                <span class="m-l-20px">{{ order.shipping.method }}</span>
+                <span class="m-l-4px">to
+                    <span class="">{{ item.shipping.location }} ({{item.shipping.province}})</span>
+                </span>
+            </div>
+        </div>
+
+        <div class="p-8px"></div>
+        <div class="m-h-20px __notes">
+            <span>{{ item.notes }}</span>
+        </div>
+        <div class="p-8px"></div>
+        <ng-container *ngIf="item.attachments.length">
+            <div class="fx-layout-row-wrap m-h-20px">
+                <ng-container *ngFor="let attachment of item.attachments; let i = index">
+                    <div class="img" [style.background-image]="'url(' + attachment.secureUrl + ')'">
+                        <a [attr.href]="attachment.secureUrl" target="_blank" class="__btn">
+                            <i-feather class="__btn--icon" name="eye"></i-feather>
+                        </a>
+                    </div>
+                </ng-container>
+            </div>
+            <div class="p-8px"></div>
+        </ng-container>
+
+        <span class="sm p-h-20px fx-layout-row">
+            <span class="fw-600">Shipping Schedules</span>
+        </span>
+
+        <div class="p-4px"></div>
+
+        <div class="p-h-20px fx-layout-row-wrap">
+            <div class="__pill" *ngFor="let schedule of item.shipping.schedules">
+                <div>
+                    <span class="fc-p">{{schedule.qty}} {{schedule.unit}}</span>
+                    <span>&nbsp;</span><span>&nbsp;</span>
+                    <span>{{ (schedule.date + ' ' + schedule.time) | date : 'EEEE, MMMM d, y, h:mm a'}}</span>
+                </div>
+            </div>
+        </div>
+        <div class="p-8px"></div>
+    </div>
+
+    <div class="p-4px"></div>
+
+    <div class="__btn __btn--dashed" [routerLink]="['offer']" *ngIf="(placeOffer$$ | async)">
+        <i-feather class="__btn__icon m-r-10px" name="plus">
+        </i-feather>
+        <span class="lh-n sm fc-p">PLACE OFFER</span>
+    </div>
+
+
+    <div class="fx-layout-column" *ngIf="offer$ | async as offer">
+
+        <div class="p-8px"></div>
+
+        <div class="hl fc-2 fw-600 p-b-10px">Your Offer</div>
+
+        <card-offer class="__card" [data]="offer" [showAction]="'true'" [shippingMethod]="order.shipping.method"
+            (onEvent)="onActionOfferHandler($event, order)"></card-offer>
+
+    </div>
+
+    <div class="p-8px"></div>
+
+    <div class="sm fc-2 p-b-10px">
+        <span class="fw-600 ls-1">CURRENT OFFERS</span>&nbsp;
+        <span>(Prices are VAT included)</span>
+    </div>
+
+    <ng-container *ngIf="offers$ | async as offers">
+
+        <card-offer class="__card" [class.highlight]="idx == 0" [data]="offer" [shippingMethod]="order.shipping.method"
+            *ngFor="let offer of offers; let idx = index">
+        </card-offer>
+
+        <div class="fx-layout-row fx-align-center-center" *ngIf="!offers.length">
+            <div class="fx-layout-column fx-align-center-center">
+                <div class="shdr p-20px ls-1 fw-600 fx-layout-row  fx-align-center-center">
+                    <img class="image-display h-200 m-20px" src="assets/images/no_offers.svg" alt="No Offers Found"
+                        style="max-width: 160px;">
+                    <div>NO OFFERS</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="fx-layout-column" *ngIf="!offers">
+            <div class="fx-layout-row fx-align-center-center m-t-40px">
+                <div class="fx-layout-column fx-align-center-center">
+                    <div class="shdr p-10px ls-1 fw-600 fx-layout-row  fx-align-center-center">
+
+                        <div>LOADING OFFERS</div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="padding: 0px 35%;">
+                <div class="progress progress-small m-b-0px">
+                    <div class="progress-bar-success progress-bar-indeterminate"></div>
+                </div>
+            </div>
+        </div>
+
+
+    </ng-container>
+
+    <div class="m-32px"></div>
+    <div class="m-32px"></div>
+    <div class="m-32px"></div>
+    <div class="m-32px"></div>
+    <div class="m-32px"></div>
+    <div class="m-32px"></div>
+
+</ng-container>
+
+
+<router-outlet></router-outlet>

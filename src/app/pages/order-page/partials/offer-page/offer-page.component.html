@@ -1,0 +1,111 @@
+<div class="__backdrop"></div>
+<div class="__modal">
+    <div class="__modal__header">
+        <div class="fw-600 fx-layout-row fx-align-start-end">
+            <span>Offer</span>
+            <div class="p-4px"></div>
+            <span class="sm fc-p m-b-2px">{{ 5 - (offer$ | async)?.price?.length }} remaining chance to offer</span>
+        </div>
+
+        <div class="fx-layout-row m-r--16px">
+
+            <div class="__modal__button-icon" [routerLink]="['../']">
+                <i-feather class="icon" name="x"></i-feather>
+            </div>
+        </div>
+    </div>
+
+    <form class="__modal__content" [formGroup]="form" *ngIf="order$ | async as order" (ngSubmit)="onSubmit()">
+        <div class="fx-layout-row m-b-24px p-h-16px">
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px" [class.error]="
+                form.get('dueDate')!.hasError('required') &&
+                !form.get('dueDate')!.pristine
+              ">
+                <label for="dueDate" class="hl">Set Date</label>
+                <form-date-field [fieldControl]="form.get('dueDate')" [placeholder]="'MM/DD/YYYY'"
+                    [startDate]="'today'">
+                </form-date-field>
+            </div>
+            <div class="fx-layout-column fx-flex m-l-8px m-r-8px" [class.error]="
+                form.get('dueTime')!.hasError('required') &&
+                !form.get('dueTime')!.pristine
+              ">
+                <label for="dueTime" class="hl">Set Time</label>
+                <form-time-field [fieldControl]="form.get('dueTime')" [placeholder]="'12:00 AM'">
+                </form-time-field>
+            </div>
+        </div>
+
+
+        <div class="fx-layout-column m-b-24px p-h-24px" [class.error]="
+          form.get('perUnit')!.hasError('required') &&
+          !form.get('perUnit')!.pristine">
+            <label for="price" class="hl">Price per unit</label>
+            <div class="fx-layout-row-wrap">
+                <form-number-field [fieldControl]="form.get('perUnit')"
+                    [placeholder]="order.transaction.currency + ' 0.0000'" [max]="9999999"
+                    [currency]="order.transaction.currency + ' '" style="flex: 2">
+                </form-number-field>
+                <div class="fx-layout-column" style="flex: 1; padding: 0px 20px">
+                    <div style="font-weight: 600; color: #ff9800">
+                        {{ order.transaction.currency }}
+                        {{ pricePerUnit$ | async | number: "1.4-4" }}
+                    </div>
+                    <div class="sm fc-p" style="font-size: 11px; color: #ababab">
+                        VAT Ex. Price
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <ng-container *ngIf="order.shipping.method == 'Deliver'">
+            <div class="fx-layout-column m-b-24px p-h-24px" [class.error]="
+                form.get('freightUnit')!.hasError('required') &&
+                !form.get('freightUnit')!.pristine
+              ">
+                <label for="price" class="hl">Freight per unit</label>
+                <div class="fx-layout-row-wrap">
+                    <form-number-field [fieldControl]="form.get('freightUnit')"
+                        [placeholder]="order.transaction.currency + ' 0.00'" [max]="9999999"
+                        [currency]="order.transaction.currency + ' '" style="flex: 2">
+                    </form-number-field>
+                    <div class="fx-layout-column" style="flex: 1; padding: 0px 20px">
+                        <div style="font-weight: 600; color: #ff9800">
+                            {{ order.transaction.currency }}
+                            {{ freightPerUnit$ | async | number: "1.4-4" }}
+                        </div>
+                        <div class="sm fc-p" style="font-size: 11px; color: #ababab">
+                            VAT Ex. Price
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+
+        <div class="fx-layout-column m-b-24px p-h-24px"
+            [class.error]="form.get('notes')!.hasError('required') && !form.get('notes')!.pristine">
+            <label for="notes" class="hl">Offer Notes&nbsp;<span class="sm fc-p">Optional</span></label>
+            <form-textarea-field [fieldControl]="form.get('notes')" [placeholder]="'Write notes here...'"
+                [maxLines]="2"></form-textarea-field>
+        </div>
+
+        <div class="fx-layout-column m-b-24px p-h-24px"
+            [class.error]="form.get('attachments')!.hasError('required') && !form.get('attachments')!.pristine">
+            <label class="hl">Attachments&nbsp;<span class="sm fc-p">Optional</span></label>
+            <form-attachments-field [formArray]="form.controls['attachments']"></form-attachments-field>
+        </div>
+
+        <div class="fx-layout-row fx-align-end-center m-b-24px p-h-24px">
+            <ng-container>
+                <button type="submit" class="__button __button-primary" [class.__button-disabled]="!(enabled$ | async)">
+                    SUBMIT OFFER
+                </button>
+                <div class="p-8px"></div>
+                <button class="__button" [routerLink]="['../']">CANCEL</button>
+            </ng-container>
+        </div>
+
+    </form>
+</div>

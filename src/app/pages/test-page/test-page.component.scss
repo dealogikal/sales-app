@@ -1,0 +1,123 @@
+@import "../../styles/var.scss";
+@import "../../styles/flex.scss";
+@import "../../styles/utils.scss";
+
+:host {
+    .wizard {
+        background-color: #f0f0f0;
+        // padding: 2px;
+        height: 50px;
+        & a {
+            position: relative;
+            display: inline-block;
+            height: 50px;
+            width: 140px;
+
+            margin-left: 2px;
+            cursor: pointer;
+
+            &.__active {
+                .__content {
+                    .__label {
+                        // color: #ffffff;
+                        color: $color-primary;
+                    }
+                }
+                // .__arrow {
+                //     background-color: $color-primary;
+                //     &:after {
+                //         border-left: 8px solid $color-primary;
+                //     }
+                // }
+
+                // .__box {
+                //     &:before {
+                //         background-color: $color-primary;
+                //     }
+                //     &:after {
+                //         background-color: $color-primary;
+                //     }
+                // }
+            }
+
+            :hover {
+                text-decoration: none;
+            }
+            &:first-child {
+                margin-left: 0px;
+                .__arrow {
+                    &:before {
+                        display: none;
+                    }
+                }
+            }
+
+            &:last-child {
+                .__arrow {
+                    &:after {
+                        display: none;
+                    }
+                }
+            }
+            .__content {
+                @extend .fx-layout-row;
+                @extend .fx-align-center-center;
+                width: 100%;
+                height: 100%;
+                position: absolute;
+            }
+
+            .__arrow {
+                pointer-events: none;
+                position: absolute;
+                top: 22px;
+                height: 8px;
+                width: 140px;
+                background-color: #ffffff;
+                &:after {
+                    width: 0;
+                    height: 0;
+                    border-top: 8px inset transparent;
+                    border-bottom: 8px inset transparent;
+                    border-left: 8px solid #ffffff;
+                    position: absolute;
+                    content: "";
+                    top: -5px;
+                    right: -7px;
+                    z-index: 2;
+                }
+
+                &:before {
+                    width: 0;
+                    height: 0;
+                    border-top: 8px inset transparent;
+                    border-bottom: 8px inset transparent;
+                    border-left: 8px solid #f0f0f0;
+                    position: absolute;
+                    content: "";
+                    top: -5px;
+                    left: 0;
+                }
+            }
+            .__box {
+                pointer-events: none;
+                &:before {
+                    position: absolute;
+                    content: "";
+                    top: 0;
+                    width: 140px;
+                    height: 30px;
+                    background-color: #ffffff;
+                }
+                &:after {
+                    position: absolute;
+                    content: "";
+                    bottom: 0;
+                    width: 140px;
+                    height: 30px;
+                    background-color: #ffffff;
+                }
+            }
+        }
+    }
+}

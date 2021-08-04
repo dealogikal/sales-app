@@ -502,9 +502,6 @@ export class NewOrderPageComponent implements OnInit {
                       result.alias = 0;
                       result.batchId = 0;
 
-                      console.log('result >>>', result);
-
-
                       this.order.save(result).subscribe(order => {
                         this.new_order.clear();
                         this.router.navigate(['/home/b/order', order._id]);

@@ -1,0 +1,146 @@
+<ng-container *ngIf="order$ | async as order">
+
+
+    <div class="__card">
+        <div class="__header fw-600">PAYMENT</div>
+
+        <ng-container *ngIf="msg$ | async as msg">
+            <div class="p-8px"></div>
+            <div class="m-h-20px msg-status" *ngIf="msg$ | async as msg">{{msg}}</div>
+        </ng-container>
+
+        <bank-deposit *ngIf="order.status == OrderStatus.FOR_BUYER_PAYMENT"></bank-deposit>
+
+        <a target="_blank" *ngIf="order.payment.document" [attr.href]="order.payment.document.secureUrl"
+            class="__button __button-lg __button-primary ttf-up ls-1 fw-600 m-20px">
+            <span class="fc-white">DEPOSIT SLIP</span>
+            <i-feather class="__cta-icon fc-white" name="eye"></i-feather>
+        </a>
+
+        <label class="sm fw-600 p-h-20px m-v-20px">DOCUMENTS</label>
+
+        <ng-container *ngFor="let doc of documents$ | async">
+
+            <a  target="_blank" [attr.href]="doc.url"class="document fx-layout-row fx-align-spacebetween-center m-h-20px p-v-20px b-b-1">
+                <span class="fw-600">{{doc.name}}</span>
+                <i-feather class="__cta-icon" name="eye"></i-feather>
+            </a>
+
+
+        </ng-container>
+
+    </div>
+
+    <!-- <div class="__card" *ngIf="order.status !== OrderStatus.FOR_REVIEW">
+        <div class="__header fw-600">PAYMENT DETAILS</div>
+
+        <ng-container *ngIf="msg$ | async as msg">
+            <div class="p-8px"></div>
+            <div class="m-h-20px msg-status" *ngIf="msg$ | async as msg">{{msg}}</div>
+        </ng-container>
+
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Method</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.method }}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Option</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.option }}
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="p-h-20px">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fc-2">Channel</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl ls-1">
+                        {{ order.payment.channel }}
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="p-8px"></div>
+
+    <div class="__card">
+        <div class="__header fw-600">BREAKDOWN</div>
+
+        <div class="fx-layout-column fx-align-center-center">
+
+            <div class="b-l-3 fx-layout-column p-h-16px m-20px" *ngIf="total$ | async as total">
+                <div class="sm fw-600">transaction cost</div>
+                <div class="hdr fc-2 m-t-4px fw-600 lh-n">
+                    <span>{{order.transaction.currency}}</span>&nbsp;<span>{{total | number: '1.4-4'}}</span>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="solid p-h-20px"></div>
+
+        <div class="sm fw-600 m-t-20px p-h-20px fx-layout-row fx-align-spacebetween-center">
+            <span>ITEMS</span><span class="sm fc-p fw-400">Prices are VAT excluded</span>
+        </div>
+
+        <div class="p-h-20px" *ngFor="let item of items$ | async">
+            <div class="fx-layout-row p-v-20px b-b-1">
+                <div class="fx-flex fx-layout-row fx-align-start-center">
+                    <div class="fx-layout-column">
+                        <span class="hl fw-600">{{ (item.type !='') ? item.product + ' - ' + item.type :
+                            item.product}}</span>
+                        <span class="hl fc-p">
+                            <span class="ls-1">{{item.qty | number:'2.'}}</span>
+                            <span class="m-l-4px">{{item.unit}}</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.selectedPrice.currentPrice.perUnitTotal | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{item.selectedPrice.currentPrice.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashed p-h-20px"></div>
+
+        <div class="p-h-20px" *ngFor="let item of breakdowns$ | async">
+            <div class="fx-layout-row p-v-20px b-b-1 fx-align-center-center">
+                <div class="fx-flex fx-layout-row">
+                    <span class="sm fw-600 ttf-up">{{item.label}}</span>
+                </div>
+                <div class="fx-flex fx-layout-row fx-align-end-center">
+                    <span class="hl fw-600">
+                        {{item.value | number: '1.4-4'}}
+                    </span>&nbsp;<span class="hl fc-2">
+                        {{order.transaction.currency}}
+                    </span>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+</ng-container>

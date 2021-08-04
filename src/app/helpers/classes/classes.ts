@@ -37,6 +37,11 @@ export enum OrderStatus {
     BALANCE_PAYMENT_VERIFICATION = 'Balance Payment Verification',
 }
 
+export enum ShippingMethod {
+    DELIVER = "Deliver",
+    PICKUP = "Pick up"
+}
+
 export const cloudinaryConfig: any = {
     cloud_name: 'dealogikal',
     upload_preset: 'mwzkpiee',

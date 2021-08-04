@@ -1,0 +1,16 @@
+@import "../../../../../styles/utils.scss";
+@import "../../../../../styles/form.scss";
+@import "../../../../../styles/flex.scss";
+
+:host {
+    @extend .fx-layout-row;
+    @extend .fx-layout-column-lt-md;
+
+    .document {
+        cursor: pointer;
+        transition: all 250ms ease-in-out;
+        &:hover {
+            color: $color-primary;
+        }
+    }
+}

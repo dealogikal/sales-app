@@ -1,0 +1,243 @@
+@import "../../../../../styles/utils.scss";
+@import "../../../../../styles/form.scss";
+@import "../../../../../styles/flex.scss";
+
+:host {
+    font-family: "Avenir", sans-serif;
+    width: 100%;
+    @extend .fx-layout-column;
+
+    .dashed {
+        margin: -1px 20px 0 20px;
+        border-top: 1px dashed rgba($font-secondary, 0.32);
+    }
+
+    .solid {
+        margin: -1px 20px 0 20px;
+        border-top: 1px solid rgba($font-secondary, 0.32);
+    }
+
+    .__card {
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 8px 16px -8px rgba($font-secondary, 0.1);
+        display: block;
+        margin-bottom: 16px;
+        overflow: visible;
+        &__header {
+            padding: 0 20px;
+            height: 32px;
+            background-color: #fafafa;
+            font-size: 10px;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+            @extend .fx-layout-row;
+            @extend .fx-align-start-center;
+        }
+    }
+
+    .__bullet {
+        font-size: 10px;
+        line-height: normal;
+        position: relative;
+        &::before {
+            content: "";
+            position: absolute;
+            height: 5px;
+            width: 5px;
+            background-color: $color-primary;
+            border: 3px solid rgba($color: #ffffff, $alpha: 0.72);
+            border-radius: 100%;
+            box-sizing: content-box;
+        }
+    }
+
+    .__notes {
+        background-color: rgba($color-disabled, 0.1);
+        padding: 10px;
+        font-size: 10px;
+        border-radius: 4px;
+        line-height: normal;
+        min-height: 32px;
+    }
+
+    .__step {
+        position: relative;
+        height: 8px;
+        width: 8px;
+        background-color: #ffffff;
+        border: 3px solid #c8e8fd;
+        border-radius: 100%;
+        box-sizing: content-box;
+        margin: 4px 0;
+        &-done {
+            background-color: $color-primary;
+            box-shadow: 0 2px 4px rgba($color-dark, 0.2);
+        }
+        &__label {
+            font-size: 10px;
+            opacity: 0.5;
+            &-done {
+                opacity: 1;
+            }
+        }
+    }
+
+    .__line-progress {
+        position: relative;
+        height: 3px;
+        min-width: 100%;
+        background-color: #c8e8fd;
+        &__percent {
+            position: absolute;
+            content: "";
+            width: attr(data-progress);
+            height: 3px;
+            background-color: $color-primary;
+        }
+    }
+
+    .__button {
+        @extend .fx-layout-row;
+        @extend .fx-align-center-center;
+        @extend .sm;
+        min-width: 80px;
+        height: 32px;
+        padding: 0 16px;
+        background-color: #f2f3f5;
+        cursor: pointer;
+        border-radius: 4px;
+        outline: none;
+        border: none;
+        transition: all ease-in-out 250ms;
+        &-primary {
+            background-color: $color-primary;
+            color: #ffffff;
+        }
+        &-secondary {
+            background-color: $color-white;
+            border: 1px solid $color-primary;
+            color: $color-primary;
+            &-disabled {
+                color: $color-disabled;
+                border: 1px solid $color-disabled;
+                background-color: $color-white;
+                pointer-events: none;
+            }
+        }
+        &-disabled {
+            background-color: $color-disabled;
+            pointer-events: none;
+        }
+        &-success {
+            background-color: #f2f3f5;
+            color: $color-success;
+            pointer-events: none;
+        }
+        &:hover {
+            opacity: 0.8;
+        }
+    }
+
+    .form-btn {
+        padding: 10px 24px;
+        background-color: $color-primary;
+        color: #ffffff;
+        letter-spacing: 1px;
+        border-radius: 30px;
+        cursor: pointer;
+        transition: all ease-in-out 200ms;
+        border: none;
+        box-shadow: 0 8px 16px -8px rgba($color-primary, 0.64);
+        &.disabled {
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        .icon {
+            margin-left: 12px;
+            height: 24px;
+            width: 24px;
+            padding: 4px;
+            background-color: rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+        }
+        &:hover {
+            opacity: 0.72;
+        }
+
+        &.remove {
+            background-color: $color-error;
+            box-shadow: 0 8px 16px -8px rgba($color-error, 0.64);
+        }
+
+        &.success {
+            background-color: $color-success;
+            box-shadow: 0 8px 16px -8px rgba($color-success, 0.64);
+        }
+
+        &.w-100 {
+            width: 100%;
+        }
+
+        &.white {
+            background-color: $color-white !important;
+            box-shadow: 0 4px 16px -8px rgba($color-dark, 0.64) !important;
+            color: $font-primary !important;
+        }
+
+        &.transparent {
+            background-color: transparent;
+            color: #10acf6;
+            box-shadow: none;
+            padding: 5px;
+            display: inline-flex;
+            place-content: center;
+            align-items: center;
+            text-align: center;
+            width: 80px !important;
+        }
+
+        &.transparent:hover {
+            background-color: $color-primary;
+            color: #ffffff;
+            transition: all ease-in-out 200ms;
+            border: none;
+            box-shadow: 0 8px 16px -8px rgba($color-primary, 0.2);
+        }
+
+        &.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        &.white:hover {
+            background-color: $color-primary;
+            box-shadow: 0 4px 16px -8px rgba($color-primary, 0.64) !important;
+            color: #ffffff;
+        }
+
+        &.no-cap {
+            .icon {
+                margin: none;
+            }
+
+            .no-cap-label {
+                display: none;
+                opacity: 0;
+                transition: all 0.2s ease-in-out;
+            }
+        }
+
+        &.no-cap:hover {
+            .icon {
+                margin: 12px;
+            }
+
+            .no-cap-label {
+                opacity: 1;
+                display: block !important;
+                transition: all 0.2s ease-in-out;
+            }
+        }
+    }
+}

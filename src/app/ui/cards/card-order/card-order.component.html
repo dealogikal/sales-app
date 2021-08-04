@@ -43,8 +43,8 @@
                     <span class="fw-600">{{product.product}}</span>
                     <span>&nbsp;</span>
                     <div class="__bubble" *ngIf="['Open', 'Auction Ended'].indexOf(order.status) !== -1"
-                        [attr.data-value]="product.offers.length">
-                        {{product.offers.length}}
+                        [attr.data-value]="product.offers.length || 0">
+                        {{product.offers.length || 0}}
                     </div>
                 </div>
                 <div class="p-2px"></div>

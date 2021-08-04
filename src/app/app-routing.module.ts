@@ -26,12 +26,25 @@ import { BuyerPaymentPageComponent } from './pages/order-page/buyer/tabs/payment
 import { BuyerShippingPageComponent } from './pages/order-page/buyer/tabs/shipping-page/shipping-page.component';
 import { BuyerClosedPageComponent } from './pages/order-page/buyer/tabs/closed-page/closed-page.component';
 import { FormOrderFilterComponent } from './pages/orders-page/form-order-filter/form-order-filter.component';
+import { TestPageComponent } from './pages/test-page/test-page.component';
+import { OffersPageComponent } from './pages/offers-page/offers-page.component';
+import { AuctionPageComponent } from './pages/auction-page/auction-page.component';
+import { SellerAuctionPageComponent } from './pages/order-page/seller/tabs/auction-page/auction-page.component';
+import { SellerPaymentPageComponent } from './pages/order-page/seller/tabs/payment-page/payment-page.component';
+import { SellerShippingPageComponent } from './pages/order-page/seller/tabs/shipping-page/shipping-page.component';
+import { SellerClosedPageComponent } from './pages/order-page/seller/tabs/closed-page/closed-page.component';
+import { SellerOrderPageComponent } from './pages/order-page/seller/order-page.component';
+import { OfferPageComponent } from './pages/order-page/partials/offer-page/offer-page.component';
 
 const routes: Routes = [
   {
     path: "",
     pathMatch: "full",
     redirectTo: "login",
+  },
+  {
+    path: "test",
+    component: TestPageComponent,
   },
   {
     path: "login",
@@ -303,7 +316,60 @@ const routes: Routes = [
       {
         path: 's',
         component: SellerPageComponent,
-        canActivate: [SellerGuard]
+        canActivate: [SellerGuard],
+        children: [
+          {
+            path: "",
+            pathMatch: "full",
+            redirectTo: "open-for-auction",
+          },
+          {
+            path: "open-for-auction",
+            component: AuctionPageComponent,
+          },
+          {
+            path: "my-offers",
+            component: OffersPageComponent,
+            // children: [
+            //   {
+            //     path: "filter",
+            //     component: FormOrderFilterComponent,
+            //   }
+            // ]
+          },
+          {
+            path: 'order/:_id',
+            component: SellerOrderPageComponent,
+            children: [
+              {
+                path: "auction",
+                component: SellerAuctionPageComponent,
+              },
+              {
+                path: "auction/:product_id",
+                component: SellerAuctionPageComponent,
+                children: [
+                  {
+                    path: 'offer',
+                    component: OfferPageComponent
+                  }
+                ]
+              },
+              {
+                path: "payment",
+                component: SellerPaymentPageComponent,
+              },
+              {
+                path: "shipping",
+                component: SellerShippingPageComponent,
+              },
+              {
+                path: "closed",
+                component: SellerClosedPageComponent,
+              },
+            ]
+          },
+        ]
       }
     ]
   },

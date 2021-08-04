@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { NgModule } from '@angular/core'; 
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxIziToastModule } from 'ngx-izitoast';
@@ -89,7 +90,7 @@ import { StatusTagComponent } from './ui/etc/status-tag/status-tag.component';
 import { CardOfferComponent } from './ui/cards/card-offer/card-offer.component';
 import { DateAgoComponent } from './ui/etc/date-ago/date-ago.component';
 import { CheckoutDrawerComponent } from './layouts/checkout-drawer/checkout-drawer.component';
-import { CommonModule, DecimalPipe } from '@angular/common';
+
 import { BuyerBreakdownPageComponent } from './pages/order-page/buyer/tabs/breakdown-page/breakdown-page.component';
 import { CardOrderComponent } from './ui/cards/card-order/card-order.component';
 import { BuyerPaymentPageComponent } from './pages/order-page/buyer/tabs/payment-page/payment-page.component';
@@ -101,6 +102,15 @@ import { FormUploaderFieldComponent } from './ui/forms/form-uploader-field/form-
 import { BankDepositComponent } from './pages/order-page/partials/bank-deposit/bank-deposit.component';
 import { FormOrderFilterComponent } from './pages/orders-page/form-order-filter/form-order-filter.component';
 import { FormChipsFieldComponent } from './ui/forms/form-chips-field/form-chips-field.component';
+import { TestPageComponent } from './pages/test-page/test-page.component';
+import { OffersPageComponent } from './pages/offers-page/offers-page.component';
+import { AuctionPageComponent } from './pages/auction-page/auction-page.component';
+import { SellerOrderPageComponent } from './pages/order-page/seller/order-page.component';
+import { SellerAuctionPageComponent } from './pages/order-page/seller/tabs/auction-page/auction-page.component';
+import { SellerPaymentPageComponent } from './pages/order-page/seller/tabs/payment-page/payment-page.component';
+import { SellerShippingPageComponent } from './pages/order-page/seller/tabs/shipping-page/shipping-page.component';
+import { SellerClosedPageComponent } from './pages/order-page/seller/tabs/closed-page/closed-page.component';
+import { OfferPageComponent } from './pages/order-page/partials/offer-page/offer-page.component';
 
 
 const ICONS = {
@@ -193,6 +203,11 @@ const ORDER_PAGE: any = [
   BuyerShippingPageComponent,
   BuyerClosedPageComponent,
   BankDepositComponent,
+  SellerOrderPageComponent,
+  SellerAuctionPageComponent,
+  SellerPaymentPageComponent,
+  SellerShippingPageComponent,
+  SellerClosedPageComponent
 ]
 
 
@@ -205,6 +220,9 @@ const PAGES: any = [
   NewOrderPageComponent,
   OrderFormComponent,
   OrdersPageComponent,
+  OffersPageComponent,
+  AuctionPageComponent,
+  OfferPageComponent,
   ...ORDER_PAGE,
 ];
 
@@ -243,6 +261,7 @@ const PIPES: any = [
     ...CARDS,
     ...UI,
     ...PIPES,
+    TestPageComponent,
   ],
   imports: [
     CommonModule,
@@ -255,6 +274,7 @@ const PIPES: any = [
     FeatherModule.pick(ICONS),
   ],
   providers: [
+    DecimalPipe,
     ...PIPES
   ],
   bootstrap: [AppComponent]
