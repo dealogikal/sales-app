@@ -108,8 +108,8 @@ export class OfferPageComponent implements OnInit {
                   if (offered) {
 
                     const product_index = order.orders.products.findIndex((p: any) => p.id == product.id);
-                    const offer_index = order.orders.products[product_index].offers.findIndex((o: any) => o.user.id == user.id);
-
+                    const offer_index = order.orders.products[product_index].offers.findIndex((o: any) => o.user.id == user._id);
+                    console.log('offered', product_index, offer_index);
                     const copy_price = JSON.parse(JSON.stringify(order.orders.products[product_index].offers[offer_index].currentPrice));
 
                     const price = Object.assign(copy_price, {
@@ -122,6 +122,15 @@ export class OfferPageComponent implements OnInit {
 
                     order.orders.products[product_index].offers[offer_index].currentPrice = price;
                     order.orders.products[product_index].offers[offer_index].prices.push(price);
+                    order.orders.products[product_index].hasUpdated = true;
+
+                    const hasUpdated = order.orders.products.every((product: any) => {
+                      return product.hasUpdated
+                    });
+
+                    if (hasUpdated) {
+                      order.hasUpdated = true;
+                    }
 
                   } else {
 
@@ -153,7 +162,7 @@ export class OfferPageComponent implements OnInit {
                     const offer = {
                       id: (Date.now().toString(36) + Math.floor(1000 + Math.random() * 9000) + Math.random().toString(36).substr(2, 3)).toUpperCase(),
                       alias: product.offers ? product.offers.length + 1 : 1,
-                      user: product.participants.find((p:any) => p.id == user._id),
+                      user: product.participants.find((p: any) => p.id == user._id),
                       currentPrice: price,
                       prices: [price],
                       dateCreated: date,
@@ -162,7 +171,7 @@ export class OfferPageComponent implements OnInit {
                     };
 
                     order.orders.products[index].offers.push(offer);
-
+                    order.orders.products[index].hasOffer = true;
                   }
 
                   console.log('order >>>', order);
@@ -253,7 +262,7 @@ export class OfferPageComponent implements OnInit {
         map(([order, user]) => {
           const product = order.orders.products.find((product: any) => product.id == params.product_id);
           return product.offers.find((offer: any) => {
-            return offer.user.id == user._id
+            return offer.user.id == user._id;
           })
 
         }),

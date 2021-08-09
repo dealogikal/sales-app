@@ -111,6 +111,7 @@ import { SellerPaymentPageComponent } from './pages/order-page/seller/tabs/payme
 import { SellerShippingPageComponent } from './pages/order-page/seller/tabs/shipping-page/shipping-page.component';
 import { SellerClosedPageComponent } from './pages/order-page/seller/tabs/closed-page/closed-page.component';
 import { OfferPageComponent } from './pages/order-page/partials/offer-page/offer-page.component';
+import { FormOfferFilterComponent } from './pages/offers-page/form-offer-filter/form-offer-filter.component';
 
 
 const ICONS = {
@@ -192,7 +193,8 @@ const NEW_ORDER_PAGE: any = [
   FormParticipantsComponent,
   ScheduleSelectComponent,
   ParticipantsSelectorComponent,
-  FormOrderFilterComponent
+  FormOrderFilterComponent,
+  FormOfferFilterComponent,
 ]
 
 const ORDER_PAGE: any = [
@@ -223,6 +225,7 @@ const PAGES: any = [
   OffersPageComponent,
   AuctionPageComponent,
   OfferPageComponent,
+  FormOfferFilterComponent,
   ...ORDER_PAGE,
 ];
 

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest, Observable, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { delay, filter, map, take } from 'rxjs/operators';
 import { OfferStatus, OrderStatus } from 'src/app/helpers/classes/classes';
 import { OffersService } from 'src/app/services/offers.service';
 import { OrderService } from 'src/app/services/order.service';
@@ -36,17 +36,24 @@ export class SellerAuctionPageComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.$routeParams = this.route.params.subscribe(params => {
-      // console.log('params >>>', params);
-      this.order$ = this.order.get().pipe(filter(order => order));
+    this.order$ = this.order.get().pipe(filter(order => order));
+
+    combineLatest(
+      this.order$,
+      this.route.params
+    ).pipe(take(1), delay(100)).subscribe(([order, params]) => {
 
       if (!params.product_id) {
-        this.order$.pipe(take(1)).subscribe((order) => {
-          this.router.navigate([`${order.orders.products[0].id}`], { relativeTo: this.route });
-        });
-
-        return;
+        console.log('reroute >>>',order.orders.products[0].id )
+        this.router.navigate([`${order.orders.products[0].id}`], { relativeTo: this.route });
       }
+    });
+
+
+    this.$routeParams = this.route.params.subscribe(params => {
+      // console.log('params >>>', params);
+      
+      if (!params.product_id) return;
 
       this.items$ = this.order$.pipe(
         map((order) => order.orders.products)
@@ -114,15 +121,15 @@ export class SellerAuctionPageComponent implements OnInit {
         })
       );
 
-     
+
       this.offer$ = combineLatest(
         this.order$,
         this.user.get(),
       ).pipe(
         map(([order, user]) => {
+          console.log('checking params >>>', params);
           const product = order.orders.products.find((product: any) => product.id == params.product_id);
-          
-          console.log('checking >>>', product, user);
+   
           return product.offers.find((offer: any) => {
             return offer.user.id == user._id
           })
@@ -133,9 +140,10 @@ export class SellerAuctionPageComponent implements OnInit {
 
       this.placeOffer$ = combineLatest(this.order$, this.offer$).pipe(
         map(([order, offer]) => {
-
           const item = order.orders.products.find((item: any) => item.id == params.product_id);
 
+          console.log('placeOffer', item, offer);
+          if (!offer) return true;
           if ([OrderStatus.OPEN].indexOf(item.status) == -1) return false;
           if (Object.keys(offer).indexOf("status") == -1) return true;
           if (
@@ -149,7 +157,7 @@ export class SellerAuctionPageComponent implements OnInit {
         })
       );
 
-      
+
 
     });
   }

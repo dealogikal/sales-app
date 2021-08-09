@@ -61,7 +61,7 @@ export class SellerOrderPageComponent implements OnInit {
         map(([order]) => {
           const steps: any = this.orders.generateSteps(
             order,
-            AccountType.BUYER
+            AccountType.SELLER
           );
           const completed = steps.reduce((acc: any, curr: any) => {
             curr.status == StepStatus.COMPLETE && acc++;

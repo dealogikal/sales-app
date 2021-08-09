@@ -35,6 +35,7 @@ import { SellerShippingPageComponent } from './pages/order-page/seller/tabs/ship
 import { SellerClosedPageComponent } from './pages/order-page/seller/tabs/closed-page/closed-page.component';
 import { SellerOrderPageComponent } from './pages/order-page/seller/order-page.component';
 import { OfferPageComponent } from './pages/order-page/partials/offer-page/offer-page.component';
+import { FormOfferFilterComponent } from './pages/offers-page/form-offer-filter/form-offer-filter.component';
 
 const routes: Routes = [
   {
@@ -327,15 +328,16 @@ const routes: Routes = [
             path: "open-for-auction",
             component: AuctionPageComponent,
           },
+
           {
             path: "my-offers",
             component: OffersPageComponent,
-            // children: [
-            //   {
-            //     path: "filter",
-            //     component: FormOrderFilterComponent,
-            //   }
-            // ]
+            children: [
+              {
+                path: "filter",
+                component: FormOfferFilterComponent,
+              }
+            ]
           },
           {
             path: 'order/:_id',

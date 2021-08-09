@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { OrderStatus, Pages, PaymentMethods } from '../helpers/classes/classes';
+import { AccountType, OrderStatus, Pages, PaymentMethods } from '../helpers/classes/classes';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,66 +18,97 @@ export class OrderService {
   }
 
   getMessage(page: string): Observable<any> {
-    return this.get().pipe(
-      map(order => {
+    return combineLatest(
+      this.get(),
+      this.user.get()
+    ).pipe(
+      map(([order, user]) => {
+
+        console.log('message???', user)
         let msg = '';
-        switch (order.payment.method) {
-          case PaymentMethods.CBD:
-            switch (page) {
-              case Pages.BREAKDOWN:
-              case Pages.PAYMENT:
-              case Pages.SHIPPING:
-                switch (order.status) {
-                  case OrderStatus.FOR_BUYER_PAYMENT:
-                    msg = 'please pay to proceed';
-                    break;
-                  case OrderStatus.BUYER_PAYMENT_VERIFICATION:
-                  case OrderStatus.SELLER_PAYMENT:
-                    msg = "THANK YOU! WE'LL START PROCESSING YOUR ORDER ONCE WE VERIFY YOUR PAYMENT.";
-                    break;
-                  case OrderStatus.FOR_DELIVERY:
-                    msg = "YOUR ORDER IS NOW READY FOR DELIVERY.";
-                    break;
-                  case OrderStatus.IN_TRANSIT:
-                    msg = "YOUR ORDER IS NOW IN TRANSIT.";
-                    break;
-                  case OrderStatus.PRODUCT_DELIVERED:
-                    msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED.";
-                    break;
-                  case OrderStatus.CLOSED_DEAL:
-                    msg = "THANK YOU FOR TRANSACTING WITH US!";
-                    break;
-                }
-                break;
-            }
-            break;
-          case PaymentMethods.COD:
-            switch (page) {
-              case Pages.PAYMENT:
-              case Pages.SHIPPING:
-              case Pages.BREAKDOWN:
-                switch (order.status) {
-                  case OrderStatus.FOR_DELIVERY:
-                    msg = "YOUR ORDER IS NOW READY FOR DELIVERY.";
-                    break;
-                  case OrderStatus.IN_TRANSIT:
-                    msg = "YOUR ORDER IS NOW IN TRANSIT";
-                    break;
-                  case OrderStatus.PRODUCT_DELIVERED:
-                    msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED.";
-                    break;
-                  case OrderStatus.FOR_BUYER_PAYMENT:
-                  case OrderStatus.BUYER_PAYMENT_VERIFICATION:
-                    msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED. PLEASE WAIT WHILE WE VERIFY YOUR PAYMENT";
-                    break;
-                  case OrderStatus.CLOSED_DEAL:
-                    msg = "THANK YOU FOR TRANSACTING WITH US!";
-                    break;
-                }
-            }
 
-            break;
+        if (user.accountType == AccountType.SELLER) {
+          switch (order.status) {
+            case OrderStatus.FOR_REVIEW:
+            case OrderStatus.FOR_BUYER_PAYMENT:
+            case OrderStatus.BUYER_PAYMENT_VERIFICATION:
+              msg = "PLEASE WAIT WHILE WE CONFIRM BUYER'S ORDER.";
+              break;
+            case OrderStatus.SELLER_PAYMENT:
+              msg = "PLEASE WAIT WHILE WE PROCESS YOUR PAYMENT.";
+              break;
+            case OrderStatus.FOR_DELIVERY:
+              msg = "PAYMENT HAS BEEN MADE. PLEASE PROCESS THE ORDER FOR DELIVERY.";
+              break;
+            case OrderStatus.IN_TRANSIT:
+              msg = "GREAT! PLEASE DELIVER THE ORDER ON THE REQUESTED LOCATION.";
+              break;
+            case OrderStatus.PRODUCT_DELIVERED:
+              msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED. WAITING FOR BUYER'S CONFIRMATION.";
+              break;
+            case OrderStatus.CLOSED_DEAL:
+              msg = "THANK YOU FOR TRANSACTING WITH US!";
+              break;
+          }
+        }
+        else {
+          switch (order.payment.method) {
+            case PaymentMethods.CBD:
+              switch (page) {
+                case Pages.BREAKDOWN:
+                case Pages.PAYMENT:
+                case Pages.SHIPPING:
+                  switch (order.status) {
+                    case OrderStatus.FOR_BUYER_PAYMENT:
+                      msg = 'please pay to proceed';
+                      break;
+                    case OrderStatus.BUYER_PAYMENT_VERIFICATION:
+                    case OrderStatus.SELLER_PAYMENT:
+                      msg = "THANK YOU! WE'LL START PROCESSING YOUR ORDER ONCE WE VERIFY YOUR PAYMENT.";
+                      break;
+                    case OrderStatus.FOR_DELIVERY:
+                      msg = "YOUR ORDER IS NOW READY FOR DELIVERY.";
+                      break;
+                    case OrderStatus.IN_TRANSIT:
+                      msg = "YOUR ORDER IS NOW IN TRANSIT.";
+                      break;
+                    case OrderStatus.PRODUCT_DELIVERED:
+                      msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED.";
+                      break;
+                    case OrderStatus.CLOSED_DEAL:
+                      msg = "THANK YOU FOR TRANSACTING WITH US!";
+                      break;
+                  }
+                  break;
+              }
+              break;
+            case PaymentMethods.COD:
+              switch (page) {
+                case Pages.PAYMENT:
+                case Pages.SHIPPING:
+                case Pages.BREAKDOWN:
+                  switch (order.status) {
+                    case OrderStatus.FOR_DELIVERY:
+                      msg = "YOUR ORDER IS NOW READY FOR DELIVERY.";
+                      break;
+                    case OrderStatus.IN_TRANSIT:
+                      msg = "YOUR ORDER IS NOW IN TRANSIT";
+                      break;
+                    case OrderStatus.PRODUCT_DELIVERED:
+                      msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED.";
+                      break;
+                    case OrderStatus.FOR_BUYER_PAYMENT:
+                    case OrderStatus.BUYER_PAYMENT_VERIFICATION:
+                      msg = "ORDER HAS BEEN SUCCESSFULLY DELIVERED. PLEASE WAIT WHILE WE VERIFY YOUR PAYMENT";
+                      break;
+                    case OrderStatus.CLOSED_DEAL:
+                      msg = "THANK YOU FOR TRANSACTING WITH US!";
+                      break;
+                  }
+              }
 
+              break;
+          }
 
         }
 
@@ -462,5 +494,7 @@ export class OrderService {
 
   }
 
-  constructor() { }
+  constructor(
+    private user: UserService
+  ) { }
 }

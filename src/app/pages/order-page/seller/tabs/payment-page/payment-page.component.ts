@@ -21,6 +21,10 @@ export class SellerPaymentPageComponent implements OnInit {
   total$!: Observable<any>;
   msg$!: Observable<any>;
 
+
+  showDocs$!: Observable<any>;
+
+
   OrderStatus: any = OrderStatus;
 
   form!: FormGroup;
@@ -31,18 +35,12 @@ export class SellerPaymentPageComponent implements OnInit {
       url: 'https://res.cloudinary.com/dealogikal/raw/upload/v1624522202/purchase-orders/b_3YPaT4Rahadcm4oY5_KPWGMT5B2602YP0_6644.640941549086.pdf'
     },
     {
-      name: 'Sales Invoice',
+      name: 'Delivery Receipt',
       url: 'https://res.cloudinary.com/dealogikal/raw/upload/v1624522214/sales-invoice/bInvoice_3YPaT4Rahadcm4oY5_KPWGMT5B2602YP0_24904.577984203017.pdf'
     },
-    {
-      name: 'Official Receipt',
-      url: 'https://res.cloudinary.com/dealogikal/raw/upload/v1624522219/official-receipt/bReceipt_3YPaT4Rahadcm4oY5_KPWGMT5B2602YP0_56412.804881040895.pdf'
-    },
-    {
-      name: 'Collection Receipt',
-      url: 'https://res.cloudinary.com/dealogikal/raw/upload/v1624522222/collection-receipt/bCReceipt_3YPaT4Rahadcm4oY5_KPWGMT5B2602YP0_825.4458279665569.pdf'
-    }
   ]);
+
+  
 
   constructor(
     private route: ActivatedRoute,
@@ -72,6 +70,8 @@ export class SellerPaymentPageComponent implements OnInit {
     this.breakdowns$ = this.payment.breakdown();
 
     this.total$ = this.payment.total();
+
+    this.showDocs$ = this.order.get().pipe(map(order => order.status != OrderStatus.FOR_REVIEW))
 
 
 

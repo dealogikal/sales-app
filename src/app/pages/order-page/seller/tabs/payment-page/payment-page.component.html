@@ -17,16 +17,21 @@
             <i-feather class="__cta-icon fc-white" name="eye"></i-feather>
         </a>
 
-        <label class="sm fw-600 p-h-20px m-v-20px">DOCUMENTS</label>
 
-        <ng-container *ngFor="let doc of documents$ | async">
+        <ng-container *ngIf="showDocs$ | async">
 
-            <a  target="_blank" [attr.href]="doc.url"class="document fx-layout-row fx-align-spacebetween-center m-h-20px p-v-20px b-b-1">
-                <span class="fw-600">{{doc.name}}</span>
-                <i-feather class="__cta-icon" name="eye"></i-feather>
-            </a>
+            <label class="sm fw-600 p-h-20px m-v-20px">DOCUMENTS</label>
+            
+            <ng-container *ngFor="let doc of documents$ | async">
+
+                <a target="_blank" [attr.href]="doc.url"
+                    class="document fx-layout-row fx-align-spacebetween-center m-h-20px p-v-20px b-b-1">
+                    <span class="fw-600">{{doc.name}}</span>
+                    <i-feather class="__cta-icon" name="eye"></i-feather>
+                </a>
 
 
+            </ng-container>
         </ng-container>
 
     </div>

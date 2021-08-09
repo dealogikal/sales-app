@@ -165,6 +165,7 @@ export class WorkflowService {
           const step_index = step_order.findIndex((step: any) =>
             step.includes(product.status)
           );
+          console.log('step index', step_order, step_index)
           const status_index = step_order[step_index].findIndex(
             (item: any) => item == product.status
           );

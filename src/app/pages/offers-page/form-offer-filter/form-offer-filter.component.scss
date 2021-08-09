@@ -1,79 +1,70 @@
-@import "../../styles/var.scss";
-@import "../../styles/flex.scss";
-@import "../../styles/utils.scss";
+@import "../../../styles/var.scss";
+@import "../../../styles/flex.scss";
+@import "../../../styles/utils.scss";
 
 :host {
     font-family: "Avenir", sans-serif;
-    width: 100%;
-    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 2;
+    width: 100vw;
+    height: 100vh;
     overflow-y: scroll;
 
-    @extend .fx-layout-row;
-    @extend .fx-align-center-start;
-    .fx-layout-row-wrap {
-        column-gap: 8px;
-        row-gap: 8px;
-    }
-    .wrapper {
-        @extend .fx-layout-column;
-        max-width: 900px;
+    .__backdrop {
         width: 100%;
+        height: 100%;
+        background-color: rgba(9, 30, 66, 0.54);
+        cursor: pointer;
+        transition: all 250ms ease-in-out 1000ms;
+        position: fixed;
     }
 
-    .__tag {
-        height: 20px;
-        padding: 0 8px;
-        border-radius: 4px;
-        font-size: 9px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        // font-weight: bold;
-        background-color:  $color-white;
-        // color: $color-dark;
-        line-height: normal;
-        @extend .fx-layout-row;
-        @extend .fx-align-center-center;
-    }
-
-    .__form {
-        border-radius: 4px;
-        color: #707070;
-        height: 40px;
-        background-color: $color-white;
-        box-shadow: 0 0 2px rgba($color-dark, 0.1);
-        @extend .ls-075;
-        &__input {
-            border: none;
-            background-color: none;
+    .__modal {
+        @extend .fx-layout-column;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        margin-top: 70px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 100%;
+        max-width: 500px;
+        // min-height: 250px;
+        background-color: #ffffff;
+        border-radius: 5px;
+        &__header {
+            @extend .fx-layout-row;
+            @extend .fx-align-start-center;
+            padding: 0 32px;
+            min-height: 70px;
         }
-
-        &__icon {
-            width: 16px;
-            height: 16px;
+        &__content {
+            @extend .fx-layout-column;
+            padding: 0 32px;
         }
-
-        &__button {
+        &__close {
             @extend .fx-layout-row;
             @extend .fx-align-center-center;
-            @extend .sm;
-            padding: 0 16px;
-            height: 24px;
+            height: 32px;
+            width: 32px;
+            border-radius: 2px;
+            transition: all 250ms ease-out;
             background-color: #f2f3f5;
-            border-radius: 4px;
             cursor: pointer;
-            transition: all ease-in-out 250ms;
-            &-active {
-                color: $color-white;
-                background-color: $color-primary;
-            }
+            overflow: hidden;
             &:hover {
-                opacity: 0.8;
+                opacity: 0.5;
             }
-        }
-        &:focus {
-            box-shadow: 0 0 0 2px rgba($color-secondary, 0.35) !important;
+            &.icon {
+                width: 16px;
+            }
         }
     }
+
     .__button {
         @extend .fx-layout-row;
         @extend .fx-align-center-center;
@@ -121,10 +112,6 @@
             background-color: #f2f3f5;
             color: $color-success;
             pointer-events: none;
-        }
-        &-large {
-            height: 40px;
-            box-shadow: 0 0 2px rgba($color-dark, 0.3);
         }
         &:hover {
             opacity: 0.8;

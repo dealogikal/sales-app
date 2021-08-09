@@ -75,7 +75,7 @@
 
     <div class="p-4px"></div>
 
-    <div class="__btn __btn--dashed" [routerLink]="['offer']" *ngIf="(placeOffer$$ | async)">
+    <div class="__btn __btn--dashed" [routerLink]="['offer']" *ngIf="placeOffer$ | async">
         <i-feather class="__btn__icon m-r-10px" name="plus">
         </i-feather>
         <span class="lh-n sm fc-p">PLACE OFFER</span>

@@ -167,22 +167,28 @@ export class SellerShippingPageComponent implements OnInit {
           instance.hide({
             transitionOut: 'fadeOutUp',
             onClosing: (instance: any, toast: any, closedBy: any) => {
+              // this.order.get().pipe(
+              //   take(1),
+              //   switchMap(order => this.workflow.next(order, order.orders.products)),
+              //   switchMap(order => this.orders.save(order))
+              // ).subscribe((order) => {
+              //   console.log('onProceed >>>', order);
+
               this.order.get().pipe(
                 take(1),
-                switchMap(order => this.workflow.next(order, order.orders.products)),
-                switchMap(order => this.orders.save(order))
-              ).subscribe((order) => {
-                console.log('onProceed >>>', order);
-
-                this.order.get().pipe(
-                  take(1),
-                  switchMap(order => this.workflow.shippingNext(order, product, schedule)),
-                  switchMap(order => this.orders.save(order))
-                ).subscribe(order => {
-                  console.log('order >>>', order)
+                switchMap(order => this.workflow.shippingNext(order, product, schedule)),
+                switchMap(order => {
+                  const done = order.orders.products.every((product: any) => {
+                    return product.shipping.schedules.every((schedule: any) => schedule.status == OrderStatus.PRODUCT_DELIVERED);
+                  })
+                  order.status = done ? OrderStatus.PRODUCT_DELIVERED : order.status;
+                  return this.orders.save(order)
                 })
-
+              ).subscribe(order => {
+                console.log('order >>>', order)
               })
+
+              // })
             }
           }, toast, 'buttonName');
         }, true],

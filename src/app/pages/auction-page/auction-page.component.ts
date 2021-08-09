@@ -27,7 +27,9 @@ export class AuctionPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.orders$ = this.orders.get();
+    this.orders$ = this.orders.get().pipe(map(orders => {
+      return orders.filter((order: any) => order.status == OrderStatus.OPEN)
+    }));
 
     this.navigator.set({
       name: '',

@@ -42,8 +42,105 @@ export class SellerCronService {
 
       orders.forEach((order: any) => {
         const diff = moment.duration(moment().diff(moment(order.lastUpdated))).asSeconds();
+        // console.log('order >>>', order, diff)
 
-        if (order.status == OrderStatus.OPEN && !order.hasOffer) {
+        if (order.status == OrderStatus.PRODUCT_DELIVERED && diff > 5) {
+          // return;
+          order.orders.products = order.orders.products.map((product: any) => {
+            product.status = OrderStatus.CLOSED_DEAL;
+            product.shipping.schedules = product.shipping.schedules.map((schedule: any) => {
+              schedule.status = OrderStatus.CLOSED_DEAL;
+              return schedule;
+            })
+            return product;
+          })
+          order.lastUpdated = date;
+          order.status = OrderStatus.CLOSED_DEAL;
+          this.orders.save(order).subscribe(e => console.log('closed', e));
+        }
+
+        if (order.status == OrderStatus.SELLER_PAYMENT && diff > 5) {
+          order.orders.products = order.orders.products.map((product: any) => {
+            product.status = OrderStatus.FOR_DELIVERY;
+
+            product.shipping.schedules = product.shipping.schedules.map((schedule: any) => {
+              schedule.status = OrderStatus.FOR_DELIVERY;
+              return schedule;
+            })
+            return product;
+          })
+          order.lastUpdated = date;
+          order.status = OrderStatus.FOR_DELIVERY;
+          this.orders.save(order).subscribe(e => console.log('for delivery', e));
+        }
+        if (order.status == OrderStatus.FOR_REVIEW && diff > 3) {
+          order.orders.products = order.orders.products.map((product: any) => {
+            product.status = OrderStatus.SELLER_PAYMENT;
+            return product;
+          })
+          order.lastUpdated = date;
+          order.status = OrderStatus.SELLER_PAYMENT;
+          this.orders.save(order).subscribe(e => console.log('for seller payment', e));
+        }
+        if (order.status == OrderStatus.OPEN && order.hasUpdated && diff > 5) {
+          // console.log('updated >>>>');
+          order.orders.products = order.orders.products.map((product: any) => {
+            product.selectedPrice = product.offers.find((o: any) => o.user.id == user._id);
+            product.status = OrderStatus.FOR_REVIEW;
+            return product;
+          })
+          order.lastUpdated = date;
+          order.status = OrderStatus.FOR_REVIEW;
+
+
+          console.log('updated >>>', order);
+
+          this.orders.save(order).subscribe(e => console.log('for review', e));
+        }
+
+        if (order.status == OrderStatus.OPEN && order.hasOfferDone && diff > 5) {
+          const obs = order.orders.products.reduce((obs: any, product: any) => {
+
+            const participants = product.participants.filter((participant: any) => {
+              return participant.id !== user._id;
+            });
+
+            const user_offer = product.offers.find((offer: any) => offer.user.id == user._id);
+
+            if (product.hasOffer && !product.hasOfferDone) {
+
+              participants.forEach((seller: any, index: any) => {
+                const delay_time: any = index == 0 ? 0 : this.orders.getRand(1000, 10000, 0);
+                const offer = product.offers.find((o: any) => o.user.id == seller.id)
+                obs.push(of(order).pipe(
+                  delay(delay_time),
+                  switchMap((order) => this.updateOffer(order, product, offer, user_offer)),
+                  switchMap((order) => {
+
+                    order.orders.products = order.orders.products.map((p: any) => {
+                      if (product.id == p.id) {
+                        p.hasOfferDone = true;
+                      }
+                      return p;
+                    });
+
+                    return this.orders.save(order);
+                  })
+                ));
+              })
+            }
+            return obs;
+          }, []);
+
+
+          zip(
+            ...obs
+          ).subscribe(e => {
+
+          })
+        }
+
+        if (order.status == OrderStatus.OPEN && !order.hasOffer && diff > 2) {
           const obs = order.orders.products.reduce((obs: any, product: any) => {
 
             const participants = product.participants.filter((participant: any) => {
@@ -134,13 +231,39 @@ export class SellerCronService {
     }
 
     order.hasOffer = true;
-
+    order.lastUpdated = date;
     order.orders.products[index].offers.push(offer);
 
     return of(order).pipe(tap((o) => {
       console.log('tap create', o, new Date());
     }));
 
+  }
+
+
+  updateOffer(order: any, product: any, offer: any, user_offer: any): Observable<any> {
+    const date = new Date();
+    const product_index = order.orders.products.findIndex((p: any) => p.id == product.id);
+    const offer_index = order.orders.products[product_index].offers.findIndex((o: any) => o.id == offer.id);
+    const copy_price = JSON.parse(JSON.stringify(order.orders.products[product_index].offers[offer_index].currentPrice));
+    const perUnit = this.orders.getRand(user_offer.currentPrice.perUnit - 1, user_offer.currentPrice.perUnit, 4);
+    const freightUnit = this.orders.getRand(0, user_offer.currentPrice.freightUnit, 4);
+
+    const price = Object.assign(copy_price, {
+      subtotal: (perUnit + freightUnit) * product.qty,
+      perUnit: perUnit,
+      freightUnit: freightUnit,
+      perUnitTotal: perUnit * product.qty,
+      freightUnitTotal: freightUnit * product.qty,
+    });
+
+    order.orders.products[product_index].offers[offer_index].currentPrice = price;
+    order.orders.products[product_index].offers[offer_index].prices.push(price);
+    order.orders.products[product_index].offers[offer_index].hasUpdated = true;
+    order.lastUpdated = date;
+    return of(order).pipe(tap((o) => {
+      console.log('tap update', o, new Date());
+    }));
   }
 
   createOrder(): any {
@@ -329,7 +452,6 @@ export class SellerCronService {
       "alias": 0,
       "batchId": 0
     };
-
     order.startDate = moment().add(7, 'hours').format();
     const shipping_date = moment().add(3, 'days').format();
     order.orders.products = order.orders.products.map((product: any) => {
